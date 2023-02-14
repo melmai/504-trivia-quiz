@@ -4,7 +4,6 @@ from true_false_question import TrueFalseQuestion
 class ShortAnswerQuestion(TrueFalseQuestion):
     def __init__(self):
         super().__init__()
-        options: []
 
     def check_response(self, response):
         """
