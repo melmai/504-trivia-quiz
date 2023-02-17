@@ -42,48 +42,33 @@ class TriviaQuiz:
 
     def _print_instructions(self):
         print("You wake up in a cold, dark room...")
-        time.sleep(1)
-        print("Your head hurts. Everything is unfamiliar. What is this place?")
-        time.sleep(1)
-        print("There's something in your pocket.")
-        time.sleep(1)
-        print("Keys? What are these for?")
-        time.sleep(1)
-        print("You see a light...")
-        time.sleep(1)
-        print("It's getting brighter.")
-        time.sleep(1)
-        print("Oh god, it's blinding!")
-        time.sleep(1)
-        print("Wh- what *is* this madness?!")
-        time.sleep(1)
-        print("...")
-        time.sleep(1)
-        print("...")
-
-        print("Welcome to Trivia Quiz!")
-        time.sleep(1)
-        print("It's a trap. It's a game! It's a game-trap!")
-        time.sleep(1)
-        print(textwrap.dedent("""
+        self._print_delayed_text("Your head hurts. Everything is unfamiliar. What is this place?")
+        self._print_delayed_text("There's something in your pocket.")
+        self._print_delayed_text("Keys? What are these for?")
+        self._print_delayed_text("You see a light...")
+        self._print_delayed_text("It's getting brighter.")
+        self._print_delayed_text("Oh god, it's blinding!")
+        self._print_delayed_text("Wh- what *is* this madness?!")
+        self._print_delayed_text("...")
+        self._print_delayed_text("...")
+        self._print_delayed_text("Welcome to Trivia Quiz!")
+        self._print_delayed_text("It's a trap. It's a game! It's a game-trap!")
+        self._print_delayed_text("""
         In order to leave this prison of fun, you must find your way to 
         the exit. Pick a locked door and answer a question to unlock it. Don't 
         worry, they are *all* locked. You know, for maximal FUN!
-        """))
-        time.sleep(1)
-        print(textwrap.dedent("""
+        """, 2)
+        self._print_delayed_text("""
         Those keys you found will help you on your way to the exit. They 
         will unlock any door you find, even if you already answered a 
         question incorrectly. There are more keys to find as you make your 
         way through the rooms, but don't rely on them too much!
-        """))
-        time.sleep(1)
-        print(textwrap.dedent("""
+        """, 2)
+        self._print_delayed_text("""
         Well OK then. Now you know what your mission is. How do you want to 
         proceed?
-        """))
-        time.sleep(1)
-        print(textwrap.dedent("""
+        """)
+        self._print_delayed_text("""
         Available Actions
         *-----------------------------------*
         W - Move Up
@@ -93,7 +78,17 @@ class TriviaQuiz:
         I - View inventory
         
         Press M to see your available options at any time.
-        """))
+        """)
+
+    def _print_delayed_text(self, text, delay=1):
+        """
+        This method prints a string of text without preceding white space
+        after pausing execution for a period of time (default = 1s)
+        :param text: String of text to print
+        :param delay: Int representing time delay
+        """
+        time.sleep(delay)
+        print(textwrap.dedent(text))
 
     def _create_player(self):
         """
