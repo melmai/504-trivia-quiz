@@ -42,7 +42,8 @@ class TriviaQuiz:
 
     def _print_instructions(self):
         print("You wake up in a cold, dark room...")
-        self._print_delayed_text("Your head hurts. Everything is unfamiliar. What is this place?")
+        self._print_delayed_text("Your head hurts. Everything is unfamiliar. "
+                                 "What is this place?")
         self._print_delayed_text("There's something in your pocket.")
         self._print_delayed_text("Keys? What are these for?")
         self._print_delayed_text("You see a light...")
@@ -57,7 +58,7 @@ class TriviaQuiz:
         In order to leave this prison of fun, you must find your way to 
         the exit. Pick a locked door and answer a question to unlock it. Don't 
         worry, they are *all* locked. You know, for maximal FUN!
-        """, 2)
+        """)
         self._print_delayed_text("""
         Those keys you found will help you on your way to the exit. They 
         will unlock any door you find, even if you already answered a 
@@ -67,7 +68,7 @@ class TriviaQuiz:
         self._print_delayed_text("""
         Well OK then. Now you know what your mission is. How do you want to 
         proceed?
-        """)
+        """, 2)
         self._print_delayed_text("""
         Available Actions
         *-----------------------------------*
