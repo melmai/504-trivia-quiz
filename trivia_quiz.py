@@ -1,18 +1,99 @@
+import time
+import textwrap
 from maze import Maze
 from player import Player
 
 
 class TriviaQuiz:
     def __init__(self):
-        self.print_instructions()
-        self._player = self._create_player()
-        self._difficulty = self._set_difficulty()
-        self._maze = Maze(self._difficulty)
-        self._game_over = False
+        self._print_intro_art()
+        self._print_instructions()
+        # self._player = self._create_player()
+        # self._difficulty = self._set_difficulty()
+        # self._maze = Maze(self._difficulty)
+        # self._game_over = False
 
-    def print_instructions(self):
+    def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
-        pass
+        print("""
+        \\                           /
+         \\                         /
+          \\                       /
+           ]                     [    ,'|
+           ]                     [   /  |
+           ]___               ___[ ,'   |
+           ]  ]\\             /[  [ |:   |
+           ]  ] \\           / [  [ |:   |
+           ]  ]  ]         [  [  [ |:   |
+           ]  ]  ]__     __[  [  [ |:   |
+           ]  ]  ] ]\\ _ /[ [  [  [ |:   |
+           ]  ]  ] ] (#) [ [  [  [ :===='
+           ]  ]  ]_].nHn.[_[  [  [
+           ]  ]  ]  HHHHH. [  [  [
+           ]  ] /   `HH("N  \\ [  [
+           ]__]/     HHH  "  \\[__[
+           ]         NNN         [
+           ]         N/"         [
+           ]         N H         [
+          /          N            \\
+         /           q,            \\
+        /                           \\
+        """)
+
+    def _print_instructions(self):
+        print("You wake up in a cold, dark room...")
+        time.sleep(1)
+        print("Your head hurts. Everything is unfamiliar. What is this place?")
+        time.sleep(1)
+        print("There's something in your pocket.")
+        time.sleep(1)
+        print("Keys? What are these for?")
+        time.sleep(1)
+        print("You see a light...")
+        time.sleep(1)
+        print("It's getting brighter.")
+        time.sleep(1)
+        print("Oh god, it's blinding!")
+        time.sleep(1)
+        print("Wh- what *is* this madness?!")
+        time.sleep(1)
+        print("...")
+        time.sleep(1)
+        print("...")
+
+        print("Welcome to Trivia Quiz!")
+        time.sleep(1)
+        print("It's a trap. It's a game! It's a game-trap!")
+        time.sleep(1)
+        print(textwrap.dedent("""
+        In order to leave this prison of fun, you must find your way to 
+        the exit. Pick a locked door and answer a question to unlock it. Don't 
+        worry, they are *all* locked. You know, for maximal FUN!
+        """))
+        time.sleep(1)
+        print(textwrap.dedent("""
+        Those keys you found will help you on your way to the exit. They 
+        will unlock any door you find, even if you already answered a 
+        question incorrectly. There are more keys to find as you make your 
+        way through the rooms, but don't rely on them too much!
+        """))
+        time.sleep(1)
+        print(textwrap.dedent("""
+        Well OK then. Now you know what your mission is. How do you want to 
+        proceed?
+        """))
+        time.sleep(1)
+        print(textwrap.dedent("""
+        Available Actions
+        *-----------------------------------*
+        W - Move Up
+        A - Move Left
+        S - Move Down
+        D - Move Right
+        I - View inventory
+        
+        Press M to see your available options at any time.
+        """))
 
     def _create_player(self):
         """
@@ -35,3 +116,7 @@ class TriviaQuiz:
         :return: Boolean
         """
         pass
+
+
+if __name__ == "__main__":
+    tq = TriviaQuiz()
