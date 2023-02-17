@@ -4,7 +4,7 @@ from room import Room
 class Maze:
     def __init__(self, size):
         self._size = size
-        self._rooms: []
+        self._rooms = []
         self._entrance = (0, 0)
         self._exit = (size, size)
         self._location = (0, 0)
@@ -13,7 +13,7 @@ class Maze:
         """
         This method updates the location of the player in the maze
         """
-        pass
+        return self._rooms
 
     def create_maze(self):
         """
