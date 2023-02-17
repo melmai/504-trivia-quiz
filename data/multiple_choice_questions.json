@@ -1,0 +1,97 @@
+[
+  {
+    "category": "General Knowledge",
+    "id": "622a1c357cc59eab6f94fc73",
+    "correctAnswer": "Impignorate",
+    "incorrectAnswers": [
+      "Dipthong",
+      "Deipnophobia",
+      "Erf"
+    ],
+    "question": "Which word is defined as 'to pawn or mortgage something'?",
+    "tags": [
+      "words",
+      "general_knowledge"
+    ],
+    "type": "Multiple Choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "General Knowledge",
+    "id": "6355b7f5e8b368eed3a6823b",
+    "correctAnswer": "nasal",
+    "incorrectAnswers": [
+      "fricative",
+      "affricative",
+      "plosive"
+    ],
+    "question": "In phonetics, the m in 'mother' is an example of what kind of sound?",
+    "tags": [
+      "language",
+      "linguistics",
+      "general_knowledge",
+      "science"
+    ],
+    "type": "Multiple Choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "General Knowledge",
+    "id": "622a1c3a7cc59eab6f951050",
+    "correctAnswer": "An egg laying mammal",
+    "incorrectAnswers": [
+      "A single sailed boat",
+      "A form of colour blindness",
+      "A stringed instrument"
+    ],
+    "question": "What is a monotreme?",
+    "tags": [
+      "words",
+      "general_knowledge"
+    ],
+    "type": "Multiple Choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "General Knowledge",
+    "id": "6239f8219129041bf3925cc9",
+    "correctAnswer": "Mike",
+    "incorrectAnswers": [
+      "Mambo",
+      "Mauritius",
+      "Mendip"
+    ],
+    "question": "What word is used in the NATO Phonetic Alphabet for the letter M?",
+    "tags": [
+      "general_knowledge"
+    ],
+    "type": "Multiple Choice",
+    "difficulty": "medium",
+    "regions": [],
+    "isNiche": false
+  },
+  {
+    "category": "General Knowledge",
+    "id": "622a1c377cc59eab6f950438",
+    "correctAnswer": "13",
+    "incorrectAnswers": [
+      "66",
+      "666",
+      "21"
+    ],
+    "question": "How many witches in a coven?",
+    "tags": [
+      "general_knowledge"
+    ],
+    "type": "Multiple Choice",
+    "difficulty": "hard",
+    "regions": [],
+    "isNiche": false
+  }
+]
