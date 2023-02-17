@@ -22,7 +22,8 @@ class Player:
 
     def use_key(self):
         """This method decrements the number of keys in the inventory."""
-        self._keys -= 1
+        if self._keys != 0:  # never go below 0
+            self._keys -= 1
 
     def check_inventory(self):
         if not self._keys:
