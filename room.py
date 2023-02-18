@@ -4,7 +4,6 @@ from door import Door
 class Room:
     def __init__(self, key_chance):
         self._has_key = self.generate_key(key_chance)
-        self._impassible = False
         self._is_exit = False
         self._is_entrance = False
         self._doors = {
@@ -13,6 +12,9 @@ class Room:
             "west": False,
             "south": False
         }
+
+        self._impassable = False
+        self._visited = False
 
     def generate_key(self, key_chance):
         """
@@ -35,6 +37,14 @@ class Room:
         """
         self._is_entrance = True
 
+    def get_is_exit(self):
+        """
+        This method returns the boolean value of the _is_exit attribute
+        :param: None
+        :return: Boolean
+        """
+        return self._is_exit
+
     def set_exit(self):
         """
         This method sets the boolean value of _is_exit to True
@@ -43,10 +53,26 @@ class Room:
         """
         self._is_exit = True
 
-    def set_impassible(self, is_impassible):
+    def set_impassable(self, is_impassable):
         """
-        This method sets the boolean value of _impassible
-        :parameters: is_impassible
+        This method sets the boolean value of _impassable
+        :param: is_impassable
         :return: None
         """
-        self._impassible = is_impassible
+        self._impassable = is_impassable
+
+    def set_visited(self, visited):
+        """
+        This method sets the boolean value of _visited
+        :param: visited
+        :return: None
+        """
+        self._visited = visited
+
+    def can_enter(self):
+        """
+        This methods returns a boolean that signifies if the room can be entered
+        :param:
+        :return:
+        """
+        return not self._impassable and not self._visited

@@ -29,16 +29,16 @@ class Maze:
 
         for row in range(0, self._size):
             for col in range(0, self._size):
-                impassible_chance = random.randint(1, 100)
+                impassable_chance = random.randint(1, 100)
 
-                if impassible_chance > 80: # % chance a room is impassable
-                    self._rooms[row][col].set_impassible(True)
+                if impassable_chance > 75: # % chance a room is impassable
+                    self._rooms[row][col].set_impassable(True)
 
         # set entrance and exit
         self._rooms[0][0].set_entrance()
-        self._rooms[0][0].set_impassible(False)
+        self._rooms[0][0].set_impassable(False)
         self._rooms[self._size - 1][self._size - 1].set_exit()
-        self._rooms[self._size - 1][self._size - 1].set_impassible(False)
+        self._rooms[self._size - 1][self._size - 1].set_impassable(False)
 
 
     def is_traversable(self, row, col):
@@ -47,8 +47,29 @@ class Maze:
         :param: row, col
         :return: boolean
         """
-        pass
+        found_exit = False
 
+        if self.is_valid_room(row, col):
+            self._rooms[row][col].set_visited(True)
+
+            if self._rooms[row][col].get_is_exit():
+                return True
+
+            # If not an exit, traverse to the adjacent rooms and check again
+            found_exit = self.is_traversable(row + 1, col)  # south
+            if not found_exit:
+                found_exit = self.is_traversable(row, col + 1)  # east
+            if not found_exit:
+                found_exit = self.is_traversable(row - 1, col)  # north
+            if not found_exit:
+                found_exit = self.is_traversable(row, col - 1)  # west
+
+            if not found_exit:
+                self._rooms[row][col].set_visited(True)
+        else:
+            return False
+
+        return found_exit
 
     def is_valid_room(self, row, col):
         """
@@ -56,9 +77,16 @@ class Maze:
         :param: row, col
         :return: boolean
         """
-        pass
-        # return 0 <= row < self._size and col >= 0 and col < self._size and self._rooms[row][col].can_enter()
+        return 0 <= row < self._size and col >= 0 and col < self._size and self._rooms[row][col].can_enter()
 
 
 # Below lines for local tests
-m = Maze(3)
+valid = False
+m = None
+while not valid:
+    m = Maze(6)
+    if m.is_traversable(0, 0):
+        print("Valid maze created!")
+        valid = True
+    else:
+        print("exit not reachable, making a new maze...")
