@@ -4,7 +4,7 @@ from door import Door
 class Room:
     def __init__(self, key_chance):
         self._has_key = self.generate_key(key_chance)
-        self._impassable = False
+        self._impassible = False
         self._is_exit = False
         self._is_entrance = False
         self._doors = {
@@ -29,16 +29,24 @@ class Room:
 
     def set_entrance(self):
         """
-        This method sets the boolean value of _entrance to True
+        This method sets the boolean value of _is_entrance to True
         :param: None
         :return: None
         """
         self._is_entrance = True
 
-    def set_impassible(self, is_impassable):
+    def set_exit(self):
         """
-        This method sets the boolean value of _impassable
-        :parameters: is_impassable
+        This method sets the boolean value of _is_exit to True
+        :param: None
         :return: None
         """
-        self._impassable = is_impassable
+        self._is_exit = True
+
+    def set_impassible(self, is_impassible):
+        """
+        This method sets the boolean value of _impassible
+        :parameters: is_impassible
+        :return: None
+        """
+        self._impassible = is_impassible
