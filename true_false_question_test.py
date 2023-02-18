@@ -42,6 +42,22 @@ class TrueFalseQuestionTest(unittest.TestCase):
         response = "thisisnotagoodanswer"  # bad answers
         self.assertEqual(self.tfq.normalize(response), None)
 
+    def test_check_answer(self):
+        response = "True"
+        self.assertEqual(self.tfq.check_answer(response), False)
+
+        response = "t"
+        self.assertEqual(self.tfq.check_answer(response), False)
+
+        response = "False"
+        self.assertEqual(self.tfq.check_answer(response), True)
+
+        response = "F"
+        self.assertEqual(self.tfq.check_answer(response), True)
+
+        response = "nonsense"
+        self.assertEqual(self.tfq.check_answer(response), False)
+
 
 if __name__ == "__main__":
     unittest.main()
