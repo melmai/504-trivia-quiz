@@ -1,7 +1,8 @@
 class TrueFalseQuestion:
-    def __init__(self, question, answer):
+    def __init__(self, question, answer, comment):
         self._question = question
         self._answer = answer
+        self._comment = comment
 
     @property
     def question(self):
