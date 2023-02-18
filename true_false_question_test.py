@@ -16,11 +16,31 @@ class TrueFalseQuestionTest(unittest.TestCase):
     def test_get_answer(self):
         self.assertEqual(self.tfq.answer, False)
 
-    def test_check_answer(self):
-        pass
+    def test_check_comment(self):
+        self.assertEqual(self.tfq.comment,
+                         "The binary number '10' represents 2 in decimal.")
 
     def test_normalize(self):
-        pass
+        response = "t"
+        self.assertEqual(self.tfq.normalize(response), True)
+
+        response = "T"
+        self.assertEqual(self.tfq.normalize(response), True)
+
+        response = "TrUe  "
+        self.assertEqual(self.tfq.normalize(response), True)
+
+        response = "f"
+        self.assertEqual(self.tfq.normalize(response), False)
+
+        response = "FALSE"
+        self.assertEqual(self.tfq.normalize(response), False)
+
+        response = "  FalSe"
+        self.assertEqual(self.tfq.normalize(response), False)
+
+        response = "thisisnotagoodanswer"  # bad answers
+        self.assertEqual(self.tfq.normalize(response), None)
 
 
 if __name__ == "__main__":

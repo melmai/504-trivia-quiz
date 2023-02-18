@@ -12,6 +12,10 @@ class TrueFalseQuestion:
     def answer(self):
         return self._answer
 
+    @property
+    def comment(self):
+        return self._comment
+
     def normalize(self, response):
         """
         This method standardizes the user's response to compare against the
