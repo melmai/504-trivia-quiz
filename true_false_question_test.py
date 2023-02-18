@@ -6,6 +6,12 @@ class TrueFalseQuestionTest(unittest.TestCase):
     def setUp(self):
         pass
 
+    def test_get_question(self):
+        pass
+
+    def test_get_answer(self):
+        pass
+
     def test_check_answer(self):
         pass
 
