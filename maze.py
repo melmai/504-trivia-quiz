@@ -24,7 +24,7 @@ class Maze:
         :return:
         """
         for row in range(0, self._size):
-            self._rooms.append([Room(10) for col in range(0, self._size)]) # Just putting a key-chance of 10 for now
+            self._rooms.append([Room(random.randint(1,100)) for col in range(0, self._size)])
 
 
         for row in range(0, self._size):
