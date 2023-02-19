@@ -6,13 +6,19 @@ import random
 
 class QuestionFactory:
     def generate_question(self):
+        """
+        This method determines the question type and fetches the data
+        necessary to create the question object
+        :return: Question object
+        """
         question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
         question_type = random.choice(question_types)
         question, answer, q_data = self.get_question_data(question_type)
 
         return self.get_question(question_type, question, answer, q_data)
 
-    def get_question_data(self, question_type):
+    @staticmethod
+    def get_question_data(question_type):
         """
         This method fetches the data for the provided question type
         :param question_type: String representing one of the question types
