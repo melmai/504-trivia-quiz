@@ -4,7 +4,8 @@ from multiple_choice_question import MultipleChoiceQuestion
 
 
 class QuestionFactory:
-    def create_question(self, question_type, *data):
+    @staticmethod
+    def create_question(question_type, *data):
         """
         This method creates a Question object based on the type and data
         provided.
@@ -18,3 +19,5 @@ class QuestionFactory:
             return ShortAnswerQuestion(*data)
         elif question_type == "MultipleChoice":
             return MultipleChoiceQuestion(*data)
+        else:
+            raise TypeError("That is not a valid question type.")

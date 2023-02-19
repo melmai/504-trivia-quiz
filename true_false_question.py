@@ -31,7 +31,7 @@ class TrueFalseQuestion:
         else:
             return None
 
-    def check_answer(self, response):
+    def check_response(self, response):
         """
         This method checks the user's response to determine if it is correct
         :param response: user's response
