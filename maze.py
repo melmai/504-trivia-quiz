@@ -40,7 +40,6 @@ class Maze:
         self._rooms[self._size - 1][self._size - 1].set_exit()
         self._rooms[self._size - 1][self._size - 1].set_impassable(False)
 
-
     def is_traversable(self, row, col):
         """
         This method determines whether or not a given maze is traversable when starting at a particular row/col coordinate
@@ -79,14 +78,62 @@ class Maze:
         """
         return 0 <= row < self._size and col >= 0 and col < self._size and self._rooms[row][col].can_enter()
 
+    def print_maze(self):
+        """
+        This method prints out the entire maze in string representation and utilizes some helper methods
+        :param: None
+        :return: None
+        """
+        room_list = []
+        for row in range(0, self._size):
+            for col in range(0, self._size):
+                doors = self.show_all_possible_directions(row, col)
+                room_list.append(self._rooms[row][col].construct_room_string(doors))
+            self.format_strings(room_list)
+            room_list = []
+
+    def format_strings(self, rooms):
+        """
+        This method takes a list of string Room components to be printed out in rows and columns
+        :param: rooms
+        :return: None
+        """
+        split_list = []
+
+        for room in rooms:
+            if room is not None:
+                split_list.append(room.split("\n"))
+
+        for layer in range(3):
+            for room_pieces in split_list:
+                print(room_pieces[layer], end=" ")
+            print("")
+
+
+    def show_all_possible_directions(self, x, y):
+        """
+        This method returns the possible directions of movement for the player
+        :param x:
+        :param y:
+        :return: Tuple
+        """
+        can_move_west = (0 <= y-1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][y - 1].can_move_to()
+        can_move_east = (0 <= y+1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
+        can_move_north = (0 <= x-1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][y].can_move_to()
+        can_move_south = (0 <= x+1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][y].can_move_to()
+
+        return can_move_north, can_move_south, can_move_west, can_move_east
 
 # Below lines for local tests
 valid = False
 m = None
 while not valid:
-    m = Maze(6)
+    m = Maze(4)
     if m.is_traversable(0, 0):
         print("Valid maze created!")
         valid = True
     else:
         print("exit not reachable, making a new maze...")
+
+
+m.print_maze()

@@ -29,6 +29,37 @@ class Room:
         """This method removes the key from the room"""
         pass
 
+    def construct_room_string(self, doors):
+        """
+        This method creates a room string that can be printed to represent the room
+        :param: Tuple of available doors
+        :return: String
+        """
+        can_move_north, can_move_south, can_move_west, can_move_east = doors
+        room_str = ""
+
+        if can_move_north:
+            room_str += "* - *\n"
+        else:
+            room_str += "* * *\n"
+
+        if can_move_east and can_move_west:
+            room_str += f"|   |\n"
+        elif not can_move_east and can_move_west:
+            room_str += f"|   *\n"
+        elif can_move_east and not can_move_west:
+            room_str += f"*   |\n"
+        else:
+            room_str += f"*   *\n"
+
+        if can_move_south:
+            room_str += "* - *\n"
+        else:
+            room_str += "* * *\n"
+
+        return room_str
+
+
     def set_entrance(self):
         """
         This method sets the boolean value of _is_entrance to True
@@ -60,6 +91,15 @@ class Room:
         :return: None
         """
         self._impassable = is_impassable
+
+    def can_move_to(self):
+        """
+        This method gets the boolean value of _impassable and returns the opposite to show
+        if the room can be moved into by the player
+        :param: None
+        :return: Boolean
+        """
+        return not self._impassable
 
     def set_visited(self, visited):
         """
