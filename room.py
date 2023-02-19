@@ -35,24 +35,24 @@ class Room:
         :param: Tuple of available doors
         :return: String
         """
-        can_move_north, can_move_south, can_move_west, can_move_east = doors
+        self._doors["north"], self._doors["south"], self._doors["west"], self._doors["east"] = doors
         room_str = ""
 
-        if can_move_north:
+        if self._doors["north"]:
             room_str += "* - *\n"
         else:
             room_str += "* * *\n"
 
-        if can_move_east and can_move_west:
+        if self._doors["east"] and self._doors["west"]:
             room_str += f"|   |\n"
-        elif not can_move_east and can_move_west:
+        elif not self._doors["east"] and self._doors["west"]:
             room_str += f"|   *\n"
-        elif can_move_east and not can_move_west:
+        elif self._doors["east"] and not self._doors["west"]:
             room_str += f"*   |\n"
         else:
             room_str += f"*   *\n"
 
-        if can_move_south:
+        if self._doors["south"]:
             room_str += "* - *\n"
         else:
             room_str += "* * *\n"
