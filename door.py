@@ -1,13 +1,15 @@
+from question_factory import QuestionFactory
 class Door:
     def __init__(self):
-        pass
+        self._is_locked = True
+        self._question = QuestionFactory.generate_question()
 
     def unlock(self):
         """
         This method removes the barrier that prevents movement to the
         next room.
         """
-        pass
+        self._is_locked = False
 
     def check_answer(self, response):
         """
@@ -16,4 +18,4 @@ class Door:
         :param response: String provided by user
         :return: Boolean
         """
-        pass
+        return
