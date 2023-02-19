@@ -12,4 +12,9 @@ class QuestionFactory:
         :param data: optional data to add
         :return: Question object
         """
-        pass
+        if question_type == "TrueFalse":
+            return TrueFalseQuestion(*data)
+        elif question_type == "ShortAnswer":
+            return ShortAnswerQuestion(*data)
+        elif question_type == "MultipleChoice":
+            return MultipleChoiceQuestion(*data)
