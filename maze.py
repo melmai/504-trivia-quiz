@@ -24,7 +24,7 @@ class Maze:
         :return:
         """
         for row in range(0, self._size):
-            self._rooms.append([Room(10) for col in range(0, self._size)]) # Just putting a key-chance of 10 for now
+            self._rooms.append([Room(random.randint(1,100)) for col in range(0, self._size)])
 
 
         for row in range(0, self._size):
@@ -123,3 +123,15 @@ class Maze:
         can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east
+
+valid = False
+m = None
+while not valid:
+    m = Maze(5)
+    if m.is_traversable(0, 0):
+        print("Valid dungeon created!")
+        valid = True
+    else:
+        print("exit not reachable, making a new dungeon...")
+
+m.print_maze()

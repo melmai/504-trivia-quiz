@@ -3,6 +3,9 @@ from door import Door
 
 class Room:
     def __init__(self, key_chance):
+        self._impassable = False
+        self._visited = False
+
         self._has_key = self.generate_key(key_chance)
         self._is_exit = False
         self._is_entrance = False
@@ -13,9 +16,6 @@ class Room:
             "south": False
         }
 
-        self._impassable = False
-        self._visited = False
-
     def generate_key(self, key_chance):
         """
         This method determines if the current room contains a key based
@@ -23,7 +23,10 @@ class Room:
         :param key_chance: chance of the room having a key object
         :return: Boolean
         """
-        return False
+        if self.can_move_to():
+            return key_chance >= 95
+        else:
+            return False
 
     def transfer_key(self):
         """This method removes the key from the room"""
@@ -36,6 +39,16 @@ class Room:
         :return: String
         """
         self._doors["north"], self._doors["south"], self._doors["west"], self._doors["east"] = doors
+
+        if self._is_exit:
+            content = "🏁"
+        elif self._is_entrance:
+            content = "🎬"
+        elif self._has_key:
+            content = "🗝"
+        else:
+            content = "  "
+
         room_str = ""
 
         if self._doors["north"]:
@@ -44,13 +57,13 @@ class Room:
             room_str += "* * *\n"
 
         if self._doors["east"] and self._doors["west"]:
-            room_str += f"|   |\n"
+            room_str += f"| {content}|\n"
         elif not self._doors["east"] and self._doors["west"]:
-            room_str += f"|   *\n"
+            room_str += f"| {content}*\n"
         elif self._doors["east"] and not self._doors["west"]:
-            room_str += f"*   |\n"
+            room_str += f"* {content}|\n"
         else:
-            room_str += f"*   *\n"
+            room_str += f"* {content}*\n"
 
         if self._doors["south"]:
             room_str += "* - *\n"
