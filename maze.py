@@ -24,14 +24,13 @@ class Maze:
         :return:
         """
         for row in range(0, self._size):
-            self._rooms.append([Room(random.randint(1,100)) for col in range(0, self._size)])
-
+            self._rooms.append([Room(random.randint(1, 100)) for col in range(0, self._size)])
 
         for row in range(0, self._size):
             for col in range(0, self._size):
                 impassable_chance = random.randint(1, 100)
 
-                if impassable_chance > 73: # % chance a room is impassable
+                if impassable_chance > 73:  # % chance a room is impassable
                     self._rooms[row][col].set_impassable(True)
 
         # set entrance and exit
@@ -109,7 +108,6 @@ class Maze:
                 print(room_pieces[layer], end=" ")
             print("")
 
-
     def show_all_possible_directions(self, x, y):
         """
         This method returns the possible directions of movement for the player
@@ -117,9 +115,13 @@ class Maze:
         :param y:
         :return: Tuple
         """
-        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][y].can_move_to()
-        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][y].can_move_to()
-        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
+        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][
+            y].can_move_to()
+        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][
+            y].can_move_to()
+        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][
+            y - 1].can_move_to()
+        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][
+            y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east

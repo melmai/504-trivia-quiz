@@ -9,7 +9,7 @@ class TriviaQuiz:
         self._print_intro_art()
         self._print_instructions()
         # self._player = self._create_player()
-        # self._difficulty = self._set_difficulty()
+        self._difficulty = self._set_difficulty()
         # self._maze = Maze(self._difficulty)
         # self._game_over = False
 
@@ -96,7 +96,9 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        return Player("Test")
+        player_name = input("What is your name?")
+
+        return Player(player_name)
 
     def _set_difficulty(self):
         """
@@ -104,14 +106,16 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        return 0
+        number = input("Please enter a difficulty level (1-5) ")
+        return number
 
     def check_win(self):
         """
         This method checks to see if the player is located in the exit room.
         :return: Boolean
         """
-        pass
+
+        return self.maze._location == self.maze._exit
 
 
 if __name__ == "__main__":
