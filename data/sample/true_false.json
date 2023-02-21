@@ -24,12 +24,14 @@
     "category": "Science",
     "id": "628d59c8a5a57ff6c2ad2bf4",
     "correctAnswer": true,
-    "question": "Hexadecimal is a system of counting uses the numbers 0-9 and the letters a-f."
+    "question": "Hexadecimal is a system of counting uses the numbers 0-9 and the letters a-f.",
+    "answerComment": ""
   },
   {
     "category": "Science",
     "id": "622a1c3e7cc59eab6f952270",
     "correctAnswer": true,
-    "question": "The word modem comes from the term 'modulate demodulate'."
+    "question": "The word modem comes from the term 'modulate demodulate'.",
+    "answerComment": ""
   }
 ]
