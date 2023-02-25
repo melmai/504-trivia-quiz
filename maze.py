@@ -123,3 +123,8 @@ class Maze:
         can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east
+
+if __name__ == "__main__":
+    maze = Maze(5)
+    maze.print_maze()
+    print(maze.show_all_possible_directions(0,0))
