@@ -1,5 +1,6 @@
 import time
 import textwrap
+from save_game import save_game
 from maze import Maze
 from player import Player
 
@@ -148,7 +149,9 @@ class TriviaQuiz:
 
         # elif choice.lower() == 'm' # this is for available options
 
-        # elif choice.lower() == '1' # planning to use this for saving
+        elif choice.lower() == '1':
+            save_game()
+
 
         # elif choice.lower() == '8675309' # planning to maybe use this as a cheat to unlock all doors or bypass all
         # questions for testing?
