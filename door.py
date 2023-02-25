@@ -39,14 +39,15 @@ class Door:
         return input(self._question.question + '\n')
 
 
-    def check_answer(self):
+    def check_answer(self, response=None):
         """
         This method checks the user provided response against the actual
         answer.
         :return: Boolean
         """
-        response = self.get_user_response()
+        response = response or self.get_user_response()
         is_correct = self._question.check_response(response)
+        self._answerable = False
 
         if is_correct:
             print("Yas queen")
@@ -54,7 +55,6 @@ class Door:
             return True
         else:
             print("Yikes. Not this time, bud.")
-            self._answerable = False
         return False
 
 
