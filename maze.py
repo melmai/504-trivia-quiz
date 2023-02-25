@@ -11,23 +11,34 @@ class Maze:
         self._location = (0, 0)
 
         self.create_maze()
+        self.validate_maze()
+
+    def get_location(self):
+        """
+        This method returns the current room location coordinates as a tuple of row, col
+        :return: Tuple
+        """
+        return self._location
 
     def move(self, x, y):
         """
         This method updates the location of the player in the maze
         :return: Boolean of whether the player successfully moved to the desired location
         """
+        valid_move = False
         row, col = self._location
         can_move_north, can_move_south, can_move_west, can_move_east = self.show_all_possible_directions(row, col)
 
         if (x > 0 and can_move_east) or (x < 0 and can_move_west):
             col += x
+            valid_move = True
 
         if (y > 0 and can_move_south) or (x < 0 and can_move_north):
             row += y
+            valid_move = True
 
         self._location = (row, col)
-
+        return valid_move
 
     def create_maze(self):
         """
@@ -80,6 +91,14 @@ class Maze:
             return False
 
         return found_exit
+
+    def validate_maze(self):
+        if self.is_traversable(0, 0):
+            return True
+        else:
+            self._rooms = []
+            self.create_maze()
+            self.validate_maze()
 
     def is_valid_room(self, row, col):
         """
@@ -143,20 +162,3 @@ class Maze:
         can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east
-
-
-valid = False
-maze = None
-while not valid:
-    maze = Maze(4) # Just putting 4 for now
-    if maze.is_traversable(0,0):
-        valid = True
-
-print(maze._location)
-maze.draw_location(maze._location[0], maze._location[1])
-maze.move(1, 0)
-print(maze._location)
-maze.draw_location(maze._location[0], maze._location[1])
-maze.move(0, 1)
-print(maze._location)
-maze.draw_location(maze._location[0], maze._location[1])

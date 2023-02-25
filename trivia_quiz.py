@@ -6,11 +6,11 @@ from player import Player
 
 class TriviaQuiz:
     def __init__(self):
-        self._print_intro_art()
-        self._print_instructions()
-        # self._player = self._create_player()
-        # self._difficulty = self._set_difficulty()
-        # self._maze = Maze(self._difficulty)
+        # self._print_intro_art()
+        # self._print_instructions()
+        self._player = self._create_player()
+        self._difficulty = self._set_difficulty()
+        self._maze = Maze(self._difficulty)
         self._game_over = False
 
     def _print_intro_art(self):
@@ -104,7 +104,7 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        return 0
+        return 4 # Just setting this as 4 for now, will need changed to accept player input
 
     def check_win(self):
         """
@@ -118,25 +118,24 @@ class TriviaQuiz:
         This method contains the routing and logic for the Trivia Quiz game loop
         :return: None
         """
-        # TODO: refactor this to better utilize class attributes
-        # Prompt Player Creation
-        # Prompt Maze difficulty
-
-        # Build Valid Maze
-        valid = False
-        maze = None
-        while not valid:
-            maze = Maze(4) # Just putting 4 for now
-            if maze.is_traversable(0,0):
-                valid = True
-
-
         # Loop until Player wins or loses
-            # Show Room
-            # Accept Player Action
         while not self._game_over:
-            # maze.draw_location(row, col)
-            pass
+            # Show Current Room
+            row, col = self._maze.get_location()
+            self._maze.draw_location(row, col)
+
+            # Accept Player Action
+            # If key == w, a, s, d: call move(x,y)
+                # ~~~ Do the Question Routing ~~~
+                # If move is True: Continue onward to the next iteration of the loop!
+                # If move is False: bounce back, get new input
+            # If key == i: show inventory
+            # If key == m: show key options
+            # If key == k (or something else we decide): call print_maze()
+
+            # Check Game Status
+            # If check_win is True OR if there are no viable directions to move,
+            #   update self.game_over to True to end the game loop
 
 
 if __name__ == "__main__":
