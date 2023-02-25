@@ -18,8 +18,10 @@ class QuestionFactory:
             question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
             question_type = random.choice(question_types)
 
-        question, answer, q_data = QuestionFactory.get_question_data(question_type)
-        return QuestionFactory.get_question(question_type, question, answer, q_data)
+        question, answer, q_data = QuestionFactory.get_question_data(
+            question_type)
+        return QuestionFactory.get_question(question_type, question, answer,
+                                            q_data)
 
     @staticmethod
     def get_question_data(question_type):
