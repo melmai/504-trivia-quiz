@@ -8,7 +8,7 @@ class TriviaQuiz:
     def __init__(self):
         self._print_intro_art()
         self._print_instructions()
-        # self._player = self._create_player()
+        self._player = self._create_player()
         # self._difficulty = self._set_difficulty()
         # self._maze = Maze(self._difficulty)
         # self._game_over = False
