@@ -38,3 +38,8 @@ class TrueFalseQuestion:
         :return: Boolean
         """
         return self.normalize(response) == self._answer
+
+    def mock(self):
+        self._question = "5 is the binary number '10' expressed as a decimal"
+        self._answer = False
+        self._comment = "2"

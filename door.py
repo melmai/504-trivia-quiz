@@ -30,7 +30,7 @@ class Door:
         """
         self._is_locked = False
 
-    def get_answer(self):
+    def get_user_response(self):
         """
         This method presents the player with a question and either unlocks
         the door or disables the door in response
@@ -53,3 +53,7 @@ class Door:
         :return: Boolean
         """
         return self._question(response)
+
+    def mock(self, question_type):
+        if question_type == "tf_question":
+            QuestionFactory.
