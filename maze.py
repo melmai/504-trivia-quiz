@@ -15,12 +15,19 @@ class Maze:
     def move(self, x, y):
         """
         This method updates the location of the player in the maze
+        :return: Boolean of whether the player successfully moved to the desired location
         """
         row, col = self._location
-        col += x
-        row += y
+        can_move_north, can_move_south, can_move_west, can_move_east = self.show_all_possible_directions(row, col)
+
+        if (x > 0 and can_move_east) or (x < 0 and can_move_west):
+            col += x
+
+        if (y > 0 and can_move_south) or (x < 0 and can_move_north):
+            row += y
+
         self._location = (row, col)
-        # return self._rooms
+
 
     def create_maze(self):
         """

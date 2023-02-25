@@ -118,6 +118,7 @@ class TriviaQuiz:
         This method contains the routing and logic for the Trivia Quiz game loop
         :return: None
         """
+        # TODO: refactor this to better utilize class attributes
         # Prompt Player Creation
         # Prompt Maze difficulty
 
