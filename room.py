@@ -131,14 +131,13 @@ class Room:
         """
         return not self._impassable and not self._visited
 
-    def unlock_door(self, door):
+    def unlock_door(self):
         """
-        This method unlocks a door if is locked
-        :param door: Door object to unlock
+        This method unlocks the active door if it is locked
         :return: True if successfully unlocks the door or False if already
         unlocked
         """
-        if door.locked:
-            door.unlock()
+        if self._active_door.locked:
+            self._active_door.unlock()
             return True
         return False
