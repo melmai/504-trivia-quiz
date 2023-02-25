@@ -132,6 +132,7 @@ class TriviaQuiz:
         """
         # === NOTE: DO NOT RUN RIGHT NOW SINCE THERE ARE NO EXIT CONDITIONS FOR THE LOOP ===
         # TODO: ADD AN AUTO-QUIT KEYSTROKE INPUT OPTION FOR DEVELOPMENT
+
         # Loop until Player wins or loses
         while not self._game_over:
         # 1. Show Current Room
@@ -145,7 +146,8 @@ class TriviaQuiz:
                 # If move is False: bounce back, get new input
             # If key == i: show inventory
             # If key == m: show key options
-            # If key == k (or something else we decide): call print_maze()
+            # If key == k (or something else we decide): call print_maze() to view entire map FOR DEVELOPMENT
+            # If key == q (or something else we decide): quit the loop and automatically end the game FOR DEVELOPMENT
 
         # 3. Check Game Status
             # If check_win is True OR if there are no viable directions to move,
