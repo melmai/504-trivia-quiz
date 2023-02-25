@@ -9,13 +9,36 @@ class Maze:
         self._entrance = (0, 0)
         self._exit = (size, size)
         self._location = (0, 0)
-        self.create_maze()
 
-    def move(self):
+        self.create_maze()
+        self.validate_maze()
+
+    def get_location(self):
+        """
+        This method returns the current room location coordinates as a tuple of row, col
+        :return: Tuple
+        """
+        return self._location
+
+    def move(self, x, y):
         """
         This method updates the location of the player in the maze
+        :return: Boolean of whether the player successfully moved to the desired location
         """
-        return self._rooms
+        valid_move = False
+        row, col = self._location
+        can_move_north, can_move_south, can_move_west, can_move_east = self.show_all_possible_directions(row, col)
+
+        if (x > 0 and can_move_east) or (x < 0 and can_move_west):
+            col += x
+            valid_move = True
+
+        if (y > 0 and can_move_south) or (x < 0 and can_move_north):
+            row += y
+            valid_move = True
+
+        self._location = (row, col)
+        return valid_move
 
     def create_maze(self):
         """
@@ -68,6 +91,14 @@ class Maze:
 
         return found_exit
 
+    def validate_maze(self):
+        if self.is_traversable(0, 0):
+            return True
+        else:
+            self._rooms = []
+            self.create_maze()
+            self.validate_maze()
+
     def is_valid_room(self, row, col):
         """
         This method determines whether or not a given room by coordinates is in bounds and can be entered
@@ -107,6 +138,16 @@ class Maze:
                 print(room_pieces[layer], end=" ")
             print("")
 
+    def draw_location(self, row, col):
+        """
+        This method draws the current room location of the player in the maze
+        :param row:
+        :param col:
+        :return:
+        """
+        doors = self.show_all_possible_directions(row, col)
+        print(self._rooms[row][col].construct_room_string(doors))
+
     def show_all_possible_directions(self, x, y):
         """
         This method returns the possible directions of movement for the player
@@ -114,13 +155,9 @@ class Maze:
         :param y:
         :return: Tuple
         """
-        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][
-            y].can_move_to()
-        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][
-            y].can_move_to()
-        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][
-            y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][
-            y + 1].can_move_to()
+        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][y].can_move_to()
+        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][y].can_move_to()
+        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][y - 1].can_move_to()
+        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east
