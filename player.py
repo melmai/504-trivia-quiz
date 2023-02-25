@@ -7,15 +7,6 @@ class Player:
     def keys(self):
         return self._keys
 
-    def move(self, row, col):
-        """
-        This method updates the location of the player in the maze.
-        :param row: row to move to
-        :param col: column to move to
-        :return: None
-        """
-        pass
-
     def add_key(self):
         """This method increments the number of keys in the inventory."""
         self._keys += 1

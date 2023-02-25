@@ -6,12 +6,14 @@ from player import Player
 
 class TriviaQuiz:
     def __init__(self):
-        # self._print_intro_art()
-        # self._print_instructions()
+        self._print_intro_art()
+        self._print_instructions()
         self._player = self._create_player()
         self._difficulty = self._set_difficulty()
         self._maze = Maze(self._difficulty)
         self._game_over = False
+
+        # self.main_game_loop()
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -96,7 +98,8 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        return Player("Test")
+        player_name = input("What is your name adventurer? ")
+        return Player(player_name)
 
     def _set_difficulty(self):
         """
@@ -104,27 +107,38 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        return 4 # Just setting this as 4 for now, will need changed to accept player input
+        # TODO: We can't correspond difficulty to maze size exactly, since a maze size of 1 or 2 wouldn't be
+        #  a viable maze. We'll need a conversion of difficulty to size. For ex: difficulty level 1 could be a
+        #  size of 3 or 4
+        while True:
+            number = input(f"Welcome {self._player._name}. Please enter a difficulty level (1-5) ")
+            if int(number.isdigit()) and 1 <= int(number) <= 5:
+                # return number
+                return 4 # JUST FOR TESTING, WILL REMOVE
+            else:
+                print("That's not a number between 1-5! Try again!")
 
     def check_win(self):
         """
         This method checks to see if the player is located in the exit room.
         :return: Boolean
         """
-        pass
+        return self._maze._location == self._maze._exit
 
     def main_game_loop(self):
         """
-        This method contains the routing and logic for the Trivia Quiz game loop
+        This method contains the routing and logic for the Trivia Quiz main game loop
         :return: None
         """
+        # === NOTE: DO NOT RUN RIGHT NOW SINCE THERE ARE NO EXIT CONDITIONS FOR THE LOOP ===
+        # TODO: ADD AN AUTO-QUIT KEYSTROKE INPUT OPTION FOR DEVELOPMENT
         # Loop until Player wins or loses
         while not self._game_over:
-            # Show Current Room
+        # 1. Show Current Room
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
 
-            # Accept Player Action
+        # 2. Accept Player Action
             # If key == w, a, s, d: call move(x,y)
                 # ~~~ Do the Question Routing ~~~
                 # If move is True: Continue onward to the next iteration of the loop!
@@ -133,10 +147,11 @@ class TriviaQuiz:
             # If key == m: show key options
             # If key == k (or something else we decide): call print_maze()
 
-            # Check Game Status
+        # 3. Check Game Status
             # If check_win is True OR if there are no viable directions to move,
             #   update self.game_over to True to end the game loop
 
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
+

@@ -46,14 +46,13 @@ class Maze:
         :return:
         """
         for row in range(0, self._size):
-            self._rooms.append([Room(random.randint(1,100)) for col in range(0, self._size)])
-
+            self._rooms.append([Room(random.randint(1, 100)) for col in range(0, self._size)])
 
         for row in range(0, self._size):
             for col in range(0, self._size):
                 impassable_chance = random.randint(1, 100)
 
-                if impassable_chance > 73: # % chance a room is impassable
+                if impassable_chance > 73:  # % chance a room is impassable
                     self._rooms[row][col].set_impassable(True)
 
         # set entrance and exit
