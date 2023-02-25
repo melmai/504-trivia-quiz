@@ -40,6 +40,21 @@ class PlayerTest(unittest.TestCase):
         self.player.use_key()  # should not go below 0
         self.assertEqual(self.player.keys, 0)
 
+    def test_location(self):
+        self.player.show_location()
+        self.assertEqual(self.player.show_location(), (0, 0))
+        self.assertIsNot(self.player.show_location(), (13, 22))
+
+    def test_move(self):  #noticed that when testing, sometimes works sometimes doesn't. probably bc maze randomized what is traversable
+        self.player.move('south')
+        self.assertEqual(self.player.show_location(), (1, 0))
+        self.player.move('east')
+        self.assertEqual(self.player.show_location(), (1, 1))
+        self.player.move('north')
+        self.assertEqual(self.player.show_location(), (0, 1))
+        self.player.move('west')
+        self.assertEqual(self.player.show_location(), (0, 0))
+
 
 if __name__ == "__main__":
     unittest.main()

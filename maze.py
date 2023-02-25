@@ -9,7 +9,6 @@ class Maze:
         self._entrance = (0, 0)
         self._exit = (size, size)
         self._location = (0, 0)
-
         self.create_maze()
 
     def move(self):
