@@ -11,7 +11,7 @@ class TriviaQuiz:
         # self._player = self._create_player()
         # self._difficulty = self._set_difficulty()
         # self._maze = Maze(self._difficulty)
-        # self._game_over = False
+        self._game_over = False
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -112,6 +112,30 @@ class TriviaQuiz:
         :return: Boolean
         """
         pass
+
+    def main_game_loop(self):
+        """
+        This method contains the routing and logic for the Trivia Quiz game loop
+        :return: None
+        """
+        # Prompt Player Creation
+        # Prompt Maze difficulty
+
+        # Build Valid Maze
+        valid = False
+        maze = None
+        while not valid:
+            maze = Maze(4) # Just putting 4 for now
+            if maze.is_traversable(0,0):
+                valid = True
+
+
+        # Loop until Player wins or loses
+            # Show Room
+            # Accept Player Action
+        while not self._game_over:
+            # maze.draw_location(row, col)
+            pass
 
 
 if __name__ == "__main__":

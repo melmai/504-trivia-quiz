@@ -72,7 +72,6 @@ class Room:
 
         return room_str
 
-
     def set_entrance(self):
         """
         This method sets the boolean value of _is_entrance to True

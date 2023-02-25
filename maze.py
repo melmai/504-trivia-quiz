@@ -109,6 +109,15 @@ class Maze:
                 print(room_pieces[layer], end=" ")
             print("")
 
+    def draw_location(self, row, col):
+        """
+        This method draws the current room location of the player in the maze
+        :param row:
+        :param col:
+        :return:
+        """
+        doors = self.show_all_possible_directions(row, col)
+        print(self._rooms[row][col].construct_room_string(doors))
 
     def show_all_possible_directions(self, x, y):
         """
@@ -123,3 +132,13 @@ class Maze:
         can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east
+
+
+valid = False
+maze = None
+while not valid:
+    maze = Maze(4) # Just putting 4 for now
+    if maze.is_traversable(0,0):
+        valid = True
+
+maze.draw_location(0,0)
