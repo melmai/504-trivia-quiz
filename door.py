@@ -35,15 +35,17 @@ class Door:
         This method presents the player with a question and either unlocks
         the door or disables the door in response
         """
-        user_response = input(self._question.question)
+        user_response = input(self._question.question + '\n')
         is_correct = self.check_answer(user_response)
 
         if is_correct:
             print("Yas queen")
             self.unlock()
+            return True
         else:
             print("Yikes. Not this time, bud.")
             self._answerable = False
+            return False
 
     def check_answer(self, response):
         """
@@ -52,8 +54,11 @@ class Door:
         :param response: String provided by user
         :return: Boolean
         """
-        return self._question(response)
+        return self._question.check_response(response)
 
-    def mock(self, question_type):
-        if question_type == "tf_question":
-            QuestionFactory.
+
+if __name__ == '__main__':
+    door = Door()
+    print(door._question.answer)
+    answer = door.get_user_response()
+    print(answer)
