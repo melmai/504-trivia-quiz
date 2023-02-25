@@ -12,11 +12,15 @@ class Maze:
 
         self.create_maze()
 
-    def move(self):
+    def move(self, x, y):
         """
         This method updates the location of the player in the maze
         """
-        return self._rooms
+        row, col = self._location
+        col += x
+        row += y
+        self._location = (row, col)
+        # return self._rooms
 
     def create_maze(self):
         """
@@ -141,4 +145,11 @@ while not valid:
     if maze.is_traversable(0,0):
         valid = True
 
-maze.draw_location(0,0)
+print(maze._location)
+maze.draw_location(maze._location[0], maze._location[1])
+maze.move(1, 0)
+print(maze._location)
+maze.draw_location(maze._location[0], maze._location[1])
+maze.move(0, 1)
+print(maze._location)
+maze.draw_location(maze._location[0], maze._location[1])
