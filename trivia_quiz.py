@@ -125,6 +125,38 @@ class TriviaQuiz:
         """
         return self._maze._location == self._maze._exit
 
+    def user_choice(self):
+        """
+        Returns the player's next move
+        :return: string
+        """
+        choice = input("Please enter your next action: ")
+        final_choice = choice.lower()
+        if final_choice == 'w':
+            self.player.move('north')
+
+        elif final_choice == 'a':
+            self.player.move('west')
+
+        elif final_choice == 's':
+            self.player.move('south')
+
+        elif final_choice == 'd':
+            self.player.move('east')
+
+        elif final_choice == 'i':
+            self.player.check_inventory()
+
+        # elif choice.lower() == 'm' # this is for available options
+
+        # elif choice.lower() == '1' # planning to use this for saving
+
+        # elif choice.lower() == '8675309' # planning to maybe use this as a cheat to unlock all doors or bypass all
+        # questions for testing?
+
+        else:
+            print(f"Sorry {self._player._name}, that's not a valid command!")
+
     def main_game_loop(self):
         """
         This method contains the routing and logic for the Trivia Quiz main game loop
