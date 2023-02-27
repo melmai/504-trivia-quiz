@@ -1,18 +1,19 @@
 import time
 import textwrap
-from save_game import save_game
 from maze import Maze
 from player import Player
 
 
 class TriviaQuiz:
     def __init__(self):
-        # self._print_intro_art()
-        # self._print_instructions()
+        self._print_intro_art()
+        self._print_instructions()
         self._player = self._create_player()
         self._difficulty = self._set_difficulty()
         self._maze = Maze(self._difficulty)
-        # self._game_over = False
+        self._game_over = False
+
+        # self.main_game_loop()
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -98,9 +99,6 @@ class TriviaQuiz:
         :return: Player object
         """
         player_name = input("What is your name adventurer? ")
-
-
-
         return Player(player_name)
 
     def _set_difficulty(self):
@@ -109,10 +107,14 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
+        # TODO: We can't correspond difficulty to maze size exactly, since a maze size of 1 or 2 wouldn't be
+        #  a viable maze. We'll need a conversion of difficulty to size. For ex: difficulty level 1 could be a
+        #  size of 3 or 4
         while True:
             number = input(f"Welcome {self._player._name}. Please enter a difficulty level (1-5) ")
             if int(number.isdigit()) and 1 <= int(number) <= 5:
-                return number
+                # return number
+                return 4 # JUST FOR TESTING, WILL REMOVE
             else:
                 print("That's not a number between 1-5! Try again!")
 
@@ -121,8 +123,7 @@ class TriviaQuiz:
         This method checks to see if the player is located in the exit room.
         :return: Boolean
         """
-
-        return self.maze._location == self.maze._exit
+        return self._maze._location == self._maze._exit
 
     def user_choice(self):
         """
@@ -148,9 +149,7 @@ class TriviaQuiz:
 
         # elif choice.lower() == 'm' # this is for available options
 
-        elif choice.lower() == '1':
-            save_game()
-
+        # elif choice.lower() == '1' # planning to use this for saving
 
         # elif choice.lower() == '8675309' # planning to maybe use this as a cheat to unlock all doors or bypass all
         # questions for testing?
@@ -158,6 +157,33 @@ class TriviaQuiz:
         else:
             print(f"Sorry {self._player._name}, that's not a valid command!")
 
+    def main_game_loop(self):
+        """
+        This method contains the routing and logic for the Trivia Quiz main game loop
+        :return: None
+        """
+        # === NOTE: DO NOT RUN RIGHT NOW SINCE THERE ARE NO EXIT CONDITIONS FOR THE LOOP ===
+        # TODO: ADD AN AUTO-QUIT KEYSTROKE INPUT OPTION FOR DEVELOPMENT
+
+        # Loop until Player wins or loses
+        while not self._game_over:
+        # 1. Show Current Room
+            row, col = self._maze.get_location()
+            self._maze.draw_location(row, col)
+
+        # 2. Accept Player Action
+            # If key == w, a, s, d: call move(x,y)
+                # ~~~ Do the Question Routing ~~~
+                # If move is True: Continue onward to the next iteration of the loop!
+                # If move is False: bounce back, get new input
+            # If key == i: show inventory
+            # If key == m: show key options
+            # If key == k (or something else we decide): call print_maze() to view entire map FOR DEVELOPMENT
+            # If key == q (or something else we decide): quit the loop and automatically end the game FOR DEVELOPMENT
+
+        # 3. Check Game Status
+            # If check_win is True OR if there are no viable directions to move,
+            #   update self.game_over to True to end the game loop
 
 
 if __name__ == "__main__":
