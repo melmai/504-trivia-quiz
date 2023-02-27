@@ -79,7 +79,7 @@ class TriviaQuiz:
         S - Move Down
         D - Move Right
         I - View inventory
-        
+
         Press M to see your available options at any time.
         """)
 
@@ -108,7 +108,9 @@ class TriviaQuiz:
         :return: Int
         """
         while True:
-            number = input(f"Welcome {self._player._name}. Please enter a difficulty level (1-3) ").strip()
+            number = input(
+                f"Welcome {self._player._name}. Please enter a difficulty "
+                f"level (1-3) ").strip()
             if int(number.isdigit()) and 1 <= int(number) <= 3:
                 if number == '1':
                     return 4
@@ -157,19 +159,24 @@ class TriviaQuiz:
             self.user_choice()
 
         elif choice == 'm':
-            print("Available Actions\n*-----------------------------------*\nW - Move Up\nA - Move Left\nS - Move Down\nD - Move Right\nI - View inventory\n\nPress M to see your available options at any time.")
+            print(
+                "Available Actions\n*-----------------------------------*\nW "
+                "- Move Up\nA - Move Left\nS - Move Down\nD - Move Right\nI "
+                "- View inventory\n\nPress M to see your available options "
+                "at any time.")
             self.user_choice()
 
         # TODO: elif choice == '1' # planning to use this for saving
 
-        elif choice == 'o': # See entire maze for development
+        elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
             self.user_choice()
 
-        elif choice == 'q': # Auto-quit the game for development
+        elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
 
-        # TODO: elif choice == '8675309' # planning to maybe use this as a cheat to unlock all doors or bypass all
+        # TODO: elif choice == '8675309' # planning to maybe use this as a
+        #  cheat to unlock all doors or bypass all
         #  questions for testing?
 
         else:
@@ -177,12 +184,14 @@ class TriviaQuiz:
 
     def main_game_loop(self):
         """
-        This method contains the routing and logic for the Trivia Quiz main game loop. It will loop until the player
+        This method contains the routing and logic for the Trivia Quiz main
+        game loop. It will loop until the player
         wins or loses.
         :return: None
         """
         # TODO: Prompt user to play again after the game ends
-        # TODO: Check if all the available doors are locked as a game-ending condition
+        # TODO: Check if all the available doors are locked as a game-ending
+        #  condition
         while not self._game_over:
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
@@ -202,4 +211,3 @@ class TriviaQuiz:
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
-

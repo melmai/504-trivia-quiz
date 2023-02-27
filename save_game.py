@@ -17,6 +17,9 @@ def save_game(savefile):
 
 
 def load_game(savefile):
-    with open(savefile, 'rb') as file:
-        game_data = pickle.load(file)
-        return game_data
+    try:
+        with open(savefile, 'rb') as file:
+            game_data = pickle.load(file)
+            return game_data
+    except FileNotFoundError:
+        print(f"No saved game file found with name {file}")
