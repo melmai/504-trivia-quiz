@@ -6,12 +6,14 @@ from player import Player
 
 class TriviaQuiz:
     def __init__(self):
-        self._print_intro_art()
-        self._print_instructions()
+        # self._print_intro_art()
+        # self._print_instructions()
         self._player = self._create_player()
         self._difficulty = self._set_difficulty()
         self._maze = Maze(self._difficulty)
         self._game_over = False
+
+        self._maze.draw_location(0, 0)
 
         # self.main_game_loop()
 
@@ -185,7 +187,24 @@ class TriviaQuiz:
             # If check_win is True OR if there are no viable directions to move,
             #   update self.game_over to True to end the game loop
 
+    def use_key(self):
+        """
+        This method unlocks the active door if the Player has keys available.
+        :return: True if door unlocks successfully, or False if door was
+        already unlocked or player has no keys.
+        """
+        if self._player.keys:
+            active_room = self._maze.get_current_room()
+            unlocked = active_room.unlock_door()  # unlocks active door
+            if not unlocked:
+                print("Hmm the door isn't locked. Lucky me.")
+            else:
+                self._player.use_key()
+            return unlocked
+        else:
+            print("Whoops, all out of keys! Better try something else...")
+        return False
+
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
-
