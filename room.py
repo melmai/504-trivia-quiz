@@ -15,6 +15,7 @@ class Room:
             "west": False,
             "south": False
         }
+        self._active_door = None
 
     def generate_key(self, key_chance):
         """
@@ -128,3 +129,14 @@ class Room:
         :return:
         """
         return not self._impassable and not self._visited
+
+    def unlock_door(self):
+        """
+        This method unlocks the active door if it is locked
+        :return: True if successfully unlocks the door or False if already
+        unlocked
+        """
+        if self._active_door.locked:
+            self._active_door.unlock()
+            return True
+        return False

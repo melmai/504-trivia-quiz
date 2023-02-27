@@ -30,26 +30,35 @@ class Door:
         """
         self._is_locked = False
 
-    def get_answer(self):
+    def get_user_response(self):
         """
-        This method presents the player with a question and either unlocks
-        the door or disables the door in response
+        This method presents the player with a question and waits for an
+        answer from the player
+        :return: String
         """
-        user_response = input(self._question.question)
-        is_correct = self.check_answer(user_response)
+        return input(self._question.question + '\n')
+
+
+    def check_answer(self, response=None):
+        """
+        This method checks the user provided response against the actual
+        answer.
+        :return: Boolean
+        """
+        response = response or self.get_user_response()
+        is_correct = self._question.check_response(response)
+        self._answerable = False
 
         if is_correct:
             print("Yas queen")
             self.unlock()
+            return True
         else:
             print("Yikes. Not this time, bud.")
-            self._answerable = False
+        return False
 
-    def check_answer(self, response):
-        """
-        This method checks the user provided response against the actual
-        answer.
-        :param response: String provided by user
-        :return: Boolean
-        """
-        return self._question(response)
+
+if __name__ == '__main__':
+    door = Door()
+    answer = door.check_answer()
+    print(answer)
