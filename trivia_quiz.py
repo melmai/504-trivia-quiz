@@ -1,16 +1,17 @@
 import time
 import textwrap
+from save_game import save_game
 from maze import Maze
 from player import Player
 
 
 class TriviaQuiz:
     def __init__(self):
-        self._print_intro_art()
-        self._print_instructions()
+        # self._print_intro_art()
+        # self._print_instructions()
         self._player = self._create_player()
-        # self._difficulty = self._set_difficulty()
-        # self._maze = Maze(self._difficulty)
+        self._difficulty = self._set_difficulty()
+        self._maze = Maze(self._difficulty)
         # self._game_over = False
 
     def _print_intro_art(self):
@@ -96,7 +97,11 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        return Player("Test")
+        player_name = input("What is your name adventurer? ")
+
+
+
+        return Player(player_name)
 
     def _set_difficulty(self):
         """
@@ -104,15 +109,57 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        return 0
+        while True:
+            number = input(f"Welcome {self._player._name}. Please enter a difficulty level (1-5) ")
+            if int(number.isdigit()) and 1 <= int(number) <= 5:
+                return number
+            else:
+                print("That's not a number between 1-5! Try again!")
 
     def check_win(self):
         """
         This method checks to see if the player is located in the exit room.
         :return: Boolean
         """
-        pass
+
+        return self.maze._location == self.maze._exit
+
+    def user_choice(self):
+        """
+        Returns the player's next move
+        :return: string
+        """
+        choice = input("Please enter your next action: ")
+        final_choice = choice.lower()
+        if final_choice == 'w':
+            self.player.move('north')
+
+        elif final_choice == 'a':
+            self.player.move('west')
+
+        elif final_choice == 's':
+            self.player.move('south')
+
+        elif final_choice == 'd':
+            self.player.move('east')
+
+        elif final_choice == 'i':
+            self.player.check_inventory()
+
+        # elif choice.lower() == 'm' # this is for available options
+
+        elif choice.lower() == '1':
+            save_game()
+
+
+        # elif choice.lower() == '8675309' # planning to maybe use this as a cheat to unlock all doors or bypass all
+        # questions for testing?
+
+        else:
+            print(f"Sorry {self._player._name}, that's not a valid command!")
+
 
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
+
