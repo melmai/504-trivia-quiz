@@ -7,7 +7,7 @@ class Maze:
         self._size = size
         self._rooms = []
         self._entrance = (0, 0)
-        self._exit = (size, size)
+        self._exit = (size-1, size-1)
         self._location = (0, 0)
 
         self.create_maze()
@@ -33,7 +33,7 @@ class Maze:
             col += x
             valid_move = True
 
-        if (y > 0 and can_move_south) or (x < 0 and can_move_north):
+        if (y > 0 and can_move_south) or (y < 0 and can_move_north):
             row += y
             valid_move = True
 
