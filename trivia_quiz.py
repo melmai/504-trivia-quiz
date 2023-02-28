@@ -12,7 +12,6 @@ class TriviaQuiz:
         self._difficulty = self._set_difficulty()
         self._maze = Maze(self._difficulty)
         self._game_over = False
-
         self.main_game_loop()
 
     def _print_intro_art(self):
@@ -175,6 +174,11 @@ class TriviaQuiz:
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
 
+        elif choice == 'p':
+            # TODO: need to add Door instances between rooms to test
+            self.use_key()
+            self.user_choice()
+
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
         #  questions for testing?
@@ -208,6 +212,23 @@ class TriviaQuiz:
                 self._maze.print_maze()
                 self._game_over = True
 
+    def use_key(self):
+        """
+        This method unlocks the active door if the Player has keys available.
+        :return: True if door unlocks successfully, or False if door was
+        already unlocked or player has no keys.
+        """
+        if self._player.keys:
+            active_room = self._maze.get_current_room()
+            unlocked = active_room.unlock_door()  # unlocks active door
+            if not unlocked:
+                print("Hmm the door isn't locked. Lucky me.")
+            else:
+                self._player.use_key()
+            return unlocked
+        else:
+            print("Whoops, all out of keys! Better try something else...")
+        return False
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
