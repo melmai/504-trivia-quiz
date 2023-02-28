@@ -174,6 +174,11 @@ class TriviaQuiz:
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
 
+        elif choice == 'p':
+            # TODO: need to add Door instances between rooms to test
+            self.use_key()
+            self.user_choice()
+
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
         #  questions for testing?
@@ -224,7 +229,6 @@ class TriviaQuiz:
         else:
             print("Whoops, all out of keys! Better try something else...")
         return False
-
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
