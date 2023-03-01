@@ -130,6 +130,23 @@ class Room:
         """
         return not self._impassable and not self._visited
 
+    def get_door(self, direction):
+        """
+        This method gets the door that is positioned at the specified direction
+        :param direction: String that represents the door position in the room
+        :return: Door object or False if no door exists
+        """
+        return self._doors[direction]
+
+    def set_door(self, direction, door=Door()):
+        """
+        This method adds a door at the specified direction
+        :param direction: String that represents the door position in the room
+        :param door: Door object to add. If none provided, a new door is
+        generated
+        """
+        self._doors[direction] = door
+
     def unlock_door(self):
         """
         This method unlocks the active door if it is locked
