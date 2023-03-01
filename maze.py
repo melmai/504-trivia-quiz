@@ -7,7 +7,7 @@ class Maze:
         self._size = size
         self._rooms = []
         self._entrance = (0, 0)
-        self._exit = (size-1, size-1)
+        self._exit = (size - 1, size - 1)
         self._location = (0, 0)
 
         self.create_maze()
@@ -15,7 +15,8 @@ class Maze:
 
     def get_location(self):
         """
-        This method returns the current room location coordinates as a tuple of row, col
+        This method returns the current room location coordinates as a tuple
+        of row, col
         :return: Tuple
         """
         return self._location
@@ -23,11 +24,13 @@ class Maze:
     def move(self, x, y):
         """
         This method updates the location of the player in the maze
-        :return: Boolean of whether the player successfully moved to the desired location
+        :return: Boolean of whether the player successfully moved to the
+        desired location
         """
         valid_move = False
         row, col = self._location
-        can_move_north, can_move_south, can_move_west, can_move_east = self.show_all_possible_directions(row, col)
+        can_move_north, can_move_south, can_move_west, can_move_east = \
+            self.show_all_possible_directions(row, col)
 
         if (x > 0 and can_move_east) or (x < 0 and can_move_west):
             col += x
@@ -46,7 +49,8 @@ class Maze:
         :return:
         """
         for row in range(0, self._size):
-            self._rooms.append([Room(random.randint(1, 100)) for col in range(0, self._size)])
+            self._rooms.append(
+                [Room(random.randint(1, 100)) for col in range(0, self._size)])
 
         for row in range(0, self._size):
             for col in range(0, self._size):
@@ -63,7 +67,8 @@ class Maze:
 
     def is_traversable(self, row, col):
         """
-        This method determines whether or not a given maze is traversable when starting at a particular row/col coordinate
+        This method determines if a given maze is traversable when starting
+        at a particular row/col coordinate
         :param: row, col
         :return: boolean
         """
@@ -93,37 +98,68 @@ class Maze:
 
     def validate_maze(self):
         if self.is_traversable(0, 0):
+            self._generate_doors()
             return True
         else:
             self._rooms = []
             self.create_maze()
             self.validate_maze()
 
+    def _generate_doors(self):
+        """
+        This method generates door objects that represent the passageways
+        between rooms of the maze
+        :return: True if successful, or false if fails
+        """
+        for row in range(0, self._size):
+            for col in range(0, self._size):
+                n, s, w, e = self.show_all_possible_directions(row, col)
+                current_room = self._rooms[row][col]
+
+                # the rooms are checked west to east, north to south,
+                # regardless of existing walls
+                if n:
+                    door = self._rooms[row - 1][col].get_door("south")
+                    current_room.set_door("north", door)
+
+                if s:  # don't need to check rooms we haven't been to
+                    current_room.set_door("south")
+
+                if e:  # don't need to check rooms we haven't been to
+                    current_room.set_door("east")
+
+                if w:  # check
+                    door = self._rooms[row][col - 1].get_door("east")
+                    current_room.set_door("west", door)
+
     def is_valid_room(self, row, col):
         """
-        This method determines whether or not a given room by coordinates is in bounds and can be entered
+        This method determines if a given room by coordinates is
+        in bounds and can be entered
         :param: row, col
         :return: boolean
         """
-        return 0 <= row < self._size and col >= 0 and col < self._size and self._rooms[row][col].can_enter()
+        return 0 <= row < self._size and col >= 0 and col < self._size and \
+            self._rooms[row][col].can_enter()
 
     def print_maze(self):
         """
-        This method prints out the entire maze in string representation and utilizes some helper methods
-        :param: None
-        :return: None
+        This method prints out the entire maze in string representation and
+        utilizes some helper methods
         """
         room_list = []
         for row in range(0, self._size):
             for col in range(0, self._size):
                 doors = self.show_all_possible_directions(row, col)
-                room_list.append(self._rooms[row][col].construct_room_string(doors))
+                room_list.append(
+                    self._rooms[row][col].construct_room_string(doors))
             self.format_strings(room_list)
             room_list = []
 
     def format_strings(self, rooms):
         """
-        This method takes a list of string Room components to be printed out in rows and columns
+        This method takes a list of string Room components to be printed out
+        in rows and columns
         :param: rooms
         :return: None
         """
@@ -155,10 +191,14 @@ class Maze:
         :param y:
         :return: Tuple
         """
-        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][y].can_move_to()
-        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][y].can_move_to()
-        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
+        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][
+            y] is not None and self._rooms[x - 1][y].can_move_to()
+        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][
+            y] is not None and self._rooms[x + 1][y].can_move_to()
+        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][
+            y - 1] is not None and self._rooms[x][y - 1].can_move_to()
+        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][
+            y + 1] is not None and self._rooms[x][y + 1].can_move_to()
         return can_move_north, can_move_south, can_move_west, can_move_east
 
     def get_current_room(self):
@@ -168,3 +208,7 @@ class Maze:
         """
         x, y = self._location
         return self._rooms[x][y]
+
+
+if __name__ == "__main__":
+    maze = Maze(3)

@@ -17,6 +17,14 @@ class Room:
         }
         self._active_door = None
 
+    @property
+    def key(self):
+        return self._has_key
+
+    @property
+    def active_door(self):
+        return self._active_door
+
     def generate_key(self, key_chance):
         """
         This method determines if the current room contains a key based
@@ -129,6 +137,27 @@ class Room:
         :return:
         """
         return not self._impassable and not self._visited
+
+    def get_door(self, direction):
+        """
+        This method gets the door that is positioned at the specified direction
+        :param direction: String that represents the door position in the room
+        :return: Door object or False if no door exists
+        """
+        return self._doors[direction]
+
+    def set_door(self, direction, door=Door()):
+        """
+        This method adds a door at the specified direction
+        :param direction: String that represents the door position in the room
+        :param door: Door object to add. If none provided, a new door is
+        generated
+        """
+        self._doors[direction] = door
+        return door
+
+    def set_active_door(self, direction):
+        self._active_door = self._doors[direction]
 
     def unlock_door(self):
         """
