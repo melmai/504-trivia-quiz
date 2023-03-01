@@ -123,7 +123,7 @@ class Maze:
                 if e:  # don't need to check rooms we haven't been to
                     current_room.set_door("east")
 
-                if w:
+                if w:  # check
                     door = self._rooms[row][col - 1].get_door("east")
                     current_room.set_door("west", door)
 
