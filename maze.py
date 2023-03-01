@@ -111,14 +111,16 @@ class Maze:
                 n, s, w, e = self.show_all_possible_directions(row, col)
                 current_room = self._rooms[row][col]
 
+                # the rooms are checked west to east, north to south,
+                # regardless of existing walls
                 if n:
                     door = self._rooms[row - 1][col].get_door("south")
                     current_room.set_door("north", door)
 
-                if s:
+                if s:  # don't need to check rooms we haven't been to
                     current_room.set_door("south")
 
-                if e:
+                if e:  # don't need to check rooms we haven't been to
                     current_room.set_door("east")
 
                 if w:
