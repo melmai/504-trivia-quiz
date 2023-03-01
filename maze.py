@@ -93,11 +93,37 @@ class Maze:
 
     def validate_maze(self):
         if self.is_traversable(0, 0):
+            self._generate_doors()
             return True
         else:
             self._rooms = []
             self.create_maze()
             self.validate_maze()
+
+    def _generate_doors(self):
+        """
+        This method generates door objects that represent the passageways
+        between rooms of the maze
+        :return: True if successful, or false if fails
+        """
+        for row in range(0, self._size):
+            for col in range(0, self._size):
+                n, s, w, e = self.show_all_possible_directions(row, col)
+                current_room = self._rooms[row][col]
+
+                if n:
+                    door = self._rooms[row - 1][col].get_door("south")
+                    current_room.set_door("north", door)
+
+                if s:
+                    current_room.set_door("south")
+
+                if e:
+                    current_room.set_door("east")
+
+                if w:
+                    door = self._rooms[row][col - 1].get_door("east")
+                    current_room.set_door("west", door)
 
     def is_valid_room(self, row, col):
         """
@@ -168,3 +194,7 @@ class Maze:
         """
         x, y = self._location
         return self._rooms[x][y]
+
+
+if __name__ == "__main__":
+    maze = Maze(3)
