@@ -161,36 +161,33 @@ class TriviaQuiz:
         if choice in move_commands:
             self._process_move_command(choice)
             print(self._maze.get_current_room())
-            self.user_choice()
 
         elif choice == 'i':
             self._player.check_inventory()
-            self.user_choice()
 
         elif choice == 'm':
             print(self.get_menu())
-            self.user_choice()
 
         # TODO: elif choice == '1' # planning to use this for saving
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
-            self.user_choice()
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
+            return
 
         elif choice == 'p':
-            # TODO: need to add Door instances between rooms to test
             self.use_key()
-            self.user_choice()
 
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
         #  questions for testing?
 
         else:
-            print(f"Sorry {self._player._name}, that's not a valid command!")
+            print(f"Sorry {self._player.name}, that's not a valid command!")
+
+        self.user_choice()
 
     def main_game_loop(self):
         """
