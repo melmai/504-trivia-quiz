@@ -41,13 +41,15 @@ class Room:
         """This method removes the key from the room"""
         pass
 
-    def construct_room_string(self, doors):
+    def __str__(self):
+        return self.construct_room_string()
+
+    def construct_room_string(self):
         """
         This method creates a room string that can be printed to represent the room
         :param: Tuple of available doors
         :return: String
         """
-        self._doors["north"], self._doors["south"], self._doors["west"], self._doors["east"] = doors
 
         if self._is_exit:
             content = "🏁"
@@ -96,6 +98,9 @@ class Room:
         :return: Boolean
         """
         return self._is_exit
+
+    def __repr__(self):
+        return self.__str__()
 
     def set_exit(self):
         """
