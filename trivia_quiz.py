@@ -70,7 +70,10 @@ class TriviaQuiz:
         Well OK then. Now you know what your mission is. How do you want to 
         proceed?
         """, 2)
-        self._print_delayed_text("""
+        self._print_delayed_text(self.get_menu())
+
+    def get_menu(self):
+        return textwrap.dedent("""
         Available Actions
         *-----------------------------------*
         W - Move Up
@@ -140,7 +143,12 @@ class TriviaQuiz:
             "d": (1, 0)
         }
 
-        return self._maze.move(move_commands[direction])
+        has_moved = self._maze.move(move_commands[direction])
+
+        if not has_moved:
+            print("Can't go that way")
+
+        return has_moved
 
     def user_choice(self):
         """
@@ -151,12 +159,8 @@ class TriviaQuiz:
 
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
-            has_moved = self._process_move_command(choice)
+            self._process_move_command(choice)
             print(self._maze.get_current_room())
-
-            if not has_moved:
-                print("Can't go that way")
-
             self.user_choice()
 
         elif choice == 'i':
@@ -164,11 +168,7 @@ class TriviaQuiz:
             self.user_choice()
 
         elif choice == 'm':
-            print(
-                "Available Actions\n*-----------------------------------*\nW "
-                "- Move Up\nA - Move Left\nS - Move Down\nD - Move Right\nI "
-                "- View inventory\n\nPress M to see your available options "
-                "at any time.")
+            print(self.get_menu())
             self.user_choice()
 
         # TODO: elif choice == '1' # planning to use this for saving
