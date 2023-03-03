@@ -23,9 +23,9 @@ class Maze:
 
     def process_move(self, direction, player):
         """
-        This method updates the location of the player in the maze
-        :return: Boolean of whether the player successfully moved to the
-        desired location
+        This method handles the Player's move request and checks to see if
+        they are able to move in the specified direction before changing
+        location.
         """
         has_moved = False
 
@@ -42,6 +42,10 @@ class Maze:
             self.move(direction)
 
     def move(self, direction):
+        """
+        This method updates the location of the Player
+        :param direction: string representing direction of movement
+        """
         movement = {
             "w": (0, -1),
             "a": (-1, 0),

@@ -158,6 +158,10 @@ class Room:
         return door
 
     def set_active_door(self, direction):
+        """
+        This method sets focus on an existing door of the room
+        :param direction: string representing door to activate
+        """
         self._active_door = self._doors[direction]
 
     def unlock_door(self):
@@ -172,6 +176,14 @@ class Room:
         return False
 
     def try_move(self, direction, player):
+        """
+        This method activates the door, if exists, that corresponds to the
+        passage selected by the player and allows the player to use a key if
+        the question is answered incorrectly
+        :param direction: string representing direction of desired movement
+        :param player: the player object
+        :return: True if player is free to move, else False
+        """
         can_move = False
         door = self._doors[direction]
 

@@ -213,5 +213,6 @@ class TriviaQuiz:
             print("Whoops, all out of keys! Better try something else...")
         return False
 
+
 if __name__ == "__main__":
     tq = TriviaQuiz()

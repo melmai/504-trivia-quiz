@@ -43,7 +43,6 @@ class Door:
         """
         This method checks the user provided response against the actual
         answer.
-        :return: Boolean
         """
         response = response or self.get_user_response()
         is_correct = self._question.check_response(response)
@@ -52,12 +51,14 @@ class Door:
         if is_correct:
             print("Yas queen")
             self.unlock()
-            return True
         else:
             print("Yikes. Not this time, bud.")
-        return False
 
     def try_door(self):
+        """
+        This method checks if door is unlocked and not disabled
+        :return: Tuple that represents locked and answerable states of the door
+        """
         if self.locked and self.answerable:  # locked, active
             self.check_answer()
 
