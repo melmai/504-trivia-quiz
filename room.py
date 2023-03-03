@@ -99,9 +99,6 @@ class Room:
         """
         return self._is_exit
 
-    def __repr__(self):
-        return self.__str__()
-
     def set_exit(self):
         """
         This method sets the boolean value of _is_exit to True
@@ -151,14 +148,13 @@ class Room:
         """
         return self._doors[direction]
 
-    def set_door(self, direction, door=Door()):
+    def set_door(self, direction, door=None):
         """
         This method adds a door at the specified direction
         :param direction: String that represents the door position in the room
-        :param door: Door object to add. If none provided, a new door is
-        generated
+        :param door: Door object to add.
         """
-        self._doors[direction] = door
+        self._doors[direction] = door or Door()
         return door
 
     def set_active_door(self, direction):
@@ -174,3 +170,30 @@ class Room:
             self._active_door.unlock()
             return True
         return False
+
+    def try_move(self, direction, player):
+        can_move = False
+        door = self._doors[direction]
+
+        if door:  # there's a door
+            self._active_door = door
+            is_locked, is_answerable = door.try_door()
+
+            if not is_locked:
+                can_move = True
+            elif not is_answerable and player.keys:
+                use_key = input("Care to use a key? (Y/N)\n")
+                use_key = use_key.lower().strip()
+
+                if use_key == "y":
+                    player.use_key()
+                    self.unlock_door()
+                    can_move = True
+
+            elif player.keys == 0:
+                print("Uh oh, the way is blocked and there are no keys at my "
+                      "disposal.")
+
+            self._active_door = None
+
+        return can_move  # can't move this direction
