@@ -57,6 +57,11 @@ class Door:
             print("Yikes. Not this time, bud.")
         return False
 
+    def try_door(self):
+        if self.locked and self.answerable:  # locked, active
+            self.check_answer()
+
+        return self.locked, self.answerable
 
 if __name__ == '__main__':
     door = Door()
