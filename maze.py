@@ -21,28 +21,38 @@ class Maze:
         """
         return self._location
 
-    def move(self, movement):
+    def process_move(self, direction, player):
         """
         This method updates the location of the player in the maze
         :return: Boolean of whether the player successfully moved to the
         desired location
         """
-        valid_move = False
-        x, y = movement
+        has_moved = False
+
+        directions = {
+            "w": "north",
+            "a": "west",
+            "s": "south",
+            "d": "east"
+        }
+
+        current_room = self.get_current_room()
+        can_move = current_room.try_move(directions[direction], player)
+        if can_move:
+            self.move(direction)
+
+    def move(self, direction):
+        movement = {
+            "w": (0, -1),
+            "a": (-1, 0),
+            "s": (0, 1),
+            "d": (1, 0)
+        }
+
         row, col = self._location
-        can_move_north, can_move_south, can_move_west, can_move_east = \
-            self.show_all_possible_directions(row, col)
-
-        if (x > 0 and can_move_east) or (x < 0 and can_move_west):
-            col += x
-            valid_move = True
-
-        if (y > 0 and can_move_south) or (y < 0 and can_move_north):
-            row += y
-            valid_move = True
-
+        col += movement[direction][0]
+        row += movement[direction][1]
         self._location = (row, col)
-        return valid_move
 
     def create_maze(self):
         """
