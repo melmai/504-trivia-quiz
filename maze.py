@@ -21,27 +21,42 @@ class Maze:
         """
         return self._location
 
-    def move(self, x, y):
+    def process_move(self, direction, player):
         """
-        This method updates the location of the player in the maze
-        :return: Boolean of whether the player successfully moved to the
-        desired location
+        This method handles the Player's move request and checks to see if
+        they are able to move in the specified direction before changing
+        location.
         """
-        valid_move = False
+        has_moved = False
+
+        directions = {
+            "w": "north",
+            "a": "west",
+            "s": "south",
+            "d": "east"
+        }
+
+        current_room = self.get_current_room()
+        can_move = current_room.try_move(directions[direction], player)
+        if can_move:
+            self.move(direction)
+
+    def move(self, direction):
+        """
+        This method updates the location of the Player
+        :param direction: string representing direction of movement
+        """
+        movement = {
+            "w": (0, -1),
+            "a": (-1, 0),
+            "s": (0, 1),
+            "d": (1, 0)
+        }
+
         row, col = self._location
-        can_move_north, can_move_south, can_move_west, can_move_east = \
-            self.show_all_possible_directions(row, col)
-
-        if (x > 0 and can_move_east) or (x < 0 and can_move_west):
-            col += x
-            valid_move = True
-
-        if (y > 0 and can_move_south) or (y < 0 and can_move_north):
-            row += y
-            valid_move = True
-
+        col += movement[direction][0]
+        row += movement[direction][1]
         self._location = (row, col)
-        return valid_move
 
     def create_maze(self):
         """
@@ -152,7 +167,7 @@ class Maze:
             for col in range(0, self._size):
                 doors = self.show_all_possible_directions(row, col)
                 room_list.append(
-                    self._rooms[row][col].construct_room_string(doors))
+                    self._rooms[row][col].construct_room_string())
             self.format_strings(room_list)
             room_list = []
 
@@ -181,8 +196,7 @@ class Maze:
         :param col:
         :return:
         """
-        doors = self.show_all_possible_directions(row, col)
-        print(self._rooms[row][col].construct_room_string(doors))
+        print(self._rooms[row][col])
 
     def show_all_possible_directions(self, x, y):
         """

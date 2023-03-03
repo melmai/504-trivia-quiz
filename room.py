@@ -41,13 +41,15 @@ class Room:
         """This method removes the key from the room"""
         pass
 
-    def construct_room_string(self, doors):
+    def __str__(self):
+        return self.construct_room_string()
+
+    def construct_room_string(self):
         """
         This method creates a room string that can be printed to represent the room
         :param: Tuple of available doors
         :return: String
         """
-        self._doors["north"], self._doors["south"], self._doors["west"], self._doors["east"] = doors
 
         if self._is_exit:
             content = "🏁"
@@ -146,17 +148,20 @@ class Room:
         """
         return self._doors[direction]
 
-    def set_door(self, direction, door=Door()):
+    def set_door(self, direction, door=None):
         """
         This method adds a door at the specified direction
         :param direction: String that represents the door position in the room
-        :param door: Door object to add. If none provided, a new door is
-        generated
+        :param door: Door object to add.
         """
-        self._doors[direction] = door
+        self._doors[direction] = door or Door()
         return door
 
     def set_active_door(self, direction):
+        """
+        This method sets focus on an existing door of the room
+        :param direction: string representing door to activate
+        """
         self._active_door = self._doors[direction]
 
     def unlock_door(self):
@@ -169,3 +174,38 @@ class Room:
             self._active_door.unlock()
             return True
         return False
+
+    def try_move(self, direction, player):
+        """
+        This method activates the door, if exists, that corresponds to the
+        passage selected by the player and allows the player to use a key if
+        the question is answered incorrectly
+        :param direction: string representing direction of desired movement
+        :param player: the player object
+        :return: True if player is free to move, else False
+        """
+        can_move = False
+        door = self._doors[direction]
+
+        if door:  # there's a door
+            self._active_door = door
+            is_locked, is_answerable = door.try_door()
+
+            if not is_locked:
+                can_move = True
+            elif not is_answerable and player.keys:
+                use_key = input("Care to use a key? (Y/N)\n")
+                use_key = use_key.lower().strip()
+
+                if use_key == "y":
+                    player.use_key()
+                    self.unlock_door()
+                    can_move = True
+
+            elif player.keys == 0:
+                print("Uh oh, the way is blocked and there are no keys at my "
+                      "disposal.")
+
+            self._active_door = None
+
+        return can_move  # can't move this direction

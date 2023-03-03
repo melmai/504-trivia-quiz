@@ -4,6 +4,10 @@ class Player:
         self._keys = 2
 
     @property
+    def name(self):
+        return self._name
+
+    @property
     def keys(self):
         return self._keys
 

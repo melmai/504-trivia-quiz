@@ -70,7 +70,10 @@ class TriviaQuiz:
         Well OK then. Now you know what your mission is. How do you want to 
         proceed?
         """, 2)
-        self._print_delayed_text("""
+        self._print_delayed_text(self.get_menu())
+
+    def get_menu(self):
+        return textwrap.dedent("""
         Available Actions
         *-----------------------------------*
         W - Move Up
@@ -133,58 +136,38 @@ class TriviaQuiz:
         :return: string
         """
         choice = input("Please enter your next action: ").lower().strip()
-        if choice == 'w':
-            if not self._maze.move(0, -1):
-                print("You can't move north!")
-                self.user_choice()
 
-        elif choice == 'a':
-            if not self._maze.move(-1, 0):
-                print("You can't move west!")
-                self.user_choice()
-
-        elif choice == 's':
-            if not self._maze.move(0, 1):
-                print("You can't move south!")
-                self.user_choice()
-
-        elif choice == 'd':
-            if not self._maze.move(1, 0):
-                print("You can't move east!")
-                self.user_choice()
+        move_commands = ["w", "a", "s", "d"]
+        if choice in move_commands:
+            self._maze.process_move(choice, self._player)
+            print(self._maze.get_current_room())
 
         elif choice == 'i':
             self._player.check_inventory()
-            self.user_choice()
 
         elif choice == 'm':
-            print(
-                "Available Actions\n*-----------------------------------*\nW "
-                "- Move Up\nA - Move Left\nS - Move Down\nD - Move Right\nI "
-                "- View inventory\n\nPress M to see your available options "
-                "at any time.")
-            self.user_choice()
+            print(self.get_menu())
 
         # TODO: elif choice == '1' # planning to use this for saving
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
-            self.user_choice()
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
+            return
 
         elif choice == 'p':
-            # TODO: need to add Door instances between rooms to test
             self.use_key()
-            self.user_choice()
 
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
         #  questions for testing?
 
         else:
-            print(f"Sorry {self._player._name}, that's not a valid command!")
+            print(f"Sorry {self._player.name}, that's not a valid command!")
+
+        self.user_choice()
 
     def main_game_loop(self):
         """
@@ -229,6 +212,7 @@ class TriviaQuiz:
         else:
             print("Whoops, all out of keys! Better try something else...")
         return False
+
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
