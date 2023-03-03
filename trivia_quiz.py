@@ -130,26 +130,6 @@ class TriviaQuiz:
         """
         return self._maze.get_location() == self._maze._exit
 
-    def _process_move_command(self, direction):
-        """
-        This method processes the valid movement command
-        :param direction: String of user input
-        :return: True if location changed, else False
-        """
-        move_commands = {
-            "w": (0, -1),
-            "a": (-1, 0),
-            "s": (0, 1),
-            "d": (1, 0)
-        }
-
-        has_moved = self._maze.move(move_commands[direction])
-
-        if not has_moved:
-            print("Can't go that way")
-
-        return has_moved
-
     def user_choice(self):
         """
         Returns the player's next move
@@ -159,7 +139,7 @@ class TriviaQuiz:
 
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
-            self._process_move_command(choice)
+            self._maze.process_move(choice, self._player)
             print(self._maze.get_current_room())
 
         elif choice == 'i':
