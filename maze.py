@@ -204,6 +204,7 @@ class Maze:
         :return:
         """
         print(self._rooms[row][col])
+        return self._rooms[row][col] # ADDING FOR NOW TO HELP WITH INTERFACE
 
     def show_all_possible_directions(self, x, y):
         """

@@ -6,8 +6,8 @@ from player import Player
 
 class TriviaQuiz:
     def __init__(self):
-        # self._print_intro_art()
-        # self._print_instructions()
+        self.art = self._print_intro_art()
+        self._print_instructions()
         self._player = self._create_player()
         self._difficulty = self._set_difficulty()
         self._maze = Maze(self._difficulty)
@@ -16,7 +16,31 @@ class TriviaQuiz:
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
-        print("""
+        # print("""
+        # \\                           /
+        #  \\                         /
+        #   \\                       /
+        #    ]                     [    ,'|
+        #    ]                     [   /  |
+        #    ]___               ___[ ,'   |
+        #    ]  ]\\             /[  [ |:   |
+        #    ]  ] \\           / [  [ |:   |
+        #    ]  ]  ]         [  [  [ |:   |
+        #    ]  ]  ]__     __[  [  [ |:   |
+        #    ]  ]  ] ]\\ _ /[ [  [  [ |:   |
+        #    ]  ]  ] ] (#) [ [  [  [ :===='
+        #    ]  ]  ]_].nHn.[_[  [  [
+        #    ]  ]  ]  HHHHH. [  [  [
+        #    ]  ] /   `HH("N  \\ [  [
+        #    ]__]/     HHH  "  \\[__[
+        #    ]         NNN         [
+        #    ]         N/"         [
+        #    ]         N H         [
+        #   /          N            \\
+        #  /           q,            \\
+        # /                           \\
+        # """)
+        return textwrap.dedent(r"""
         \\                           /
          \\                         /
           \\                       /
