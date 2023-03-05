@@ -13,6 +13,13 @@ class Maze:
         self.create_maze()
         self.validate_maze()
 
+    def at_exit(self):
+        """
+        This method determines if the player has reached the exit
+        :return: True if currently located at exit cell, else False
+        """
+        return self._location == self._exit
+
     def get_location(self):
         """
         This method returns the current room location coordinates as a tuple
