@@ -1,15 +1,15 @@
 import random
 from room import Room
+import pickle
 
 
 class Maze:
-    def __init__(self, size):
+    def __init__(self, size, savefile=None):
         self._size = size
         self._rooms = []
         self._entrance = (0, 0)
-        self._exit = (size-1, size-1)
+        self._exit = (size - 1, size - 1)
         self._location = (0, 0)
-
         self.create_maze()
         self.validate_maze()
 
@@ -99,6 +99,14 @@ class Maze:
             self.create_maze()
             self.validate_maze()
 
+    def load_maze(self, savefile):
+        with open(savefile, 'rb') as file:
+            maze_data = pickle.load(file)
+            self._rooms = maze_data['rooms']
+            self._entrance = maze_data['entrance']
+            self._exit = maze_data['exit']
+            self._location = maze_data["location"]
+
     def is_valid_room(self, row, col):
         """
         This method determines whether or not a given room by coordinates is in bounds and can be entered
@@ -155,9 +163,13 @@ class Maze:
         :param y:
         :return: Tuple
         """
-        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][y].can_move_to()
-        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][y].can_move_to()
-        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][y + 1].can_move_to()
+        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][y] is not None and self._rooms[x - 1][
+            y].can_move_to()
+        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][y] is not None and self._rooms[x + 1][
+            y].can_move_to()
+        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][y - 1] is not None and self._rooms[x][
+            y - 1].can_move_to()
+        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][y + 1] is not None and self._rooms[x][
+            y + 1].can_move_to()
 
         return can_move_north, can_move_south, can_move_west, can_move_east

@@ -5,7 +5,6 @@ class Room:
     def __init__(self, key_chance):
         self._impassable = False
         self._visited = False
-
         self._has_key = self.generate_key(key_chance)
         self._is_exit = False
         self._is_entrance = False
@@ -25,6 +24,12 @@ class Room:
         """
         if self.can_move_to():
             return key_chance >= 95
+        else:
+            return False
+
+    def generate_vision(self, key_chance):
+        if self.can_move_to():
+            return 89 <= key_chance >= 94
         else:
             return False
 
