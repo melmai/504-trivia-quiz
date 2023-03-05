@@ -10,8 +10,10 @@ class Maze:
         self._exit = (size - 1, size - 1)
         self._location = (0, 0)
 
-        self.create_maze()
-        self.validate_maze()
+        self.create_maze_2()
+        # self.create_maze()
+        # self.validate_maze()
+        self.print_maze()
 
     def at_exit(self):
         """
@@ -87,6 +89,65 @@ class Maze:
         self._rooms[self._size - 1][self._size - 1].set_exit()
         self._rooms[self._size - 1][self._size - 1].set_impassable(False)
 
+    def create_maze_2(self):
+        for row in range(self._size):
+            self._rooms.append([])
+            for col in range(self._size):
+                self._rooms[-1].append(Room(row, col))
+
+        start = self.get_current_room()
+
+        stack = [start]
+        visited = [start]
+
+        while stack:
+            current = stack[-1]
+            neighbors = self._get_neighbors(current, visited)
+
+            if neighbors:
+                neighbor = random.choice(neighbors)
+                stack.append(neighbor)
+                visited.append(neighbor)
+                self._create_doors(current, neighbor)
+            else:
+                stack.pop()
+
+    def _create_doors(self, current, neighbor):
+        if neighbor.col - current.col > 0:
+            door = current.set_door("east")
+            neighbor.set_door("west", door)
+        elif neighbor.col - current.col < 0:
+            door = current.set_door("west")
+            neighbor.set_door("east", door)
+        elif neighbor.row - current.row > 0:
+            door = current.set_door("south")
+            neighbor.set_door("north", door)
+        elif neighbor.row - current.row < 0:
+            door = current.set_door("north")
+            neighbor.set_door("south", door)
+
+    def _get_neighbors(self, current, visited):
+        end = self._size - 1
+        neighbors = []
+        if current.row > 0 and not self._rooms[current.row - 1][
+                                       current.col] in visited:  # check if
+            # we can go north
+            neighbors.append(self._rooms[current.row - 1][current.col])
+        if current.row < end and not self._rooms[current.row + 1][
+                                                   current.col] in visited:
+            # check if we can go south
+            neighbors.append(self._rooms[current.row + 1][current.col])
+        if current.col > 0 and not self._rooms[current.row][
+                                       current.col - 1] in visited:  # check
+            # if we can go west
+            neighbors.append(self._rooms[current.row][current.col - 1])
+        if current.col < end and not self._rooms[current.row][
+                                                   current.col + 1] in \
+                                               visited:  # check if we can
+            # go south
+            neighbors.append(self._rooms[current.row][current.col + 1])
+        return neighbors
+
     def is_traversable(self, row, col):
         """
         This method determines if a given maze is traversable when starting
@@ -120,6 +181,7 @@ class Maze:
 
     def validate_maze(self):
         if self.is_traversable(0, 0):
+            self.print_maze()
             self._generate_doors()
             return True
         else:
@@ -137,6 +199,7 @@ class Maze:
             for col in range(0, self._size):
                 n, s, w, e = self.show_all_possible_directions(row, col)
                 current_room = self._rooms[row][col]
+                inaccessible = not current_room.can_move_to()
 
                 # the rooms are checked west to east, north to south,
                 # regardless of existing walls
@@ -144,15 +207,20 @@ class Maze:
                     door = self._rooms[row - 1][col].get_door("south")
                     current_room.set_door("north", door)
 
-                if s:  # don't need to check rooms we haven't been to
+                if s or (inaccessible and self._force_door(row, col, e)):
                     current_room.set_door("south")
 
-                if e:  # don't need to check rooms we haven't been to
+                if e or (inaccessible and self._force_door(row, col, s)):
                     current_room.set_door("east")
 
-                if w:  # check
+                if w:
                     door = self._rooms[row][col - 1].get_door("east")
                     current_room.set_door("west", door)
+
+    def _force_door(self, row, col, other):
+        end = self._size - 1
+        if col == end or row == end or other:
+            return False
 
     def is_valid_room(self, row, col):
         """

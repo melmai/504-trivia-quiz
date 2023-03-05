@@ -1,12 +1,17 @@
+import random
+
 from door import Door
+import random
 
 
 class Room:
-    def __init__(self, key_chance):
+    def __init__(self, row, col):
         self._impassable = False
         self._visited = False
+        self._row = row
+        self._col = col
 
-        self._has_key = self.generate_key(key_chance)
+        self._has_key = self.generate_key(random.randint(1, 100))
         self._is_exit = False
         self._is_entrance = False
         self._doors = {
@@ -16,6 +21,14 @@ class Room:
             "south": False
         }
         self._active_door = None
+
+    @property
+    def row(self):
+        return self._row
+
+    @property
+    def col(self):
+        return self._col
 
     @property
     def key(self):
@@ -63,21 +76,21 @@ class Room:
         room_str = ""
 
         if self._doors["north"]:
-            room_str += "* - *\n"
+            room_str += "*   *\n"
         else:
             room_str += "* * *\n"
 
         if self._doors["east"] and self._doors["west"]:
-            room_str += f"| {content}|\n"
+            room_str += f"  {content} \n"
         elif not self._doors["east"] and self._doors["west"]:
-            room_str += f"| {content}*\n"
+            room_str += f"  {content}*\n"
         elif self._doors["east"] and not self._doors["west"]:
-            room_str += f"* {content}|\n"
+            room_str += f"* {content} \n"
         else:
             room_str += f"* {content}*\n"
 
         if self._doors["south"]:
-            room_str += "* - *\n"
+            room_str += "*   *\n"
         else:
             room_str += "* * *\n"
 
