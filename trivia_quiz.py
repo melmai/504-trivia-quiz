@@ -123,13 +123,6 @@ class TriviaQuiz:
             else:
                 print("That's not a number between 1-3! Try again!")
 
-    def check_win(self):
-        """
-        This method checks to see if the player is located in the exit room.
-        :return: Boolean
-        """
-        return self._maze.get_location() == self._maze._exit
-
     def user_choice(self):
         """
         Returns the player's next move
@@ -140,7 +133,9 @@ class TriviaQuiz:
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
             self._maze.process_move(choice, self._player)
-            print(self._maze.get_current_room())
+
+            if self._maze.at_exit():
+                self._game_over = True
 
         elif choice == 'i':
             self._player.check_inventory()
@@ -155,7 +150,6 @@ class TriviaQuiz:
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
-            return
 
         elif choice == 'p':
             self.use_key()
@@ -166,8 +160,6 @@ class TriviaQuiz:
 
         else:
             print(f"Sorry {self._player.name}, that's not a valid command!")
-
-        self.user_choice()
 
     def main_game_loop(self):
         """
@@ -182,18 +174,14 @@ class TriviaQuiz:
         while not self._game_over:
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
-
             self.user_choice()
-            # ~~~ Do the Question Routing ~~~
 
-            if self.check_win():
-                print("*-----------------------------------*")
-                print("You've reached the exit and WON THE GAME!")
-                self._print_delayed_text("...")
-                self._print_delayed_text("...this time...")
-                self._print_delayed_text(" ")
-                self._maze.print_maze()
-                self._game_over = True
+        print("*-----------------------------------*")
+        print("You've reached the exit and WON THE GAME!")
+        self._print_delayed_text("...")
+        self._print_delayed_text("...this time...")
+        self._print_delayed_text(" ")
+        self._maze.print_maze()
 
     def use_key(self):
         """
