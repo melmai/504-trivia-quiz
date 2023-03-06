@@ -168,7 +168,6 @@ class TriviaQuiz:
         wins or loses.
         :return: None
         """
-        # TODO: Prompt user to play again after the game ends
         # TODO: Check if all the available doors are locked as a game-ending
         #  condition
         while not self._game_over:
@@ -188,6 +187,19 @@ class TriviaQuiz:
         self._print_delayed_text("...this time...")
         self._print_delayed_text(" ")
         self._maze.print_maze()
+
+        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
+        choice = input("Play again? (Y/N) ").strip().lower()
+
+        while choice != 'n' and choice != 'y':
+            print('Sorry, that is not a valid response! Give it another try.')
+            choice = input("Play again? (Y/N) ").strip().lower()
+
+        if choice == 'y':
+            print("alright, let\'s go around again...")
+            print("*-----------------------------------*")
+            new_game = TriviaQuiz()
+
 
     def use_key(self):
         """
