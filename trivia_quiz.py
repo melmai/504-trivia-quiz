@@ -174,6 +174,12 @@ class TriviaQuiz:
         while not self._game_over:
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
+
+            if self._maze.get_current_room().key:
+                print("You found a key! You'll need it...")
+                self._player.add_key()
+                self._maze.get_current_room().transfer_key()
+
             self.user_choice()
 
         print("*-----------------------------------*")

@@ -6,9 +6,9 @@ class Room:
         self._impassable = False
         self._visited = False
 
-        self._has_key = self.generate_key(key_chance)
         self._is_exit = False
         self._is_entrance = False
+        self._has_key = self.generate_key(key_chance)
         self._doors = {
             "north": False,
             "east": False,
@@ -32,14 +32,14 @@ class Room:
         :param key_chance: chance of the room having a key object
         :return: Boolean
         """
-        if self.can_move_to():
+        if self.can_move_to() and not self._is_entrance and not self._is_exit:
             return key_chance >= 95
         else:
             return False
 
     def transfer_key(self):
         """This method removes the key from the room"""
-        pass
+        self._has_key = False
 
     def __str__(self):
         return self.construct_room_string()
