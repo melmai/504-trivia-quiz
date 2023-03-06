@@ -5,14 +5,19 @@ from player import Player
 
 
 class TriviaQuiz:
-    def __init__(self):
-        self.art = self._print_intro_art()
-        self._print_instructions()
-        self._player = self._create_player()
-        self._difficulty = self._set_difficulty()
-        self._maze = Maze(self._difficulty)
+    def __init__(self, player, difficulty):
+        # self.art = self._print_intro_art()
+        # self._print_instructions()
+        # self._player = self._create_player()
+        self._player_name = player
+        self._create_player()
+        # self._difficulty = self._set_difficulty()
+        self._difficulty = difficulty
+        # self._maze = Maze(self._difficulty)
+        self._maze = Maze(self._set_difficulty())
+
         self._game_over = False
-        self.main_game_loop()
+        # self.main_game_loop()
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -124,8 +129,10 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        player_name = input("What is your name adventurer? ").strip()
-        return Player(player_name)
+        # player_name = input("What is your name adventurer? ").strip()
+        # return Player(player_name)
+
+        return Player(self._player_name)
 
     def _set_difficulty(self):
         """
@@ -133,19 +140,26 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        while True:
-            number = input(
-                f"Welcome {self._player._name}. Please enter a difficulty "
-                f"level (1-3) ").strip()
-            if int(number.isdigit()) and 1 <= int(number) <= 3:
-                if number == '1':
-                    return 4
-                elif number == '2':
-                    return 5
-                elif number == '3':
-                    return 6
-            else:
-                print("That's not a number between 1-3! Try again!")
+        # while True:
+        #     number = input(
+        #         f"Welcome {self._player._name}. Please enter a difficulty "
+        #         f"level (1-3) ").strip()
+        #     if int(number.isdigit()) and 1 <= int(number) <= 3:
+        #         if number == '1':
+        #             return 4
+        #         elif number == '2':
+        #             return 5
+        #         elif number == '3':
+        #             return 6
+        #     else:
+        #         print("That's not a number between 1-3! Try again!")
+
+        if self._difficulty == '1':
+            return 4
+        elif self._difficulty == '2':
+            return 5
+        elif self._difficulty == '3':
+            return 6
 
     def user_choice(self):
         """
