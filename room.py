@@ -134,9 +134,9 @@ class Room:
 
     def can_enter(self):
         """
-        This methods returns a boolean that signifies if the room can be entered
-        :param:
-        :return:
+        This method returns a boolean that signifies if the room can be entered
+        :param: None
+        :return: Boolean
         """
         return not self._impassable and not self._visited
 
