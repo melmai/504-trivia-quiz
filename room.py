@@ -5,7 +5,6 @@ class Room:
     def __init__(self, key_chance):
         self._impassable = False
         self._visited = False
-
         self._is_exit = False
         self._is_entrance = False
         self._has_key = self.generate_key(key_chance)
@@ -36,6 +35,7 @@ class Room:
             return key_chance >= 95
         else:
             return False
+
 
     def transfer_key(self):
         """This method removes the key from the room"""
