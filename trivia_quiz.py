@@ -64,6 +64,7 @@ class TriviaQuiz:
             time.sleep(2)
             return None
 
+
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
         print("""
@@ -124,7 +125,10 @@ class TriviaQuiz:
         Well OK then. Now you know what your mission is. How do you want to 
         proceed?
         """, 2)
-        self._print_delayed_text("""
+        self._print_delayed_text(self.get_menu())
+
+    def get_menu(self):
+        return textwrap.dedent("""
         Available Actions
         *-----------------------------------*
         W - Move Up
@@ -176,50 +180,25 @@ class TriviaQuiz:
             else:
                 print("That's not a number between 1-3! Try again!")
 
-    def check_win(self):
-        """
-        This method checks to see if the player is located in the exit room.
-        :return: Boolean
-        """
-        return self._maze.get_location() == self._maze._exit
-
     def user_choice(self):
         """
         Returns the player's next move
         :return: string
         """
         choice = input("Please enter your next action: ").lower().strip()
-        if choice == 'w':
-            if not self._maze.move(0, -1):
-                print("You can't move north!")
-                self.user_choice()
 
-        elif choice == 'a':
-            if not self._maze.move(-1, 0):
-                print("You can't move west!")
-                self.user_choice()
+        move_commands = ["w", "a", "s", "d"]
+        if choice in move_commands:
+            self._maze.process_move(choice, self._player)
 
-        elif choice == 's':
-            if not self._maze.move(0, 1):
-                print("You can't move south!")
-                self.user_choice()
-
-        elif choice == 'd':
-            if not self._maze.move(1, 0):
-                print("You can't move east!")
-                self.user_choice()
+            if self._maze.at_exit():
+                self._game_over = True
 
         elif choice == 'i':
             self._player.check_inventory()
-            self.user_choice()
 
         elif choice == 'm':
-            print(
-                "Available Actions\n*-----------------------------------*\nW "
-                "- Move Up\nA - Move Left\nS - Move Down\nD - Move Right\nI "
-                "- View inventory\n\nPress M to see your available options "
-                "at any time.")
-            self.user_choice()
+            print(self.get_menu())
 
         elif choice == 'v':
             self._player.use_vp()
@@ -237,17 +216,19 @@ class TriviaQuiz:
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
-            self.user_choice()
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
+
+        elif choice == 'p':
+            self.use_key()
 
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
         #  questions for testing?
 
         else:
-            print(f"Sorry {self._player._name}, that's not a valid command!")
+            print(f"Sorry {self._player.name}, that's not a valid command!")
 
     def main_game_loop(self):
         """
@@ -256,28 +237,59 @@ class TriviaQuiz:
         wins or loses.
         :return: None
         """
-        # TODO: Prompt user to play again after the game ends
         # TODO: Check if all the available doors are locked as a game-ending
         #  condition
         while not self._game_over:
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
 
+            if self._maze.get_current_room().key:
+                print("You found a key! You'll need it...")
+                self._player.add_key()
+                self._maze.get_current_room().transfer_key()
+
+
             self.user_choice()
-            # ~~~ Do the Question Routing ~~~
 
-            if self.check_win():
-                print("*-----------------------------------*")
-                print("You've reached the exit and WON THE GAME!")
+        print("*-----------------------------------*")
+        print("You've reached the exit and WON THE GAME!")
+        self._print_delayed_text("...")
+        self._print_delayed_text("...this time...")
+        self._print_delayed_text(" ")
+        self._maze.print_maze()
 
-                self._print_delayed_text("...")
-                self._print_delayed_text("...this time...;)")
-                self._print_delayed_text(" ")
-                self._maze.print_maze()
-                self._game_over = True
+        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
+        choice = input("Play again? (Y/N) ").strip().lower()
+
+        while choice != 'n' and choice != 'y':
+            print('Sorry, that is not a valid response! Give it another try.')
+            choice = input("Play again? (Y/N) ").strip().lower()
+
+        if choice == 'y':
+            print("alright, let\'s go around again...")
+            print("*-----------------------------------*")
+            new_game = TriviaQuiz()
+
+
+    def use_key(self):
+        """
+        This method unlocks the active door if the Player has keys available.
+        :return: True if door unlocks successfully, or False if door was
+        already unlocked or player has no keys.
+        """
+        if self._player.keys:
+            active_room = self._maze.get_current_room()
+            unlocked = active_room.unlock_door()  # unlocks active door
+            if not unlocked:
+                print("Hmm the door isn't locked. Lucky me.")
+            else:
+                self._player.use_key()
+            return unlocked
+        else:
+            print("Whoops, all out of keys! Better try something else...")
+        return False
 
 
 if __name__ == "__main__":
-        tq = TriviaQuiz()
-
+    tq = TriviaQuiz()
 
