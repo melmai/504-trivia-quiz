@@ -1,18 +1,69 @@
-import time
 import textwrap
+import time
 from maze import Maze
 from player import Player
+import pickle
+import datetime
+import sys
 
+savefile = 'save.pkl'
 
 class TriviaQuiz:
     def __init__(self):
-        # self._print_intro_art()
-        # self._print_instructions()
-        self._player = self._create_player()
-        self._difficulty = self._set_difficulty()
-        self._maze = Maze(self._difficulty)
-        self._game_over = False
-        self.main_game_loop()
+        if self.load_start(savefile):
+            self._game_over = False
+            self.main_game_loop()
+
+        else:
+            self._print_intro_art()
+            self._print_instructions()
+            self._player = self._create_player()
+            self._difficulty = self._set_difficulty()
+            self._maze = Maze(self._difficulty)
+            self._game_over = False
+            self.main_game_loop()
+
+    def save_game(self, savefile, maze, player):
+        with open(savefile, 'wb') as file:
+            pickle.dump({'maze': maze, 'player': player}, file)
+            print(f"Game has been saved at {datetime.datetime.now()}")
+            sys.exit()
+
+    def load_game(self, savefile):
+        try:
+            with open(savefile, 'rb') as file:
+                game_data = pickle.load(file)
+                if game_data is not None:
+                    self._maze = game_data['maze']
+                    player_data = game_data['player']
+                    self._player = Player(player_data._name)
+                    self._player._keys = Player(player_data._keys)
+                    print(f"Game loaded successfully! Welcome back {self._player._name}")
+                    return self._maze
+        except FileNotFoundError:
+            print(f"No saved game file found")
+            return False
+
+    def load_start(self, savefile):
+        loading = input("Input 1 if you are starting a new adventure, or input 2 if you are loading....")
+        if loading == '1':
+            print("Now starting new game.....")
+            time.sleep(2)
+            return None
+        elif loading == '2':
+            loaded_data = self.load_game(savefile)
+            if loaded_data is None:
+                print("No saved game data found..starting new game")
+                time.sleep(1)
+                return None
+            else:
+                print("loading game...")
+                return loaded_data
+        else:
+            print("Hmmm...sorry but I dont recognize your input. I'll go ahead and start a new game...")
+            time.sleep(2)
+            return None
+
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -42,10 +93,14 @@ class TriviaQuiz:
         """)
 
     def _print_instructions(self):
+
         print("You wake up in a cold, dark room...")
+
         self._print_delayed_text("Your head hurts. Everything is unfamiliar. "
                                  "What is this place?")
+
         self._print_delayed_text("There's something in your pocket.")
+
         self._print_delayed_text("Keys? What are these for?")
         self._print_delayed_text("You see a light...")
         self._print_delayed_text("It's getting brighter.")
@@ -95,6 +150,8 @@ class TriviaQuiz:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
+
+
     def _create_player(self):
         """
         This method gets input from the user to create a Player object.
@@ -143,7 +200,19 @@ class TriviaQuiz:
         elif choice == 'm':
             print(self.get_menu())
 
+        elif choice == 'v':
+            self._player.use_vp()
+            self.user_choice()
+
         # TODO: elif choice == '1' # planning to use this for saving
+        elif choice == '1':
+            self.save_game(savefile, self._maze, self._player)
+
+
+        elif choice == '5':
+            self._maze.print_maze()
+
+
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
@@ -168,12 +237,18 @@ class TriviaQuiz:
         wins or loses.
         :return: None
         """
-        # TODO: Prompt user to play again after the game ends
         # TODO: Check if all the available doors are locked as a game-ending
         #  condition
         while not self._game_over:
             row, col = self._maze.get_location()
             self._maze.draw_location(row, col)
+
+            if self._maze.get_current_room().key:
+                print("You found a key! You'll need it...")
+                self._player.add_key()
+                self._maze.get_current_room().transfer_key()
+
+
             self.user_choice()
 
         print("*-----------------------------------*")
@@ -182,6 +257,19 @@ class TriviaQuiz:
         self._print_delayed_text("...this time...")
         self._print_delayed_text(" ")
         self._maze.print_maze()
+
+        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
+        choice = input("Play again? (Y/N) ").strip().lower()
+
+        while choice != 'n' and choice != 'y':
+            print('Sorry, that is not a valid response! Give it another try.')
+            choice = input("Play again? (Y/N) ").strip().lower()
+
+        if choice == 'y':
+            print("alright, let\'s go around again...")
+            print("*-----------------------------------*")
+            new_game = TriviaQuiz()
+
 
     def use_key(self):
         """
@@ -204,3 +292,4 @@ class TriviaQuiz:
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
+

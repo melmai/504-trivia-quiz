@@ -1,9 +1,10 @@
 import random
 from room import Room
+import pickle
 
 
 class Maze:
-    def __init__(self, size):
+    def __init__(self, size, savefile=None):
         self._size = size
         self._rooms = []
         self._entrance = (0, 0)
@@ -189,6 +190,15 @@ class Maze:
             self.create_maze()
             self.validate_maze()
 
+
+    def load_maze(self, savefile):
+        with open(savefile, 'rb') as file:
+            maze_data = pickle.load(file)
+            self._rooms = maze_data['rooms']
+            self._entrance = maze_data['entrance']
+            self._exit = maze_data['exit']
+            self._location = maze_data["location"]
+
     def _generate_doors(self):
         """
         This method generates door objects that represent the passageways
@@ -216,7 +226,6 @@ class Maze:
                 if w:
                     door = self._rooms[row][col - 1].get_door("east")
                     current_room.set_door("west", door)
-
     def _force_door(self, row, col, other):
         end = self._size - 1
         if col == end or row == end or other:
@@ -280,6 +289,8 @@ class Maze:
         :param y:
         :return: Tuple
         """
+
+
         can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][
             y] is not None and self._rooms[x - 1][y].can_move_to()
         can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][
@@ -301,3 +312,4 @@ class Maze:
 
 if __name__ == "__main__":
     maze = Maze(3)
+
