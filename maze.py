@@ -114,40 +114,50 @@ class Maze:
                 stack.pop()
 
     def _create_doors(self, current, neighbor):
-        if neighbor.col - current.col > 0:
-            door = current.set_door("east")
-            neighbor.set_door("west", door)
-        elif neighbor.col - current.col < 0:
-            door = current.set_door("west")
-            neighbor.set_door("east", door)
-        elif neighbor.row - current.row > 0:
-            door = current.set_door("south")
-            neighbor.set_door("north", door)
-        elif neighbor.row - current.row < 0:
-            door = current.set_door("north")
-            neighbor.set_door("south", door)
+        neighbor_dir = {
+            "east": "west",
+            "west": "east",
+            "north": "south",
+            "south": "north"
+        }
+
+        if neighbor.col > current.col:
+            current_dir = "east"
+        elif neighbor.col < current.col:
+            current_dir = "west"
+        elif neighbor.row > current.row:
+            current_dir = "south"
+        else:
+            current_dir = "north"
+
+        door = current.set_door(current_dir)
+        neighbor.set_door(neighbor_dir[current_dir], door)
 
     def _get_neighbors(self, current, visited):
+        row = current.row
+        col = current.col
         end = self._size - 1
-        neighbors = []
-        if current.row > 0 and not self._rooms[current.row - 1][
-                                       current.col] in visited:  # check if
-            # we can go north
-            neighbors.append(self._rooms[current.row - 1][current.col])
-        if current.row < end and not self._rooms[current.row + 1][
-                                                   current.col] in visited:
-            # check if we can go south
-            neighbors.append(self._rooms[current.row + 1][current.col])
-        if current.col > 0 and not self._rooms[current.row][
-                                       current.col - 1] in visited:  # check
-            # if we can go west
-            neighbors.append(self._rooms[current.row][current.col - 1])
-        if current.col < end and not self._rooms[current.row][
-                                                   current.col + 1] in \
-                                               visited:  # check if we can
-            # go south
-            neighbors.append(self._rooms[current.row][current.col + 1])
-        return neighbors
+        current_neighbors = []
+
+        north_room = self.get_room(row - 1, col)
+        south_room = self.get_room(row + 1, col)
+        west_room = self.get_room(row, col - 1)
+        east_room = self.get_room(row, col + 1)
+
+        if row > 0 and north_room not in visited:
+            current_neighbors.append(north_room)
+        if row < end and south_room not in visited:
+            current_neighbors.append(south_room)
+        if col > 0 and west_room not in visited:
+            current_neighbors.append(west_room)
+        if col < end and east_room not in visited:
+            current_neighbors.append(east_room)
+        return current_neighbors
+
+    def get_room(self, row, col):
+        if 0 <= row < self._size and 0 <= col < self._size:
+            return self._rooms[row][col]
+
 
     def is_traversable(self, row, col):
         """
@@ -190,7 +200,6 @@ class Maze:
             self.create_maze()
             self.validate_maze()
 
-
     def load_maze(self, savefile):
         with open(savefile, 'rb') as file:
             maze_data = pickle.load(file)
@@ -226,6 +235,7 @@ class Maze:
                 if w:
                     door = self._rooms[row][col - 1].get_door("east")
                     current_room.set_door("west", door)
+
     def _force_door(self, row, col, other):
         end = self._size - 1
         if col == end or row == end or other:
@@ -290,7 +300,6 @@ class Maze:
         :return: Tuple
         """
 
-
         can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][
             y] is not None and self._rooms[x - 1][y].can_move_to()
         can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][
@@ -312,4 +321,3 @@ class Maze:
 
 if __name__ == "__main__":
     maze = Maze(3)
-

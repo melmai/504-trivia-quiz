@@ -10,9 +10,9 @@ class Room:
         self._visited = False
         self._row = row
         self._col = col
-        self._has_key = self.generate_key(random.randint(1, 100))
         self._is_exit = False
         self._is_entrance = False
+        self._has_key = self.generate_key(random.randint(1, 100))
         self._doors = {
             "north": False,
             "east": False,
@@ -167,7 +167,8 @@ class Room:
         :param direction: String that represents the door position in the room
         :param door: Door object to add.
         """
-        self._doors[direction] = door or Door()
+        door = door if door else Door()
+        self._doors[direction] = door
         return door
 
     def set_active_door(self, direction):
