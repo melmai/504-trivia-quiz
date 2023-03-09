@@ -37,6 +37,10 @@ class Room:
     def active_door(self):
         return self._active_door
 
+    @property
+    def exit(self):
+        return self._is_exit
+
     def generate_key(self, key_chance):
         """
         This method determines if the current room contains a key based
@@ -223,3 +227,6 @@ class Room:
             self._active_door = None
 
         return can_move  # can't move this direction
+
+    def has_answerable_door(self, direction):
+        return self._doors[direction] and self._doors[direction].answerable
