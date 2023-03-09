@@ -10,8 +10,9 @@ class Maze:
         self._entrance = (0, 0)
         self._exit = (size - 1, size - 1)
         self._location = (0, 0)
+
         self.create_maze()
-        self.validate_maze()
+        self.print_maze()
 
     def at_exit(self):
         """
@@ -66,28 +67,81 @@ class Maze:
         self._location = (row, col)
 
     def create_maze(self):
-        """
-        This method builds a 2D array of room objects
-        :return:
-        """
-        for row in range(0, self._size):
-            self._rooms.append(
-                [Room(random.randint(1, 100)) for col in range(0, self._size)])
+        for row in range(self._size):
+            self._rooms.append([])
+            for col in range(self._size):
+                self._rooms[-1].append(Room(row, col))
 
-        for row in range(0, self._size):
-            for col in range(0, self._size):
-                impassable_chance = random.randint(1, 100)
+        start = self.get_current_room()
 
-                if impassable_chance > 73:  # % chance a room is impassable
-                    self._rooms[row][col].set_impassable(True)
+        stack = [start]
+        visited = [start]
 
-        # set entrance and exit
+        while stack:
+            current = stack[-1]
+            neighbors = self._get_neighbors(current, visited)
+
+            if neighbors:
+                neighbor = random.choice(neighbors)
+                stack.append(neighbor)
+                visited.append(neighbor)
+                self._create_doors(current, neighbor)
+            else:
+                stack.pop()
+
+        self._initialize_rooms()
+
+    def _initialize_rooms(self):
         self._rooms[0][0].set_entrance()
-        self._rooms[0][0].set_impassable(False)
         self._rooms[self._size - 1][self._size - 1].set_exit()
-        self._rooms[self._size - 1][self._size - 1].set_impassable(False)
 
-    def is_traversable(self, row, col):
+    def _create_doors(self, current, neighbor):
+        neighbor_dir = {
+            "east": "west",
+            "west": "east",
+            "north": "south",
+            "south": "north"
+        }
+
+        if neighbor.col > current.col:
+            current_dir = "east"
+        elif neighbor.col < current.col:
+            current_dir = "west"
+        elif neighbor.row > current.row:
+            current_dir = "south"
+        else:
+            current_dir = "north"
+
+        door = current.set_door(current_dir)
+        neighbor.set_door(neighbor_dir[current_dir], door)
+
+    def _get_neighbors(self, current, visited):
+        row = current.row
+        col = current.col
+        end = self._size - 1
+        current_neighbors = []
+
+        # Room or false
+        north_room = self.get_room(row - 1, col)
+        south_room = self.get_room(row + 1, col)
+        west_room = self.get_room(row, col - 1)
+        east_room = self.get_room(row, col + 1)
+
+        if row > 0 and north_room not in visited:
+            current_neighbors.append(north_room)
+        if row < end and south_room not in visited:
+            current_neighbors.append(south_room)
+        if col > 0 and west_room not in visited:
+            current_neighbors.append(west_room)
+        if col < end and east_room not in visited:
+            current_neighbors.append(east_room)
+        return current_neighbors
+
+    def get_room(self, row, col):
+        if 0 <= row < self._size and 0 <= col < self._size:
+            return self._rooms[row][col]
+
+    def is_traversable(self, row=None, col=None, visited_rooms=[]):
         """
         This method determines if a given maze is traversable when starting
         at a particular row/col coordinate
@@ -95,38 +149,33 @@ class Maze:
         :return: boolean
         """
         found_exit = False
+        visited = visited_rooms
 
-        if self.is_valid_room(row, col):
-            self._rooms[row][col].set_visited(True)
+        if not row:
+            row = self._location[0]
 
-            if self._rooms[row][col].get_is_exit():
+        if not col:
+            col = self._location[1]
+
+        current_room = self._rooms[row][col]
+
+        if current_room and current_room not in visited:
+            visited.append(current_room)
+
+            if current_room.exit:
                 return True
 
             # If not an exit, traverse to the adjacent rooms and check again
-            found_exit = self.is_traversable(row + 1, col)  # south
-            if not found_exit:
-                found_exit = self.is_traversable(row, col + 1)  # east
-            if not found_exit:
-                found_exit = self.is_traversable(row - 1, col)  # north
-            if not found_exit:
-                found_exit = self.is_traversable(row, col - 1)  # west
-
-            if not found_exit:
-                self._rooms[row][col].set_visited(True)
-        else:
-            return False
+            if current_room.has_answerable_door("south"):
+                found_exit = self.is_traversable(row + 1, col, visited)
+            if not found_exit and current_room.has_answerable_door("east"):
+                found_exit = self.is_traversable(row, col + 1, visited)
+            if not found_exit and current_room.has_answerable_door("north"):
+                found_exit = self.is_traversable(row - 1, col, visited)
+            if not found_exit and current_room.has_answerable_door("west"):
+                found_exit = self.is_traversable(row, col - 1, visited)
 
         return found_exit
-
-    def validate_maze(self):
-        if self.is_traversable(0, 0):
-            self._generate_doors()
-            return True
-        else:
-            self._rooms = []
-            self.create_maze()
-            self.validate_maze()
-
 
     def load_maze(self, savefile):
         with open(savefile, 'rb') as file:
@@ -136,43 +185,14 @@ class Maze:
             self._exit = maze_data['exit']
             self._location = maze_data["location"]
 
-    def _generate_doors(self):
-        """
-        This method generates door objects that represent the passageways
-        between rooms of the maze
-        :return: True if successful, or false if fails
-        """
-        for row in range(0, self._size):
-            for col in range(0, self._size):
-                n, s, w, e = self.show_all_possible_directions(row, col)
-                current_room = self._rooms[row][col]
-
-                # the rooms are checked west to east, north to south,
-                # regardless of existing walls
-                if n:
-                    door = self._rooms[row - 1][col].get_door("south")
-                    current_room.set_door("north", door)
-
-                if s:  # don't need to check rooms we haven't been to
-                    current_room.set_door("south")
-
-                if e:  # don't need to check rooms we haven't been to
-                    current_room.set_door("east")
-
-                if w:  # check
-                    door = self._rooms[row][col - 1].get_door("east")
-                    current_room.set_door("west", door)
-
-
     def is_valid_room(self, row, col):
         """
         This method determines if a given room by coordinates is
-        in bounds and can be entered
+        in bounds
         :param: row, col
         :return: boolean
         """
-        return 0 <= row < self._size and col >= 0 and col < self._size and \
-            self._rooms[row][col].can_enter()
+        return 0 <= row < self._size and 0 <= col < self._size
 
     def print_maze(self):
         """
@@ -223,7 +243,6 @@ class Maze:
         :return: Tuple
         """
 
-
         can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][
             y] is not None and self._rooms[x - 1][y].can_move_to()
         can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][
@@ -245,4 +264,3 @@ class Maze:
 
 if __name__ == "__main__":
     maze = Maze(3)
-
