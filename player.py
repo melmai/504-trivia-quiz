@@ -2,15 +2,23 @@
 class Player:
     def __init__(self, name, savefile=None):
         self._name = name
+        self._dev = False
         self._keys = 2
         if savefile is not None:
             self._name = ['._name']
             self._keys = ['._keys']
 
-
     @property
     def name(self):
         return self._name
+
+    @property
+    def dev(self):
+        return self._dev
+
+    @dev.setter
+    def dev(self, is_dev):
+        self._dev = is_dev
 
     @property
     def keys(self):
@@ -24,8 +32,6 @@ class Player:
         """This method decrements the number of keys in the inventory."""
         if self._keys != 0:  # never go below 0
             self._keys -= 1
-
-
 
     def check_inventory(self):
         if not self._keys:
