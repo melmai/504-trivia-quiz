@@ -130,9 +130,6 @@ class TriviaQuiz:
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
 
-        elif choice == '5':
-            self._maze.print_maze()
-
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
 
