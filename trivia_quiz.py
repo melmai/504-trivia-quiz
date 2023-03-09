@@ -194,6 +194,10 @@ class TriviaQuiz:
             if self._maze.at_exit():
                 self._game_over = True
 
+            if not self._player.keys and not self._maze.is_traversable():
+                print("Whoopsies, guess it's a big L, my friend.")
+                self._game_over = True
+
         elif choice == 'i':
             self._player.check_inventory()
 
@@ -208,11 +212,8 @@ class TriviaQuiz:
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
 
-
         elif choice == '5':
             self._maze.print_maze()
-
-
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
