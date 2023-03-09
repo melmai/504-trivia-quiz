@@ -38,13 +38,15 @@ class Door:
         """
         return input(self._question.question + '\n')
 
-
     def check_answer(self, response=None):
         """
         This method checks the user provided response against the actual
         answer.
         """
         response = response or self.get_user_response()
+
+        # TODO: check validity of user response for multiple choice and t/f questions
+
         is_correct = self._question.check_response(response)
         self._answerable = False
 
@@ -64,7 +66,3 @@ class Door:
 
         return self.locked, self.answerable
 
-if __name__ == '__main__':
-    door = Door()
-    answer = door.check_answer()
-    print(answer)
