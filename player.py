@@ -4,8 +4,6 @@ class Player:
         self._name = name
         self._keys = 2
         if keys is not None:
-            #try saving/loading again
-            print("hello")
             self._keys = keys
 
 

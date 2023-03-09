@@ -35,12 +35,12 @@ class TriviaQuiz:
             with open(savefile, 'rb') as file:
                 game_data = pickle.load(file)
                 if game_data is not None:
-                    print("HI NONE GAMEDATA")
                     self._maze = game_data['maze']
                     player_data = game_data['player']
                     self._player = Player(player_data._name, player_data._keys)
                     # self._player._keys = Player(player_data._keys)
-                    print(f"Game loaded successfully! Welcome back {self._player._name}. You have keys available.")
+                    print(f"Game loaded successfully! Welcome back {self._player._name}. Glad to see that you like "
+                          f"the game enough to come back! You have {self._player.keys} keys available.")
                     return self._maze
         except FileNotFoundError:
             print(f"No saved game file found")
@@ -49,8 +49,8 @@ class TriviaQuiz:
     def load_start(self, savefile):
         loading = input("Input 1 if you are starting a new adventure, or input 2 if you are loading....")
         if loading == '1':
-            print("Now starting new game.....")
             time.sleep(2)
+            print("Now starting new game.....")
             return None
         elif loading == '2':
             loaded_data = self.load_game(savefile)
@@ -137,6 +137,7 @@ class TriviaQuiz:
         S - Move Down
         D - Move Right
         I - View inventory
+        1 - Save Game
 
         Press M to see your available options at any time.
         """)

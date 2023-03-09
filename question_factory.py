@@ -22,6 +22,9 @@ class QuestionFactory:
 
         conn = sqlite3.connect('questions.db')
         c = conn.cursor()
+        if question_type is None:
+            question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
+            question_type = random.choice(question_types)
 
         if question_type == "TrueFalse":
             c.execute("SELECT Question, Choices, Answer FROM TFquestions")
@@ -29,9 +32,7 @@ class QuestionFactory:
             c.execute("SELECT Question, Choices, Answer FROM SAquestions")
         elif question_type == "MultipleChoice":
             c.execute("SELECT Question, Choices, Answer FROM MCquestions")
-        if not question_type:  # generate random question if not specified
-            question_types = ["TFquestions", "SAquestions", "MCquestions"]
-            question_type = random.choice(question_types)
+
 
         row = c.fetchone()
         if not row:
