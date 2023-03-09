@@ -11,7 +11,6 @@ savefile = 'save.pkl'
 class TriviaQuiz:
     def __init__(self):
         self._game_over = False
-        self._win = False
 
         if self.load_start(savefile):
             self.main_game_loop()
