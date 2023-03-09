@@ -192,9 +192,6 @@ class TriviaQuiz:
         if choice in move_commands:
             self._maze.process_move(choice, self._player)
 
-            if self._maze.at_exit():
-                self._win = True
-
             if self._maze.at_exit() or (not self._player.keys and
                                         not self._maze.is_traversable()):
                 self._game_over = True
@@ -252,7 +249,7 @@ class TriviaQuiz:
 
             self.user_choice()
 
-        if self._win:
+        if self._maze.at_exit():
             print("*-----------------------------------*")
             print("You've reached the exit and WON THE GAME!")
             self._print_delayed_text("...")
