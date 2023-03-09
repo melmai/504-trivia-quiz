@@ -10,17 +10,17 @@ savefile = 'save.pkl'
 
 class TriviaQuiz:
     def __init__(self):
+        self._game_over = False
+
         if self.load_start(savefile):
-            self._game_over = False
             self.main_game_loop()
 
         else:
-            self._print_intro_art()
-            self._print_instructions()
+            # self._print_intro_art()
+            # self._print_instructions()
             self._player = self._create_player()
             self._difficulty = self._set_difficulty()
             self._maze = Maze(self._difficulty)
-            self._game_over = False
             self.main_game_loop()
 
     def save_game(self, savefile, maze, player):
@@ -150,8 +150,6 @@ class TriviaQuiz:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
-
-
     def _create_player(self):
         """
         This method gets input from the user to create a Player object.
@@ -191,7 +189,9 @@ class TriviaQuiz:
         if choice in move_commands:
             self._maze.process_move(choice, self._player)
 
-            if self._maze.at_exit():
+            #  if at exit or can't win, it's all over
+            if self._maze.at_exit() or (not self._player.keys and
+                                        not self._maze.is_traversable()):
                 self._game_over = True
 
         elif choice == 'i':
@@ -202,26 +202,19 @@ class TriviaQuiz:
 
         elif choice == 'v':
             self._player.use_vp()
-            self.user_choice()
+            # self.user_choice()
 
-        # TODO: elif choice == '1' # planning to use this for saving
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
 
-
         elif choice == '5':
             self._maze.print_maze()
-
-
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
-
-        elif choice == 'p':
-            self.use_key()
 
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
@@ -248,17 +241,21 @@ class TriviaQuiz:
                 self._player.add_key()
                 self._maze.get_current_room().transfer_key()
 
-
             self.user_choice()
 
-        print("*-----------------------------------*")
-        print("You've reached the exit and WON THE GAME!")
-        self._print_delayed_text("...")
-        self._print_delayed_text("...this time...")
-        self._print_delayed_text(" ")
-        self._maze.print_maze()
+        if self._maze.at_exit():
+            print("*-----------------------------------*")
+            print("You've reached the exit and WON THE GAME!")
+            self._print_delayed_text("...")
+            self._print_delayed_text("...this time...")
+            self._print_delayed_text(" ")
+            self._maze.print_maze()
 
-        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
+            print(f"Okay {self._player.name}, you've done it once. "
+                  f"But do you really think you can do it again?")
+        else:
+            print("Ouch, sorry. Taking that big L.")
+
         choice = input("Play again? (Y/N) ").strip().lower()
 
         while choice != 'n' and choice != 'y':
@@ -269,25 +266,6 @@ class TriviaQuiz:
             print("alright, let\'s go around again...")
             print("*-----------------------------------*")
             new_game = TriviaQuiz()
-
-
-    def use_key(self):
-        """
-        This method unlocks the active door if the Player has keys available.
-        :return: True if door unlocks successfully, or False if door was
-        already unlocked or player has no keys.
-        """
-        if self._player.keys:
-            active_room = self._maze.get_current_room()
-            unlocked = active_room.unlock_door()  # unlocks active door
-            if not unlocked:
-                print("Hmm the door isn't locked. Lucky me.")
-            else:
-                self._player.use_key()
-            return unlocked
-        else:
-            print("Whoops, all out of keys! Better try something else...")
-        return False
 
 
 if __name__ == "__main__":
