@@ -150,8 +150,6 @@ class TriviaQuiz:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
-
-
     def _create_player(self):
         """
         This method gets input from the user to create a Player object.
@@ -191,6 +189,7 @@ class TriviaQuiz:
         if choice in move_commands:
             self._maze.process_move(choice, self._player)
 
+            #  if at exit or can't win, it's all over
             if self._maze.at_exit() or (not self._player.keys and
                                         not self._maze.is_traversable()):
                 self._game_over = True
@@ -203,9 +202,8 @@ class TriviaQuiz:
 
         elif choice == 'v':
             self._player.use_vp()
-            self.user_choice()
+            # self.user_choice()
 
-        # TODO: elif choice == '1' # planning to use this for saving
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
 
@@ -217,9 +215,6 @@ class TriviaQuiz:
 
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
-
-        elif choice == 'p':
-            self.use_key()
 
         # TODO: elif choice == '8675309' # planning to maybe use this as a
         #  cheat to unlock all doors or bypass all
@@ -271,24 +266,6 @@ class TriviaQuiz:
             print("alright, let\'s go around again...")
             print("*-----------------------------------*")
             new_game = TriviaQuiz()
-
-    def use_key(self):
-        """
-        This method unlocks the active door if the Player has keys available.
-        :return: True if door unlocks successfully, or False if door was
-        already unlocked or player has no keys.
-        """
-        if self._player.keys:
-            active_room = self._maze.get_current_room()
-            unlocked = active_room.unlock_door()  # unlocks active door
-            if not unlocked:
-                print("Hmm the door isn't locked. Lucky me.")
-            else:
-                self._player.use_key()
-            return unlocked
-        else:
-            print("Whoops, all out of keys! Better try something else...")
-        return False
 
 
 if __name__ == "__main__":
