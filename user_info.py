@@ -75,7 +75,7 @@ class UserInfo:
         [s] Move Down
         [d] Move Right
         [i] View inventory
-        [s] Save game
+        [1] Save game
         [q] Quit
 
         Press [m] to see your options.
