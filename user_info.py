@@ -1,7 +1,11 @@
 import textwrap
 import time
 
+
 class UserInfo:
+
+    def __init__(self):
+        pass
 
     @staticmethod
     def print_intro_art():
@@ -60,23 +64,21 @@ class UserInfo:
         question incorrectly. There are more keys to find as you make your 
         way through the rooms, but don't rely on them too much!
         """, 2)
-        self._print_delayed_text("""
-        Well OK then. Now you know what your mission is. How do you want to 
-        proceed?
-        """, 2)
 
     def print_menu(self, delayed=False):
 
         menu = textwrap.dedent("""
         Available Actions
         *-----------------------------------*
-        W - Move Up
-        A - Move Left
-        S - Move Down
-        D - Move Right
-        I - View inventory
+        [w] Move Up
+        [a] Move Left
+        [s] Move Down
+        [d] Move Right
+        [i] View inventory
+        [s] Save game
+        [q] Quit
 
-        Press M to see your available options at any time.
+        Press [m] to see your options.
         """)
 
         if delayed:
@@ -84,7 +86,8 @@ class UserInfo:
         else:
             print(menu)
 
-    def _print_delayed_text(self, text, delay=1):
+    @staticmethod
+    def _print_delayed_text(text, delay=1):
         """
         This method prints a string of text without preceding white space
         after pausing execution for a period of time (default = 1s)
@@ -104,9 +107,11 @@ class UserInfo:
         print(f"Okay {name}, you've done it once. "
               f"But do you really think you can do it again?")
 
+    @staticmethod
     def print_loss():
         print("Ouch, sorry. Taking that big L.")
 
-    def print_restart(self):
+    @staticmethod
+    def print_restart():
         print("alright, let's go around again...")
         print("*-----------------------------------*")
