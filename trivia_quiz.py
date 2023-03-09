@@ -15,15 +15,14 @@ class TriviaQuiz:
         self._info = UserInfo()
 
         if not self.load_start(savefile):
-            self._info.print_intro_art()
-            self._info.print_instructions()
+            # self._info.print_intro_art()
+            # self._info.print_instructions()
             self._player = self._create_player()
             self._difficulty = self._set_difficulty()
             self._maze = Maze(self._difficulty)
             self._info.print_menu()
 
         self.main_game_loop()
-
 
     def save_game(self, savefile, maze, player):
         with open(savefile, 'wb') as file:
@@ -40,14 +39,18 @@ class TriviaQuiz:
                     player_data = game_data['player']
                     self._player = Player(player_data.name)
                     self._player._keys = Player(player_data.keys)
-                    print(f"Game loaded successfully! Welcome back {self._player.name}")
+                    print(
+                        f"Game loaded successfully! Welcome back "
+                        f"{self._player.name}")
                     return self._maze
         except FileNotFoundError:
             print(f"No saved game file found")
             return False
 
     def load_start(self, savefile):
-        loading = input("Input 1 if you are starting a new adventure, or input 2 if you are loading....")
+        loading = input(
+            "Input 1 if you are starting a new adventure, or input 2 if you "
+            "are loading....")
         if loading == '1':
             print("Now starting new game.....")
             time.sleep(2)
@@ -62,7 +65,9 @@ class TriviaQuiz:
                 print("loading game...")
                 return loaded_data
         else:
-            print("Hmmm...sorry but I dont recognize your input. I'll go ahead and start a new game...")
+            print(
+                "Hmmm...sorry but I dont recognize your input. I'll go ahead "
+                "and start a new game...")
             time.sleep(2)
             return None
 
@@ -84,7 +89,7 @@ class TriviaQuiz:
         """
         while True:
             number = input(
-                f"Welcome {self._player._name}. Please enter a difficulty "
+                f"Welcome {self._player.name}. Please enter a difficulty "
                 f"level (1-3) ").strip()
             if int(number.isdigit()) and 1 <= int(number) <= 3:
                 if number == '1':
@@ -105,10 +110,11 @@ class TriviaQuiz:
 
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
-            self._maze.process_move(choice, self._player)
+            has_moved = self._maze.process_move(choice, self._player)
 
             #  if at exit or can't win, it's all over
-            if self._maze.at_exit() or (not self._player.keys and
+            if self._maze.at_exit() or (not has_moved and
+                                        not self._player.keys and
                                         not self._maze.is_traversable()):
                 self._game_over = True
 
@@ -120,13 +126,9 @@ class TriviaQuiz:
 
         elif choice == 'v':
             self._player.use_vp()
-            # self.user_choice()
 
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
-
-        elif choice == '5':
-            self._maze.print_maze()
 
         elif choice == 'o':  # See entire maze for development
             self._maze.print_maze()
@@ -181,4 +183,3 @@ class TriviaQuiz:
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
-
