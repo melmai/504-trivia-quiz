@@ -12,14 +12,15 @@ savefile = 'save.pkl'
 class TriviaQuiz:
     def __init__(self):
         self._game_over = False
+        self._info = UserInfo()
 
         if not self.load_start(savefile):
-            UserInfo.print_intro_art()
-            UserInfo.print_instructions()
+            self._info.print_intro_art()
+            self._info.print_instructions()
             self._player = self._create_player()
             self._difficulty = self._set_difficulty()
             self._maze = Maze(self._difficulty)
-            UserInfo.print_menu()
+            self._info.print_menu()
 
         self.main_game_loop()
 
@@ -70,7 +71,9 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        player_name = input("What is your name adventurer? ").strip()
+        player_name = input("But first, tell me... what is your name, "
+                            "adventurer? "
+                            "").strip()
         return Player(player_name)
 
     def _set_difficulty(self):
@@ -113,7 +116,7 @@ class TriviaQuiz:
             self._player.check_inventory()
 
         elif choice == 'm':
-            UserInfo.print_menu()
+            self._info.print_menu()
 
         elif choice == 'v':
             self._player.use_vp()
@@ -160,9 +163,9 @@ class TriviaQuiz:
 
         if self._maze.at_exit():
             self._maze.print_maze()
-            UserInfo.print_win(self._player.name)
+            self._info.print_win(self._player.name)
         else:
-            UserInfo.print_loss()
+            self._info.print_loss()
 
         choice = input("Play again? (Y/N) ").strip().lower()
 
@@ -171,7 +174,7 @@ class TriviaQuiz:
             choice = input("Play again? (Y/N) ").strip().lower()
 
         if choice == 'y':
-            UserInfo.print_restart()
+            self._info.print_restart()
             new_game = TriviaQuiz()
 
 
