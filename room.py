@@ -53,7 +53,6 @@ class Room:
         else:
             return False
 
-
     def transfer_key(self):
         """This method removes the key from the room"""
         self._has_key = False
@@ -204,6 +203,9 @@ class Room:
         """
         can_move = False
         door = self._doors[direction]
+
+        if door and player.dev:
+            return True
 
         if door:  # there's a door
             self._active_door = door

@@ -134,9 +134,10 @@ class TriviaQuiz:
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
 
-        # TODO: elif choice == '8675309' # planning to maybe use this as a
-        #  cheat to unlock all doors or bypass all
-        #  questions for testing?
+        elif choice == 'g':  # enable god mode
+            print("Looks like you have a skeleton key. No door can stop you "
+                  "now.")
+            self._player.dev = True
 
         else:
             print(f"Sorry {self._player.name}, that's not a valid command!")
