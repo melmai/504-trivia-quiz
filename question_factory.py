@@ -1,7 +1,13 @@
+import csv
+
 from true_false_question import TrueFalseQuestion
 from short_answer_question import ShortAnswerQuestion
 from multiple_choice_question import MultipleChoiceQuestion
+import time
 import random
+import db
+import sqlite3
+
 
 
 class QuestionFactory:
@@ -14,27 +20,37 @@ class QuestionFactory:
         :return: Question object
         """
 
+        conn = sqlite3.connect('questions.db')
+        c = conn.cursor()
+
+        if question_type == "TrueFalse":
+            c.execute("SELECT Question, Choices, Answer FROM TFquestions")
+        elif question_type == "ShortAnswer":
+            c.execute("SELECT Question, Choices, Answer FROM SAquestions")
+        elif question_type == "MultipleChoice":
+            c.execute("SELECT Question, Choices, Answer FROM MCquestions")
         if not question_type:  # generate random question if not specified
-            question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
+            question_types = ["TFquestions", "SAquestions", "MCquestions"]
             question_type = random.choice(question_types)
 
-        question, answer, q_data = QuestionFactory.get_question_data(
-            question_type)
-        return QuestionFactory.get_question(question_type, question, answer,
-                                            q_data)
-
+        row = c.fetchone()
+        if not row:
+            raise ValueError(f"No rows returned for question type {question_type}")
+        question_data = tuple(row)
+        question = QuestionFactory.get_question(question_type, *question_data)
+        return question
     @staticmethod
-    def get_question_data(question_type):
-        """
-        This method fetches the data for the provided question type
-        :param question_type: String representing one of the question types
-        :return: question data for the question type
-        """
-        correct_answer = False
-        answer_comment = "Joint Photographic Experts Group"
-        question = "The initials JPEG stand for Jagged Point Enabled Graphs"
-
-        return question, correct_answer, answer_comment
+    # def get_question_data(question_type):
+    #     """
+    #     This method fetches the data for the provided question type
+    #     :param question_type: String representing one of the question types
+    #     :return: question data for the question type
+    #     """
+    #     correct_answer = False
+    #     answer_comment = "Joint Photographic Experts Group"
+    #     question = "The initials JPEG stand for Jagged Point Enabled Graphs"
+    #
+    #     return question, correct_answer, answer_comment
 
     @staticmethod
     def get_question(question_type, *data):
@@ -45,6 +61,16 @@ class QuestionFactory:
         :param data: optional data to add
         :return: Question object
         """
+
+        if question_type == "TrueFalse":
+            return TrueFalseQuestion(data[0], data[2])
+        elif question_type == "ShortAnswer":
+            return ShortAnswerQuestion(data[0], data[2])
+        elif question_type == "MultipleChoice":
+            choices = data[1].split("|")
+            return MultipleChoiceQuestion(data[0], choices, data[2])
+        else:
+            raise TypeError("That is not a valid question type.")
         # if question_type == "TrueFalse":
         #     return TrueFalseQuestion(*data)
         # elif question_type == "ShortAnswer":
@@ -53,13 +79,10 @@ class QuestionFactory:
         #     return MultipleChoiceQuestion(*data)
         # else:
         #     raise TypeError("That is not a valid question type.")
-
-        return TrueFalseQuestion(*data)
+        #
+        # return TrueFalseQuestion(*data)
 
 
 if __name__ == "__main__":
     qf = QuestionFactory()
-    q = qf.generate_question()
-    print(q.question)
-    print(q.answer)
-    print(q.comment)
+    print(qf.generate_question("MultipleChoice"))

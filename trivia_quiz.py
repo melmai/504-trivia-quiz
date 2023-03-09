@@ -8,6 +8,7 @@ import sys
 
 savefile = 'save.pkl'
 
+
 class TriviaQuiz:
     def __init__(self):
         if self.load_start(savefile):
@@ -34,11 +35,12 @@ class TriviaQuiz:
             with open(savefile, 'rb') as file:
                 game_data = pickle.load(file)
                 if game_data is not None:
+                    print("HI NONE GAMEDATA")
                     self._maze = game_data['maze']
                     player_data = game_data['player']
-                    self._player = Player(player_data._name)
-                    self._player._keys = Player(player_data._keys)
-                    print(f"Game loaded successfully! Welcome back {self._player._name}")
+                    self._player = Player(player_data._name, player_data._keys)
+                    # self._player._keys = Player(player_data._keys)
+                    print(f"Game loaded successfully! Welcome back {self._player._name}. You have keys available.")
                     return self._maze
         except FileNotFoundError:
             print(f"No saved game file found")
@@ -63,7 +65,6 @@ class TriviaQuiz:
             print("Hmmm...sorry but I dont recognize your input. I'll go ahead and start a new game...")
             time.sleep(2)
             return None
-
 
     def _print_intro_art(self):
         """This method introduces the rules and instructions for the player."""
@@ -150,8 +151,6 @@ class TriviaQuiz:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
-
-
     def _create_player(self):
         """
         This method gets input from the user to create a Player object.
@@ -200,17 +199,9 @@ class TriviaQuiz:
         elif choice == 'm':
             print(self.get_menu())
 
-        elif choice == 'v':
-            self._player.use_vp()
-            self.user_choice()
 
-        # TODO: elif choice == '1' # planning to use this for saving
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
-
-
-        elif choice == '5':
-            self._maze.print_maze()
 
 
 
@@ -248,7 +239,6 @@ class TriviaQuiz:
                 self._player.add_key()
                 self._maze.get_current_room().transfer_key()
 
-
             self.user_choice()
 
         print("*-----------------------------------*")
@@ -269,7 +259,6 @@ class TriviaQuiz:
             print("alright, let\'s go around again...")
             print("*-----------------------------------*")
             new_game = TriviaQuiz()
-
 
     def use_key(self):
         """
@@ -292,4 +281,3 @@ class TriviaQuiz:
 
 if __name__ == "__main__":
     tq = TriviaQuiz()
-
