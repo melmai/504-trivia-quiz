@@ -10,8 +10,10 @@ savefile = 'save.pkl'
 
 class TriviaQuiz:
     def __init__(self):
+        self._game_over = False
+        self._win = False
+
         if self.load_start(savefile):
-            self._game_over = False
             self.main_game_loop()
 
         else:
@@ -20,7 +22,6 @@ class TriviaQuiz:
             self._player = self._create_player()
             self._difficulty = self._set_difficulty()
             self._maze = Maze(self._difficulty)
-            self._game_over = False
             self.main_game_loop()
 
     def save_game(self, savefile, maze, player):
@@ -192,10 +193,10 @@ class TriviaQuiz:
             self._maze.process_move(choice, self._player)
 
             if self._maze.at_exit():
-                self._game_over = True
+                self._win = True
 
-            if not self._player.keys and not self._maze.is_traversable():
-                print("Whoopsies, guess it's a big L, my friend.")
+            if self._maze.at_exit() or (not self._player.keys and
+                                        not self._maze.is_traversable()):
                 self._game_over = True
 
         elif choice == 'i':
@@ -249,17 +250,21 @@ class TriviaQuiz:
                 self._player.add_key()
                 self._maze.get_current_room().transfer_key()
 
-
             self.user_choice()
 
-        print("*-----------------------------------*")
-        print("You've reached the exit and WON THE GAME!")
-        self._print_delayed_text("...")
-        self._print_delayed_text("...this time...")
-        self._print_delayed_text(" ")
-        self._maze.print_maze()
+        if self._win:
+            print("*-----------------------------------*")
+            print("You've reached the exit and WON THE GAME!")
+            self._print_delayed_text("...")
+            self._print_delayed_text("...this time...")
+            self._print_delayed_text(" ")
+            self._maze.print_maze()
 
-        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
+            print(f"Okay {self._player.name}, you've done it once. "
+                  f"But do you really think you can do it again?")
+        else:
+            print("Ouch, sorry. Taking that big L.")
+
         choice = input("Play again? (Y/N) ").strip().lower()
 
         while choice != 'n' and choice != 'y':
@@ -270,7 +275,6 @@ class TriviaQuiz:
             print("alright, let\'s go around again...")
             print("*-----------------------------------*")
             new_game = TriviaQuiz()
-
 
     def use_key(self):
         """
