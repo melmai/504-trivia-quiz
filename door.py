@@ -38,16 +38,17 @@ class Door:
         """
         return input(self._question.question + '\n')
 
-    def check_answer(self, response=None):
+    def check_answer(self):
         """
         This method checks the user provided response against the actual
         answer.
         """
-        response = response or self.get_user_response()
+        is_correct = None
 
-        # TODO: check validity of user response for multiple choice and t/f questions
+        while is_correct is None:
+            response = self.get_user_response()
+            is_correct = self._question.check_response(response)
 
-        is_correct = self._question.check_response(response)
         self._answerable = False
 
         if is_correct:
