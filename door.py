@@ -1,4 +1,5 @@
 from question_factory import QuestionFactory
+from user_info import UserInfo
 
 
 class Door:
@@ -52,10 +53,10 @@ class Door:
         self._answerable = False
 
         if is_correct:
-            print("Yas queen")
+            UserInfo.print_correct_response()
             self.unlock()
         else:
-            print("Yikes. Not this time, bud.")
+            UserInfo.print_incorrect_response()
 
     def try_door(self):
         """

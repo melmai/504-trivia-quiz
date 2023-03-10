@@ -97,6 +97,27 @@ class UserInfo:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
+    def print_invalid_command(self, name):
+        print(f"Sorry {name}, that's not a valid command!")
+
+    @staticmethod
+    def print_invalid_input():
+        print('Sorry, that is not a valid response! Give it another try.')
+
+    def print_correct_response(self):
+        print("Yas queen")
+
+    def print_incorrect_response(self):
+        print("Yikes. Not this time, bud.")
+
+    @staticmethod
+    def found_key(skeleton=False):
+        if skeleton:
+            print("Looks like you have a skeleton key. No door can stop you "
+                  "now.")
+        else:
+            print("You found a key! You'll need it...")
+
     def print_win(self, name):
         print("*-----------------------------------*")
         print("You've reached the exit and WON THE GAME!")
@@ -115,3 +136,5 @@ class UserInfo:
     def print_restart():
         print("alright, let's go around again...")
         print("*-----------------------------------*")
+
+
