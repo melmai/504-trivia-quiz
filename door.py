@@ -1,4 +1,5 @@
 from question_factory import QuestionFactory
+from user_info import UserInfo
 
 
 class Door:
@@ -6,6 +7,7 @@ class Door:
         self._is_locked = True
         self._question = QuestionFactory.generate_question()
         self._answerable = True
+        self._info = UserInfo()
 
     @property
     def locked(self):
@@ -38,21 +40,26 @@ class Door:
         """
         return input(self._question.question + '\n')
 
-
-    def check_answer(self, response=None):
+    def check_answer(self):
         """
         This method checks the user provided response against the actual
         answer.
         """
-        response = response or self.get_user_response()
-        is_correct = self._question.check_response(response)
+        is_correct = None
+
+        while is_correct is None:
+            response = self.get_user_response()
+            is_correct = self._question.check_response(response)
+            if is_correct is None:
+                self._info.print_invalid_input()
+
         self._answerable = False
 
         if is_correct:
-            print("Yas queen")
+            self._info.print_correct_response()
             self.unlock()
         else:
-            print("Yikes. Not this time, bud.")
+            self._info.print_incorrect_response()
 
     def try_door(self):
         """
@@ -64,7 +71,3 @@ class Door:
 
         return self.locked, self.answerable
 
-if __name__ == '__main__':
-    door = Door()
-    answer = door.check_answer()
-    print(answer)
