@@ -37,11 +37,10 @@ class TriviaQuiz:
                 if game_data is not None:
                     self._maze = game_data['maze']
                     player_data = game_data['player']
-                    self._player = Player(player_data.name)
-                    self._player._keys = Player(player_data.keys)
+                    self._player = Player(player_data.name, player_data._keys)
                     print(
                         f"Game loaded successfully! Welcome back "
-                        f"{self._player.name}")
+                        f"{self._player.name} . You have {self._player.keys} keys available!")
                     return self._maze
         except FileNotFoundError:
             print(f"No saved game file found")

@@ -2,9 +2,11 @@ from true_false_question import TrueFalseQuestion
 
 
 class MultipleChoiceQuestion(TrueFalseQuestion):
-    def __init__(self):
-        super().__init__()
-        choices: []
+    def __init__(self, question, choices, answer):
+        self._question = question
+        self._choices = choices
+        self._answer = answer
+
 
     def check_response(self, response):
         """

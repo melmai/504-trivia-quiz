@@ -2,8 +2,10 @@ from true_false_question import TrueFalseQuestion
 
 
 class ShortAnswerQuestion(TrueFalseQuestion):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, question, answer):
+        self._question = question
+        self._answer = answer
+
 
     def check_response(self, response):
         """
