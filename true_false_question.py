@@ -35,12 +35,10 @@ class TrueFalseQuestion:
         """
         This method checks the user's response to determine if it is correct
         :param response: user's response
-        :return: Boolean
+        :return: Boolean or None
         """
         response = self.normalize(response)
-        if response is not None:
-            return response == self._answer
-        return response
+        return response if response is None else response == self._answer
 
     def mock(self):
         self._question = "5 is the binary number '10' expressed as a decimal"
