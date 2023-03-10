@@ -28,16 +28,17 @@ class TrueFalseQuestion:
             return True
         elif response == "f" or response == "false":
             return False
-        else:
+        else:  # invalid input
             return None
 
     def check_response(self, response):
         """
         This method checks the user's response to determine if it is correct
         :param response: user's response
-        :return: Boolean
+        :return: Boolean or None if input is invalid
         """
-        return self.normalize(response) == self._answer
+        response = self.normalize(response)
+        return response if response is None else response == self._answer
 
     def mock(self):
         self._question = "5 is the binary number '10' expressed as a decimal"

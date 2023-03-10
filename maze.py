@@ -48,6 +48,9 @@ class Maze:
         can_move = current_room.try_move(directions[direction], player)
         if can_move:
             self.move(direction)
+            has_moved = True
+
+        return has_moved
 
     def move(self, direction):
         """
