@@ -1,0 +1,37 @@
+[
+  {
+    "category": "Science",
+    "id": "622a1c3e7cc59eab6f9522b0",
+    "correctAnswer": false,
+    "answerComment": 2,
+    "question": "5 is the binary number '10' expressed as a decimal"
+  },
+  {
+    "category": "Science",
+    "id": "622a1c3e7cc59eab6f95225c",
+    "correctAnswer": false,
+    "answerComment":"Joint Photographic Experts Group",
+    "question": "The initials JPEG stand for Jagged Point Enabled Graphs"
+  },
+  {
+    "category": "Science",
+    "id": "63a03960c7d86251f9b65c50",
+    "correctAnswer": false,
+    "answerComment": "wget",
+    "question": "The software command 'curl' is used to download a file from a web server."
+  },
+  {
+    "category": "Science",
+    "id": "628d59c8a5a57ff6c2ad2bf4",
+    "correctAnswer": true,
+    "question": "Hexadecimal is a system of counting uses the numbers 0-9 and the letters a-f.",
+    "answerComment": ""
+  },
+  {
+    "category": "Science",
+    "id": "622a1c3e7cc59eab6f952270",
+    "correctAnswer": true,
+    "question": "The word modem comes from the term 'modulate demodulate'.",
+    "answerComment": ""
+  }
+]
