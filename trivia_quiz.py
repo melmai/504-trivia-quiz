@@ -1,4 +1,3 @@
-import textwrap
 import time
 from maze import Maze
 from player import Player
@@ -108,7 +107,9 @@ class TriviaQuiz:
         if choice in move_commands:
             self._maze.process_move(choice, self._player)
 
-            if self._maze.at_exit():
+            #  if at exit or can't win, it's all over
+            if self._maze.at_exit() or (not self._player.keys and
+                                        not self._maze.is_traversable()):
                 self._game_over = True
 
         elif choice == 'i':
@@ -117,6 +118,9 @@ class TriviaQuiz:
         elif choice == 'm':
             self._info.print_menu()
 
+        elif choice == 'v':
+            self._player.use_vp()
+            # self.user_choice()
 
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)
@@ -130,12 +134,10 @@ class TriviaQuiz:
         elif choice == 'q':  # Auto-quit the game for development
             self._game_over = True
 
-        elif choice == 'p':
-            self.use_key()
-
-        # TODO: elif choice == '8675309' # planning to maybe use this as a
-        #  cheat to unlock all doors or bypass all
-        #  questions for testing?
+        elif choice == 'g':  # enable god mode
+            print("Looks like you have a skeleton key. No door can stop you "
+                  "now.")
+            self._player.dev = True
 
         else:
             print(f"Sorry {self._player.name}, that's not a valid command!")
@@ -166,7 +168,6 @@ class TriviaQuiz:
         else:
             self._info.print_loss()
 
-        print(f"Okay {self._player.name}, you\'ve done it once. But do you really think you can do it again?")
         choice = input("Play again? (Y/N) ").strip().lower()
 
         while choice != 'n' and choice != 'y':
