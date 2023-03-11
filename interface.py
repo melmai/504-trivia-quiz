@@ -1,15 +1,18 @@
 from tkinter import *
 from tkinter import ttk
 from trivia_quiz import TriviaQuiz
+from trivia_quiz_two import TriviaQuizTwo
+from user_info import UserInfo
 
 class UserInterface:
     def __init__(self, root):
-        # self.quiz = TriviaQuiz()
+        self.user_info = UserInfo()
+        self.quiz = None
         self.root = root
 
         root.title('Trivia Quiz!')
         root.resizable(False, False)
-        root.configure(background='#FFFFFF')
+        root.configure(background='#000000')
 
         self.style = ttk.Style()
         self.configure_styles()
@@ -17,26 +20,25 @@ class UserInterface:
         self.intro_frame = ttk.Frame(root)
         self.intro_frame.pack()
 
-        # self.intro_art = ttk.Label(self.intro_frame,
-        #                   justify = LEFT,
-        #                   text = self.quiz.art,
-        #                   font=('Courier', 12),
-        #                   style='TLabel')
+        self.intro_art = ttk.Label(self.intro_frame,
+                          justify = LEFT,
+                          text = self.user_info.intro_art(),
+                          style='TLabel')
 
         self.intro = ttk.Label(self.intro_frame,
                           text = "HEY YOU, PLAY THIS GAME "
                                  "[Just kidding, gonna use the cool text Mel wrote]",
                           style='TLabel')
 
-        # self.intro_art.grid(row = 0, column = 0, columnspan = 5, padx=10, pady=10)
+        self.intro_art.grid(row = 0, column = 0, columnspan = 5, padx=10, pady=10)
         self.intro.grid(row=1, column=1, columnspan=3, padx=10, pady=5)
 
 
         self.config_frame = ttk.Frame(root)
-        self.entry_name = ttk.Entry(self.config_frame, width=24)
-        self.entry_difficulty = ttk.Entry(self.config_frame, width=24)
+        self.entry_name = ttk.Entry(self.config_frame, width=24, font=('Courier', 12))
+        self.entry_difficulty = ttk.Entry(self.config_frame, width=24, font=('Courier', 12))
         self.submit_button = ttk.Button(self.config_frame, text="Play Game",
-                   command = self.play_game)
+                   command = self.play_game, cursor="target")
 
         self.build_game_config_frame()
 
@@ -54,9 +56,9 @@ class UserInterface:
 
     def configure_styles(self):
         self.style.theme_use('classic')
-        self.style.configure('TLabel', background='#FFFFFF')
-        self.style.configure('TFrame', background='#FFFFFF')
-        self.style.configure('TButton', background='#FFFFFF')
+        self.style.configure('TLabel', background='#000000', foreground="#f0f14e", font=('Courier', 12))
+        self.style.configure('TFrame', background='#000000')
+        self.style.configure('TButton', background='#f0f14e', font=('Courier', 12))
 
     def build_game_config_frame(self):
         self.config_frame.pack()
@@ -113,7 +115,7 @@ class UserInterface:
         self.build_main_game_window()
 
         print("name: ", player_name, " | ", "difficulty: ", maze_difficulty)
-        quiz = TriviaQuiz(player_name, maze_difficulty)
+        self.quiz = TriviaQuizTwo(player_name, maze_difficulty)
 
         # return player_name, maze_difficulty
 

@@ -35,6 +35,32 @@ class UserInfo:
         /                           \\
         """)
 
+    def intro_art(self):
+        return textwrap.dedent("""
+        \\                           /
+         \\                         /
+          \\                       /
+           ]                     [    ,'|
+           ]                     [   /  |
+           ]___               ___[ ,'   |
+           ]  ]\\             /[  [ |:   |
+           ]  ] \\           / [  [ |:   |
+           ]  ]  ]         [  [  [ |:   |
+           ]  ]  ]__     __[  [  [ |:   |
+           ]  ]  ] ]\\ _ /[ [  [  [ |:   |
+           ]  ]  ] ] (#) [ [  [  [ :===='
+           ]  ]  ]_].nHn.[_[  [  [
+           ]  ]  ]  HHHHH. [  [  [
+           ]  ] /   `HH("N  \\ [  [
+           ]__]/     HHH  "  \\[__[
+           ]         NNN         [
+           ]         N/"         [
+           ]         N H         [
+          /          N            \\
+         /           q,            \\
+        /                           \\
+        """)
+
     def print_instructions(self):
 
         print("You wake up in a cold, dark room...")
@@ -85,6 +111,21 @@ class UserInfo:
             self._print_delayed_text(menu)
         else:
             print(menu)
+
+    def menu(self):
+        return textwrap.dedent("""
+        Available Actions
+        *-----------------------------------*
+        [w] Move Up
+        [a] Move Left
+        [s] Move Down
+        [d] Move Right
+        [i] View inventory
+        [1] Save game
+        [q] Quit
+
+        Press [m] to see your options.
+        """)
 
     @staticmethod
     def _print_delayed_text(text, delay=1):
