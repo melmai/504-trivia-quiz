@@ -5,7 +5,6 @@ import pickle
 import datetime
 import sys
 from user_info import UserInfo
-
 savefile = 'save.pkl'
 
 
@@ -66,7 +65,7 @@ class TriviaQuiz:
         else:
             print(
                 "Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game...")
+                "and start a new game ;)...")
             time.sleep(2)
             return None
 
@@ -122,9 +121,6 @@ class TriviaQuiz:
 
         elif choice == 'm':
             self._info.print_menu()
-
-        elif choice == 'v':
-            self._player.use_vp()
 
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)

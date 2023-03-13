@@ -5,7 +5,8 @@ from user_info import UserInfo
 class Door:
     def __init__(self):
         self._is_locked = True
-        self._question = QuestionFactory.generate_question()
+        self._question_factory = QuestionFactory()
+        self._question = self._question_factory.generate_question()
         self._answerable = True
         self._info = UserInfo()
 

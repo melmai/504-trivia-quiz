@@ -6,14 +6,14 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         self._question = question
         self._answer = answer
 
-
     def check_response(self, response):
         """
         This method checks the response of the user against the actual answer.
         :param response: String
         :return: Boolean
         """
-        pass
+        response = self.normalize(response)
+        return response == self._answer
 
     def normalize(self, response):
         """
@@ -22,4 +22,5 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        pass
+        response = response.lower().strip
+        return response
