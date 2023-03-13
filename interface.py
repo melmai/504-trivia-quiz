@@ -9,10 +9,8 @@ class UserInterface:
         self.user_info = UserInfo()
         self.quiz = None
         self.root = root
-
-        root.title('Trivia Quiz!')
-        root.resizable(False, False)
-        root.configure(background='#000000')
+        self.game_window = Toplevel()
+        self.game_window.withdraw()
 
         self.style = ttk.Style()
         self.configure_styles()
@@ -42,23 +40,67 @@ class UserInterface:
 
         self.build_game_config_frame()
 
-        self.game_window = Toplevel()
-        self.game_window.withdraw()
-
         self.user_choice_frame = ttk.Frame(self.game_window)
-        self.question_placeholder = ttk.Label(self.user_choice_frame,
-                                              text="[QUESTION FRAME PLACEHOLDER]",
+        self.question_text = ttk.Label(self.user_choice_frame,
+                                              text="What now?",
                                               style='TLabel')
+
+        self.true_button = ttk.Button(self.user_choice_frame)
+        self.false_button = ttk.Button(self.user_choice_frame)
+
+
+        self.view_all_button = ttk.Button(self.user_choice_frame, text="View Maze", style="TButton", command=self.view_maze)
+
         self.game_frame = ttk.Frame(self.game_window)
-        self.placeholder_text = ttk.Label(self.game_frame,
-                                          text = "[GAME FRAME PLACEHOLDER]",
-                                          style= 'TLabel')
+        self.maze_location = ttk.Label(self.game_frame,
+                                          style="Game.TLabel")
+
+        # Direction Buttons
+        self.up_button = ttk.Button(self.game_frame, text="⇡", command=self.move_up, style="Game.TButton")
+        self.down_button = ttk.Button(self.game_frame, text="⇣", command=self.move_down, style="Game.TButton")
+        self.right_button = ttk.Button(self.game_frame, text="⇢", command=self.move_right, style="Game.TButton")
+        self.left_button = ttk.Button(self.game_frame, text="⇠", command=self.move_left, style="Game.TButton")
+
+        # Menu and Inventory
+        self.save_button = ttk.Button(self.game_frame, text="Save")
+        self.inventory = ttk.Label(self.game_frame, text="You have __ keys", style="TLabel")
+        self.quit_button = ttk.Button(self.game_frame, text="Quit")
+
+    def set_quiz(self, player, level):
+        self.quiz = TriviaQuizTwo(player, level)
+
+    def view_maze(self):
+        self.quiz._maze.print_maze()
+
+    def move_up(self):
+        self.quiz.user_choice('w')
+
+    def move_down(self):
+        self.quiz.user_choice('s')
+
+    def move_left(self):
+        self.quiz.user_choice('a')
+
+    def move_right(self):
+        self.quiz.user_choice('d')
 
     def configure_styles(self):
         self.style.theme_use('classic')
+
+        self.root.title('Trivia Quiz!')
+        self.root.resizable(False, False)
+        self.root.configure(background='#000000')
+
+        self.game_window.title('Trivia Quiz!')
+        self.game_window.resizable(False, False)
+        self.game_window.configure(background='#000000')
+
         self.style.configure('TLabel', background='#000000', foreground="#f0f14e", font=('Courier', 12))
         self.style.configure('TFrame', background='#000000')
-        self.style.configure('TButton', background='#f0f14e', font=('Courier', 12))
+        self.style.configure('TButton', background='#f0f14e', font=('Courier', 12), cursor="target")
+
+        self.style.configure('Game.TLabel', background='#000000', foreground="#f0f14e", font=('Courier', 16), border="white")
+        self.style.configure('Game.TButton', background='#f0f14e', font=('Courier', 24), cursor="target")
 
     def build_game_config_frame(self):
         self.config_frame.pack()
@@ -87,12 +129,29 @@ class UserInterface:
     def build_main_game_window(self):
         self.game_window.deiconify()
         self.game_window.geometry('500x400')
+        self.game_window.rowconfigure(0, weight=1)
+        self.game_window.columnconfigure(0, weight=1)
 
-        self.user_choice_frame.pack()
-        self.game_frame.pack()
+        row, col = self.quiz._maze.get_location()
 
-        self.placeholder_text.pack()
-        self.question_placeholder.pack()
+        self.user_choice_frame.grid(row=0)
+        self.game_frame.grid(row=1)
+
+        self.maze_location.configure(text=self.quiz._maze.draw_location(row, col))
+
+        # self.view_all_button.grid(row=0, column=0, pady=10, padx=10, sticky="nw")
+        self.question_text.grid(row=1, column=1, columnspan=2, pady=10, padx=10)
+
+        self.up_button.grid(row=3, column=2, padx=10, pady=10)
+        self.left_button.grid(row=4, column=1, padx=10, pady=10)
+        self.maze_location.grid(row=4, column=2, padx=20, pady=20)
+        self.right_button.grid(row=4, column=3, padx=10, pady=10)
+        self.down_button.grid(row=5, column=2, padx=10, pady=10)
+
+        self.save_button.grid(row=6, column=0, padx=10, pady=10)
+        self.inventory.grid(row=6, column=2, padx=10, pady=10)
+        self.quit_button.grid(row=6, column=4, padx=10, pady=10)
+
 
     def clear_field(self, field):
         field.delete(0,  'end')
@@ -100,24 +159,28 @@ class UserInterface:
     def disable_field(self, field):
         field.config(state='disabled')
 
+    def clear_and_disable(self, field):
+        field.delete(0,  'end')
+        field.config(state='disabled')
+
     def play_game(self):
         player_name = self.entry_name.get().strip()
-        maze_difficulty = self.entry_difficulty.get().strip()
+        maze_level = self.entry_difficulty.get().strip()
 
-        self.clear_field(self.entry_name)
-        self.clear_field(self.entry_difficulty)
-
-        self.disable_field(self.entry_name)
-        self.disable_field(self.entry_difficulty)
+        self.clear_and_disable(self.entry_name)
+        self.clear_and_disable(self.entry_difficulty)
 
         self.submit_button.config(state=DISABLED)
 
+
+        print("name: ", player_name, " | ", "difficulty: ", maze_level)
+        # self.quiz = TriviaQuizTwo(player_name, maze_level)
+        self.set_quiz(player_name, maze_level)
+
         self.build_main_game_window()
-
-        print("name: ", player_name, " | ", "difficulty: ", maze_difficulty)
-        self.quiz = TriviaQuizTwo(player_name, maze_difficulty)
-
         # return player_name, maze_difficulty
+
+
 
 
 def main():
