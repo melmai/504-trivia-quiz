@@ -45,8 +45,12 @@ class UserInterface:
                                               text="What now?",
                                               style='TLabel')
 
-        self.true_button = ttk.Button(self.user_choice_frame)
-        self.false_button = ttk.Button(self.user_choice_frame)
+        self.key_notify_label = ttk.Label(self.user_choice_frame,
+                                          text = "You found a key! You'll need it...",
+                                          style = "TLabel")
+
+        self.true_button = ttk.Button(self.user_choice_frame, text="True", command=lambda:self.handle_answer("True"))
+        self.false_button = ttk.Button(self.user_choice_frame, text="False")
 
 
         self.view_all_button = ttk.Button(self.user_choice_frame, text="View Maze", style="TButton", command=self.view_maze)
@@ -72,17 +76,36 @@ class UserInterface:
     def view_maze(self):
         self.quiz._maze.print_maze()
 
+    def handle_answer(self, response):
+        print(response)
+        self.game_loop_start()
+
     def move_up(self):
         self.quiz.user_choice('w')
+        self.post_choice_maintenance()
 
     def move_down(self):
         self.quiz.user_choice('s')
+        self.post_choice_maintenance()
 
     def move_left(self):
         self.quiz.user_choice('a')
+        self.post_choice_maintenance()
 
     def move_right(self):
         self.quiz.user_choice('d')
+        self.post_choice_maintenance()
+
+    def post_choice_maintenance(self):
+        self.up_button.config(state=DISABLED)
+        self.down_button.config(state=DISABLED)
+        self.left_button.config(state=DISABLED)
+        self.right_button.config(state=DISABLED)
+
+        self.question_text.config(text="The initials JPEG stand for Jagged Point Enabled Graphs")
+        self.true_button.grid(row=2, column=1)
+        self.false_button.grid(row=2, column=2)
+
 
     def configure_styles(self):
         self.style.theme_use('classic')
@@ -152,6 +175,24 @@ class UserInterface:
         self.inventory.grid(row=6, column=2, padx=10, pady=10)
         self.quit_button.grid(row=6, column=4, padx=10, pady=10)
 
+    def game_loop_start(self):
+        if not self.quiz._game_over:
+            self.up_button.config(state=NORMAL)
+            self.down_button.config(state=NORMAL)
+            self.left_button.config(state=NORMAL)
+            self.right_button.config(state=NORMAL)
+            self.key_notify_label.grid_forget()
+
+            row, col = self.quiz._maze.get_location()
+            self.maze_location.configure(text=self.quiz._maze.draw_location(row, col))
+
+            if self.quiz._maze.get_current_room().key:
+                # print("You found a key! You'll need it...")
+                self.key_notify_label.grid(row=0, column=1, padx=10, pady=10)
+                self.quiz._player.add_key()
+                self.quiz._maze.get_current_room().transfer_key()
+
+            # self.quizuser_choice()
 
     def clear_field(self, field):
         field.delete(0,  'end')
@@ -178,6 +219,8 @@ class UserInterface:
         self.set_quiz(player_name, maze_level)
 
         self.build_main_game_window()
+        self.game_loop_start()
+
         # return player_name, maze_difficulty
 
 
