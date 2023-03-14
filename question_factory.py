@@ -43,21 +43,18 @@ class QuestionFactory:
         if question_type == "TrueFalse":
             if self.tf_stack:
                 question_data = self.tf_stack.pop()
-                print(question_data[1])
                 return TrueFalseQuestion(question_data[1], question_data[3])
             else:
                 raise ValueError('error no more questions')
         elif question_type == "ShortAnswer":
             if self.sa_stack:
                 question_data = self.sa_stack.pop()
-                print(question_data[1])
                 return ShortAnswerQuestion(question_data[1], question_data[3])
             else:
                 raise ValueError('error no more questions')
         elif question_type == "MultipleChoice":
             if self.mc_stack:
                 question_data = self.mc_stack.pop()
-                print(question_data[1], question_data[2])
                 return MultipleChoiceQuestion(question_data[1], question_data[2], question_data[3])
             else:
                 raise ValueError('error no more questions')
