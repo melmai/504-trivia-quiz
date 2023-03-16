@@ -17,7 +17,7 @@ class TriviaQuiz:
         if not self.load_start(savefile):
             # self._info.print_intro_art()
             # self._info.print_instructions()
-            self.__player = self._create_player()
+            self.__player = self.__create_player()
             self.__difficulty = self._set_difficulty()
             self.__maze = Maze(self.__difficulty)
             self.__info.print_menu()
@@ -71,7 +71,7 @@ class TriviaQuiz:
             time.sleep(2)
             return None
 
-    def _create_player(self):
+    def __create_player(self):
         """
         This method gets input from the user to create a Player object.
         :return: Player object
