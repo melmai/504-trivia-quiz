@@ -1,4 +1,5 @@
 import textwrap
+import datetime
 import time
 
 
@@ -8,7 +9,7 @@ class UserInfo:
         pass
 
     @staticmethod
-    def print_intro_art():
+    def intro_art():
         """This method introduces the rules and instructions for the player."""
         print("""
         \\                           /
@@ -35,12 +36,13 @@ class UserInfo:
         /                           \\
         """)
 
-    def print_instructions(self):
+    @staticmethod
+    def instructions(self):
 
         print("You wake up in a cold, dark room...")
 
         UserInfo.delay_text("Your head hurts. Everything is unfamiliar. "
-                                 "What is this place?")
+                            "What is this place?")
 
         UserInfo.delay_text("There's something in your pocket.")
 
@@ -145,3 +147,32 @@ class UserInfo:
     @staticmethod
     def quit():
         print("Had enough, huh?")
+
+    @staticmethod
+    def saved():
+        print(f"Game has been saved at {datetime.datetime.now()}")
+
+    @staticmethod
+    def start_game(tried_loading=False, invalid=False):
+        if not tried_loading:
+            UserInfo.delay_text("Now starting new game.....", 2)
+        elif invalid:
+            UserInfo.delay_text("Hmmm...sorry but I dont recognize your input. I'll go ahead "
+                "and start a new game ;)...", 2)
+        else:
+            UserInfo.delay_text("No saved game data found..starting new game")
+
+    @staticmethod
+    def loading():
+        print("loading game...")
+
+    @staticmethod
+    def loaded(name, keys):
+        print(
+            f"Game loaded successfully! Welcome back "
+            f"{name}. You have {keys} keys available!")
+
+    @staticmethod
+    def game_not_found():
+        print(f"No saved game file found")
+

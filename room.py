@@ -1,5 +1,3 @@
-import random
-
 from door import Door
 from user_info import UserInfo
 import random

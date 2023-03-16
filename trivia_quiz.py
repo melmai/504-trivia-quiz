@@ -2,7 +2,6 @@ import time
 from maze import Maze
 from player import Player
 import pickle
-import datetime
 import sys
 from user_info import UserInfo
 
@@ -15,8 +14,8 @@ class TriviaQuiz:
         self.__quit = False
 
         if not self.load_start(savefile):
-            # self._info.print_intro_art()
-            # self._info.print_instructions()
+            # UserInfo.intro_art()
+            # UserInfo.instructions()
             self.__player = self.__create_player()
             self.__difficulty = self._set_difficulty()
             self.__maze = Maze(self.__difficulty)
@@ -24,27 +23,26 @@ class TriviaQuiz:
 
         self.main_game_loop()
 
-    def save_game(self, savefile, maze, player):
-        with open(savefile, 'wb') as file:
+    @staticmethod
+    def save_game(save_file, maze, player):
+        with open(save_file, 'wb') as file:
             pickle.dump({'maze': maze, 'player': player}, file)
-            print(f"Game has been saved at {datetime.datetime.now()}")
+            UserInfo.saved()
             sys.exit()
 
-    def load_game(self, savefile):
+    def load_game(self, save_file):
         try:
-            with open(savefile, 'rb') as file:
+            with open(save_file, 'rb') as file:
                 game_data = pickle.load(file)
                 if game_data is not None:
                     self.__maze = game_data['maze']
                     player_data = game_data['player']
                     self.__player = Player(player_data.name)
                     self.__player.keys = player_data.keys
-                    print(
-                        f"Game loaded successfully! Welcome back "
-                        f"{self.__player.name} . You have {self.__player.keys} keys available!")
+                    UserInfo.loaded(self.__player.name, self.__player.keys)
                     return self.__maze
         except FileNotFoundError:
-            print(f"No saved game file found")
+            UserInfo.game_not_found()
             return False
 
     def load_start(self, savefile):
@@ -52,23 +50,18 @@ class TriviaQuiz:
             "Input 1 if you are starting a new adventure, or input 2 if you "
             "are loading....")
         if loading == '1':
-            print("Now starting new game.....")
-            time.sleep(2)
+            UserInfo.start_game()
             return None
         elif loading == '2':
             loaded_data = self.load_game(savefile)
             if loaded_data is None:
-                print("No saved game data found..starting new game")
-                time.sleep(1)
+                UserInfo.start_game(True)
                 return None
             else:
-                print("loading game...")
+                UserInfo.loading()
                 return loaded_data
         else:
-            print(
-                "Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game ;)...")
-            time.sleep(2)
+            UserInfo.start_game(False, True)
             return None
 
     def __create_player(self):
