@@ -3,9 +3,8 @@ from true_false_question import TrueFalseQuestion
 
 class MultipleChoiceQuestion(TrueFalseQuestion):
     def __init__(self, question, choices, answer):
-        self._question = question
+        super().__init__(question, answer)
         self._choices = choices
-        self._answer = answer
 
     def __str__(self):
         return f'{self._question} {self._choices}'
