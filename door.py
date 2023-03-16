@@ -4,43 +4,41 @@ from user_info import UserInfo
 
 class Door:
     def __init__(self):
-        self._info = UserInfo()
-        self._is_locked = True
-        self._question_factory = QuestionFactory()
-        self._question = self._question_factory.generate_question()
-        self._answerable = True
-
+        self.__is_locked = True
+        self.__question = QuestionFactory.generate_question()
+        self.__answerable = True
+        self.__info = UserInfo()
 
     @property
     def locked(self):
-        return self._is_locked
+        return self.__is_locked
 
     @locked.setter
     def locked(self, is_locked):
-        self._is_locked = is_locked
+        self.__is_locked = is_locked
 
     @property
     def answerable(self):
-        return self._answerable
+        return self.__answerable
 
     @answerable.setter
     def answerable(self, answerable):
-        self._answerable = answerable
+        self.__answerable = answerable
 
     def unlock(self):
         """
         This method removes the barrier that prevents movement to the
         next room.
         """
-        self._is_locked = False
+        self.__is_locked = False
 
-    def get_user_response(self):
+    def __get_user_response(self):
         """
         This method presents the player with a question and waits for an
         answer from the player
         :return: String
         """
-        return input(self._question.question + '\n')
+        return input(self.__question.question + '\n')
 
     def check_answer(self):
         """
@@ -50,18 +48,18 @@ class Door:
         is_correct = None
 
         while is_correct is None:
-            response = self.get_user_response()
-            is_correct = self._question.check_response(response)
+            response = self.__get_user_response()
+            is_correct = self.__question.check_response(response)
             if is_correct is None:
-                self._info.print_invalid_input()
+                self.__info.print_invalid_input()
 
-        self._answerable = False
+        self.__answerable = False
 
         if is_correct:
-            self._info.print_correct_response()
+            self.__info.print_correct_response()
             self.unlock()
         else:
-            self._info.print_incorrect_response()
+            self.__info.print_incorrect_response()
 
     def try_door(self):
         """
@@ -72,5 +70,4 @@ class Door:
             self.check_answer()
 
         return self.locked, self.answerable
-
 

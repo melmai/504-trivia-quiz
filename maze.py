@@ -5,13 +5,13 @@ import pickle
 
 class Maze:
     def __init__(self, size, savefile=None):
-        self._size = size
-        self._rooms = []
-        self._entrance = (0, 0)
-        self._exit = (size - 1, size - 1)
-        self._location = (0, 0)
+        self.__size = size
+        self.__rooms = []
+        self.__entrance = (0, 0)
+        self.__exit = (size - 1, size - 1)
+        self.__location = (0, 0)
 
-        self.create_maze()
+        self.__create_maze()
         self.print_maze()
 
     def at_exit(self):
@@ -19,7 +19,7 @@ class Maze:
         This method determines if the player has reached the exit
         :return: True if currently located at exit cell, else False
         """
-        return self._location == self._exit
+        return self.__location == self.__exit
 
     def get_location(self):
         """
@@ -27,7 +27,7 @@ class Maze:
         of row, col
         :return: Tuple
         """
-        return self._location
+        return self.__location
 
     def process_move(self, direction, player):
         """
@@ -47,12 +47,12 @@ class Maze:
         current_room = self.get_current_room()
         can_move = current_room.try_move(directions[direction], player)
         if can_move:
-            self.move(direction)
+            self.__move(direction)
             has_moved = True
 
         return has_moved
 
-    def move(self, direction):
+    def __move(self, direction):
         """
         This method updates the location of the Player
         :param direction: string representing direction of movement
@@ -64,16 +64,16 @@ class Maze:
             "d": (1, 0)
         }
 
-        row, col = self._location
+        row, col = self.__location
         col += movement[direction][0]
         row += movement[direction][1]
-        self._location = (row, col)
+        self.__location = (row, col)
 
-    def create_maze(self):
-        for row in range(self._size):
-            self._rooms.append([])
-            for col in range(self._size):
-                self._rooms[-1].append(Room(row, col))
+    def __create_maze(self):
+        for row in range(self.__size):
+            self.__rooms.append([])
+            for col in range(self.__size):
+                self.__rooms[-1].append(Room(row, col))
 
         start = self.get_current_room()
 
@@ -82,23 +82,23 @@ class Maze:
 
         while stack:
             current = stack[-1]
-            neighbors = self._get_neighbors(current, visited)
+            neighbors = self.__get_neighbors(current, visited)
 
             if neighbors:
                 neighbor = random.choice(neighbors)
                 stack.append(neighbor)
                 visited.append(neighbor)
-                self._create_doors(current, neighbor)
+                self.__create_doors(current, neighbor)
             else:
                 stack.pop()
 
-        self._initialize_rooms()
+        self.__initialize_rooms()
 
-    def _initialize_rooms(self):
-        self._rooms[0][0].set_entrance()
-        self._rooms[self._size - 1][self._size - 1].set_exit()
+    def __initialize_rooms(self):
+        self.__rooms[0][0].set_entrance()
+        self.__rooms[self.__size - 1][self.__size - 1].set_exit()
 
-    def _create_doors(self, current, neighbor):
+    def __create_doors(self, current, neighbor):
         neighbor_dir = {
             "east": "west",
             "west": "east",
@@ -118,17 +118,17 @@ class Maze:
         door = current.set_door(current_dir)
         neighbor.set_door(neighbor_dir[current_dir], door)
 
-    def _get_neighbors(self, current, visited):
+    def __get_neighbors(self, current, visited):
         row = current.row
         col = current.col
-        end = self._size - 1
+        end = self.__size - 1
         current_neighbors = []
 
         # Room or false
-        north_room = self.get_room(row - 1, col)
-        south_room = self.get_room(row + 1, col)
-        west_room = self.get_room(row, col - 1)
-        east_room = self.get_room(row, col + 1)
+        north_room = self.__get_room(row - 1, col)
+        south_room = self.__get_room(row + 1, col)
+        west_room = self.__get_room(row, col - 1)
+        east_room = self.__get_room(row, col + 1)
 
         if row > 0 and north_room not in visited:
             current_neighbors.append(north_room)
@@ -140,9 +140,9 @@ class Maze:
             current_neighbors.append(east_room)
         return current_neighbors
 
-    def get_room(self, row, col):
-        if 0 <= row < self._size and 0 <= col < self._size:
-            return self._rooms[row][col]
+    def __get_room(self, row, col):
+        if 0 <= row < self.__size and 0 <= col < self.__size:
+            return self.__rooms[row][col]
 
     def is_traversable(self, row=None, col=None, visited_rooms=[]):
         """
@@ -155,12 +155,12 @@ class Maze:
         visited = visited_rooms
 
         if not row:
-            row = self._location[0]
+            row = self.__location[0]
 
         if not col:
-            col = self._location[1]
+            col = self.__location[1]
 
-        current_room = self._rooms[row][col]
+        current_room = self.__rooms[row][col]
 
         if current_room and current_room not in visited:
             visited.append(current_room)
@@ -183,10 +183,10 @@ class Maze:
     def load_maze(self, savefile):
         with open(savefile, 'rb') as file:
             maze_data = pickle.load(file)
-            self._rooms = maze_data['rooms']
-            self._entrance = maze_data['entrance']
-            self._exit = maze_data['exit']
-            self._location = maze_data["location"]
+            self.__rooms = maze_data['rooms']
+            self.__entrance = maze_data['entrance']
+            self.__exit = maze_data['exit']
+            self.__location = maze_data["location"]
 
     def is_valid_room(self, row, col):
         """
@@ -195,7 +195,7 @@ class Maze:
         :param: row, col
         :return: boolean
         """
-        return 0 <= row < self._size and 0 <= col < self._size
+        return 0 <= row < self.__size and 0 <= col < self.__size
 
     def print_maze(self):
         """
@@ -203,15 +203,15 @@ class Maze:
         utilizes some helper methods
         """
         room_list = []
-        for row in range(0, self._size):
-            for col in range(0, self._size):
-                doors = self.show_all_possible_directions(row, col)
+        for row in range(0, self.__size):
+            for col in range(0, self.__size):
+                doors = self.__show_all_possible_directions(row, col)
                 room_list.append(
-                    self._rooms[row][col].construct_room_string())
-            self.format_strings(room_list)
+                    self.__rooms[row][col].construct_room_string())
+            self.__format_strings(room_list)
             room_list = []
 
-    def format_strings(self, rooms):
+    def __format_strings(self, rooms):
         """
         This method takes a list of string Room components to be printed out
         in rows and columns
@@ -236,9 +236,9 @@ class Maze:
         :param col:
         :return:
         """
-        print(self._rooms[row][col])
+        print(self.__rooms[row][col])
 
-    def show_all_possible_directions(self, x, y):
+    def __show_all_possible_directions(self, x, y):
         """
         This method returns the possible directions of movement for the player
         :param x:
@@ -246,14 +246,14 @@ class Maze:
         :return: Tuple
         """
 
-        can_move_north = (0 <= x - 1 < self._size) and self._rooms[x - 1][
-            y] is not None and self._rooms[x - 1][y].can_move_to()
-        can_move_south = (0 <= x + 1 < self._size) and self._rooms[x + 1][
-            y] is not None and self._rooms[x + 1][y].can_move_to()
-        can_move_west = (0 <= y - 1 < self._size) and self._rooms[x][
-            y - 1] is not None and self._rooms[x][y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self._size) and self._rooms[x][
-            y + 1] is not None and self._rooms[x][y + 1].can_move_to()
+        can_move_north = (0 <= x - 1 < self.__size) and self.__rooms[x - 1][
+            y] is not None and self.__rooms[x - 1][y].can_move_to()
+        can_move_south = (0 <= x + 1 < self.__size) and self.__rooms[x + 1][
+            y] is not None and self.__rooms[x + 1][y].can_move_to()
+        can_move_west = (0 <= y - 1 < self.__size) and self.__rooms[x][
+            y - 1] is not None and self.__rooms[x][y - 1].can_move_to()
+        can_move_east = (0 <= y + 1 < self.__size) and self.__rooms[x][
+            y + 1] is not None and self.__rooms[x][y + 1].can_move_to()
         return can_move_north, can_move_south, can_move_west, can_move_east
 
     def get_current_room(self):
@@ -261,8 +261,8 @@ class Maze:
         This method returns the current location of the Player
         :return: Room
         """
-        x, y = self._location
-        return self._rooms[x][y]
+        x, y = self.__location
+        return self.__rooms[x][y]
 
 
 if __name__ == "__main__":

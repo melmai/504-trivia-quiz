@@ -5,21 +5,22 @@ import pickle
 import datetime
 import sys
 from user_info import UserInfo
+
 savefile = 'save.pkl'
 
 
 class TriviaQuiz:
     def __init__(self):
-        self._game_over = False
-        self._info = UserInfo()
+        self.__game_over = False
+        self.__info = UserInfo()
 
         if not self.load_start(savefile):
             # self._info.print_intro_art()
             # self._info.print_instructions()
-            self._player = self._create_player()
-            self._difficulty = self._set_difficulty()
-            self._maze = Maze(self._difficulty)
-            self._info.print_menu()
+            self.__player = self.__create_player()
+            self.__difficulty = self._set_difficulty()
+            self.__maze = Maze(self.__difficulty)
+            self.__info.print_menu()
 
         self.main_game_loop()
 
@@ -34,13 +35,14 @@ class TriviaQuiz:
             with open(savefile, 'rb') as file:
                 game_data = pickle.load(file)
                 if game_data is not None:
-                    self._maze = game_data['maze']
+                    self.__maze = game_data['maze']
                     player_data = game_data['player']
-                    self._player = Player(player_data.name, player_data._keys)
+                    self.__player = Player(player_data.name)
+                    self.__player.keys = player_data.keys
                     print(
                         f"Game loaded successfully! Welcome back "
-                        f"{self._player.name} . You have {self._player.keys} keys available!")
-                    return self._maze
+                        f"{self.__player.name} . You have {self.__player.keys} keys available!")
+                    return self.__maze
         except FileNotFoundError:
             print(f"No saved game file found")
             return False
@@ -69,7 +71,7 @@ class TriviaQuiz:
             time.sleep(2)
             return None
 
-    def _create_player(self):
+    def __create_player(self):
         """
         This method gets input from the user to create a Player object.
         :return: Player object
@@ -87,7 +89,7 @@ class TriviaQuiz:
         """
         while True:
             number = input(
-                f"Welcome {self._player.name}. Please enter a difficulty "
+                f"Welcome {self.__player.name}. Please enter a difficulty "
                 f"level (1-3) ").strip()
             if int(number.isdigit()) and 1 <= int(number) <= 3:
                 if number == '1':
@@ -108,36 +110,36 @@ class TriviaQuiz:
 
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
-            has_moved = self._maze.process_move(choice, self._player)
+            has_moved = self.__maze.process_move(choice, self.__player)
 
             #  if at exit or can't win, it's all over
-            if self._maze.at_exit() or (not has_moved and
-                                        not self._player.keys and
-                                        not self._maze.is_traversable()):
-                self._game_over = True
+            if self.__maze.at_exit() or (not has_moved and
+                                         not self.__player.keys and
+                                         not self.__maze.is_traversable()):
+                self.__game_over = True
 
         elif choice == 'i':
-            self._player.check_inventory()
+            self.__player.check_inventory()
 
         elif choice == 'm':
-            self._info.print_menu()
+            self.__info.print_menu()
 
         elif choice == '1':
-            self.save_game(savefile, self._maze, self._player)
+            self.save_game(savefile, self.__maze, self.__player)
 
         elif choice == 'o':  # See entire maze for development
-            self._maze.print_maze()
+            self.__maze.print_maze()
 
         elif choice == 'q':  # Auto-quit the game for development
-            self._game_over = True
+            self.__game_over = True
 
         elif choice == 'g':  # enable god mode
             print("Looks like you have a skeleton key. No door can stop you "
                   "now.")
-            self._player.dev = True
+            self.__player.dev = True
 
         else:
-            print(f"Sorry {self._player.name}, that's not a valid command!")
+            print(f"Sorry {self.__player.name}, that's not a valid command!")
 
     def main_game_loop(self):
         """
@@ -146,24 +148,23 @@ class TriviaQuiz:
         wins or loses.
         :return: None
         """
-        # TODO: Check if all the available doors are locked as a game-ending
-        #  condition
-        while not self._game_over:
-            row, col = self._maze.get_location()
-            self._maze.draw_location(row, col)
 
-            if self._maze.get_current_room().key:
+        while not self.__game_over:
+            row, col = self.__maze.get_location()
+            self.__maze.draw_location(row, col)
+
+            if self.__maze.get_current_room().key:
                 print("You found a key! You'll need it...")
-                self._player.add_key()
-                self._maze.get_current_room().transfer_key()
+                self.__player.add_key()
+                self.__maze.get_current_room().transfer_key()
 
             self.user_choice()
 
-        if self._maze.at_exit():
-            self._maze.print_maze()
-            self._info.print_win(self._player.name)
+        if self.__maze.at_exit():
+            self.__maze.print_maze()
+            self.__info.print_win(self.__player.name)
         else:
-            self._info.print_loss()
+            self.__info.print_loss()
 
         choice = input("Play again? (Y/N) ").strip().lower()
 
@@ -172,9 +173,9 @@ class TriviaQuiz:
             choice = input("Play again? (Y/N) ").strip().lower()
 
         if choice == 'y':
-            self._info.print_restart()
-            new_game = TriviaQuiz()
+            self.__info.print_restart()
+            TriviaQuiz()
 
 
 if __name__ == "__main__":
-    tq = TriviaQuiz()
+    TriviaQuiz()
