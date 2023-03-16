@@ -1,12 +1,9 @@
 
 class Player:
-    def __init__(self, name, savefile=None):
+    def __init__(self, name, keys=2):
         self.__name = name
         self.__dev = False
-        self.__keys = 2
-        if savefile is not None:
-            self.__name = ['._name']
-            self.__keys = ['._keys']
+        self.__keys = keys
 
     @property
     def name(self):

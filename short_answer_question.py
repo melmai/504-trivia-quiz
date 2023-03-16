@@ -2,8 +2,9 @@ from true_false_question import TrueFalseQuestion
 
 
 class ShortAnswerQuestion(TrueFalseQuestion):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, question, answer):
+        self._question = question
+        self._answer = answer
 
     def check_response(self, response):
         """
@@ -11,7 +12,11 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: String
         :return: Boolean
         """
-        pass
+        response = self.normalize(response)
+        if response == str(self.answer):
+            return True
+        else:
+            return False
 
     def normalize(self, response):
         """
@@ -20,4 +25,5 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        pass
+        response = str(response.lower().strip())
+        return response

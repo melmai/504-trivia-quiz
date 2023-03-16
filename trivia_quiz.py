@@ -40,8 +40,8 @@ class TriviaQuiz:
                     self.__player = Player(player_data.name)
                     self.__player.keys = player_data.keys
                     print(
-                        f"Game loaded successfully! Welcome back, "
-                        f"{self.__player.name}")
+                        f"Game loaded successfully! Welcome back "
+                        f"{self.__player.name} . You have {self.__player.keys} keys available!")
                     return self.__maze
         except FileNotFoundError:
             print(f"No saved game file found")
@@ -67,7 +67,7 @@ class TriviaQuiz:
         else:
             print(
                 "Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game...")
+                "and start a new game ;)...")
             time.sleep(2)
             return None
 
