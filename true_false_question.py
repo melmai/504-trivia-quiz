@@ -1,20 +1,20 @@
 class TrueFalseQuestion:
     def __init__(self, question, answer, comment):
-        self._question = question
-        self._answer = answer
-        self._comment = comment
+        self.__question = question
+        self.__answer = answer
+        self.__comment = comment
 
     @property
     def question(self):
-        return self._question
+        return self.__question
 
     @property
     def answer(self):
-        return self._answer
+        return self.__answer
 
     @property
     def comment(self):
-        return self._comment
+        return self.__comment
 
     def normalize(self, response):
         """
@@ -38,9 +38,9 @@ class TrueFalseQuestion:
         :return: Boolean or None if input is invalid
         """
         response = self.normalize(response)
-        return response if response is None else response == self._answer
+        return response if response is None else response == self.__answer
 
     def mock(self):
-        self._question = "5 is the binary number '10' expressed as a decimal"
-        self._answer = False
-        self._comment = "2"
+        self.__question = "5 is the binary number '10' expressed as a decimal"
+        self.__answer = False
+        self.__comment = "2"
