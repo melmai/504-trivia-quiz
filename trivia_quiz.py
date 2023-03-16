@@ -38,7 +38,7 @@ class TriviaQuiz:
                     self.__maze = game_data['maze']
                     player_data = game_data['player']
                     self.__player = Player(player_data.name)
-                    self.__player._keys = Player(player_data.keys)
+                    self.__player.keys = player_data.keys
                     print(
                         f"Game loaded successfully! Welcome back, "
                         f"{self.__player.name}")
