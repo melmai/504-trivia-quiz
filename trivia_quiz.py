@@ -12,6 +12,7 @@ savefile = 'save.pkl'
 class TriviaQuiz:
     def __init__(self):
         self.__game_over = False
+        self.__quit = False
         self.__info = UserInfo()
 
         if not self.load_start(savefile):
@@ -132,6 +133,7 @@ class TriviaQuiz:
 
         elif choice == 'q':  # Auto-quit the game for development
             self.__game_over = True
+            self.__quit = True
 
         elif choice == 'g':  # enable god mode
             print("Looks like you have a skeleton key. No door can stop you "
@@ -163,8 +165,10 @@ class TriviaQuiz:
         if self.__maze.at_exit():
             self.__maze.print_maze()
             self.__info.print_win(self.__player.name)
+        elif self.__quit:
+            UserInfo.quit()
         else:
-            self.__info.print_loss()
+            UserInfo.lose()
 
         choice = input("Play again? (Y/N) ").strip().lower()
 

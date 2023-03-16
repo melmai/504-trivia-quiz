@@ -129,7 +129,7 @@ class UserInfo:
               f"But do you really think you can do it again?")
 
     @staticmethod
-    def print_loss():
+    def lose():
         print("Ouch, sorry. Taking that big L.")
 
     @staticmethod
@@ -137,4 +137,6 @@ class UserInfo:
         print("alright, let's go around again...")
         print("*-----------------------------------*")
 
-
+    @staticmethod
+    def quit():
+        print("Had enough, huh?")
