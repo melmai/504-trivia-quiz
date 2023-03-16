@@ -52,15 +52,15 @@ class Door:
             response = self.__get_user_response()
             is_correct = self.__question.check_response(response)
             if is_correct is None:
-                self.__info.print_invalid_input()
+                self.__info.invalid()
 
         self.__answerable = False
 
         if is_correct:
-            self.__info.print_correct_response()
+            self.__info.correct()
             self.unlock()
         else:
-            self.__info.print_incorrect_response()
+            self.__info.incorrect()
 
     def try_door(self):
         """

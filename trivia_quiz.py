@@ -13,7 +13,6 @@ class TriviaQuiz:
     def __init__(self):
         self.__game_over = False
         self.__quit = False
-        self.__info = UserInfo()
 
         if not self.load_start(savefile):
             # self._info.print_intro_art()
@@ -21,7 +20,7 @@ class TriviaQuiz:
             self.__player = self.__create_player()
             self.__difficulty = self._set_difficulty()
             self.__maze = Maze(self.__difficulty)
-            self.__info.print_menu()
+            UserInfo.menu()
 
         self.main_game_loop()
 
@@ -123,7 +122,7 @@ class TriviaQuiz:
             self.__player.check_inventory()
 
         elif choice == 'm':
-            self.__info.print_menu()
+            UserInfo.menu()
 
         elif choice == '1':
             self.save_game(savefile, self.__maze, self.__player)
@@ -136,12 +135,11 @@ class TriviaQuiz:
             self.__quit = True
 
         elif choice == 'g':  # enable god mode
-            print("Looks like you have a skeleton key. No door can stop you "
-                  "now.")
+            UserInfo.found_key(True)
             self.__player.dev = True
 
         else:
-            print(f"Sorry {self.__player.name}, that's not a valid command!")
+            UserInfo.invalid()
 
     def main_game_loop(self):
         """
@@ -156,28 +154,28 @@ class TriviaQuiz:
             self.__maze.draw_location(row, col)
 
             if self.__maze.get_current_room().key:
-                print("You found a key! You'll need it...")
+                UserInfo.found_key()
                 self.__player.add_key()
                 self.__maze.get_current_room().transfer_key()
 
             self.user_choice()
 
-        if self.__maze.at_exit():
+        if self.__maze.at_exit():  # win
             self.__maze.print_maze()
-            self.__info.print_win(self.__player.name)
-        elif self.__quit:
+            UserInfo.win(self.__player.name)
+        elif self.__quit:  # quit
             UserInfo.quit()
-        else:
+        else:  # lose
             UserInfo.lose()
 
         choice = input("Play again? (Y/N) ").strip().lower()
 
         while choice != 'n' and choice != 'y':
-            print('Sorry, that is not a valid response! Give it another try.')
+            UserInfo.invalid()
             choice = input("Play again? (Y/N) ").strip().lower()
 
         if choice == 'y':
-            self.__info.print_restart()
+            UserInfo.restart()
             TriviaQuiz()
 
 
