@@ -1,6 +1,5 @@
-import random
-
 from door import Door
+from user_info import UserInfo
 import random
 
 
@@ -204,10 +203,9 @@ class Room:
         can_move = False
         door = self.__doors[direction]
 
-        if door and player.dev:
+        if door and player.dev:  # god mode, move if possible
             return True
-
-        if door:  # there's a door
+        elif door:  # there's a door
             self.__active_door = door
             is_locked, is_answerable = door.try_door()
 
@@ -227,7 +225,8 @@ class Room:
                       "disposal.")
 
             self.__active_door = None
-
+        else:  # no door
+            UserInfo.no_door()
         return can_move  # can't move this direction
 
     def has_answerable_door(self, direction):
@@ -235,4 +234,4 @@ class Room:
 
 
 if __name__ == "__main__":
-    sampleroom = Room(2,2)
+    Room(2, 2)

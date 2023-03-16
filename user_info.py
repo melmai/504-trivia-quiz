@@ -1,4 +1,5 @@
 import textwrap
+import datetime
 import time
 
 
@@ -8,7 +9,7 @@ class UserInfo:
         pass
 
     @staticmethod
-    def print_intro_art():
+    def intro_art():
         """This method introduces the rules and instructions for the player."""
         print("""
         \\                           /
@@ -35,37 +36,39 @@ class UserInfo:
         /                           \\
         """)
 
-    def print_instructions(self):
+    @staticmethod
+    def instructions(self):
 
         print("You wake up in a cold, dark room...")
 
-        self._print_delayed_text("Your head hurts. Everything is unfamiliar. "
-                                 "What is this place?")
+        UserInfo.delay_text("Your head hurts. Everything is unfamiliar. "
+                            "What is this place?")
 
-        self._print_delayed_text("There's something in your pocket.")
+        UserInfo.delay_text("There's something in your pocket.")
 
-        self._print_delayed_text("Keys? What are these for?")
-        self._print_delayed_text("You see a light...")
-        self._print_delayed_text("It's getting brighter.")
-        self._print_delayed_text("Oh god, it's blinding!")
-        self._print_delayed_text("Wh- what *is* this madness?!")
-        self._print_delayed_text("...")
-        self._print_delayed_text("...")
-        self._print_delayed_text("Welcome to Trivia Quiz!")
-        self._print_delayed_text("It's a trap. It's a game! It's a game-trap!")
-        self._print_delayed_text("""
+        UserInfo.delay_text("Keys? What are these for?")
+        UserInfo.delay_text("You see a light...")
+        UserInfo.delay_text("It's getting brighter.")
+        UserInfo.delay_text("Oh god, it's blinding!")
+        UserInfo.delay_text("Wh- what *is* this madness?!")
+        UserInfo.delay_text("...")
+        UserInfo.delay_text("...")
+        UserInfo.delay_text("Welcome to Trivia Quiz!")
+        UserInfo.delay_text("It's a trap. It's a game! It's a game-trap!")
+        UserInfo.delay_text("""
         In order to leave this prison of fun, you must find your way to 
         the exit. Pick a locked door and answer a question to unlock it. Don't 
         worry, they are *all* locked. You know, for maximal FUN!
         """)
-        self._print_delayed_text("""
+        UserInfo.delay_text("""
         Those keys you found will help you on your way to the exit. They 
         will unlock any door you find, even if you already answered a 
         question incorrectly. There are more keys to find as you make your 
         way through the rooms, but don't rely on them too much!
         """, 2)
 
-    def print_menu(self, delayed=False):
+    @staticmethod
+    def menu(delayed=False):
 
         menu = textwrap.dedent("""
         Available Actions
@@ -82,12 +85,12 @@ class UserInfo:
         """)
 
         if delayed:
-            self._print_delayed_text(menu)
+            UserInfo.delay_text(menu)
         else:
             print(menu)
 
     @staticmethod
-    def _print_delayed_text(text, delay=1):
+    def delay_text(text, delay=1):
         """
         This method prints a string of text without preceding white space
         after pausing execution for a period of time (default = 1s)
@@ -97,18 +100,21 @@ class UserInfo:
         time.sleep(delay)
         print(textwrap.dedent(text))
 
-    def print_invalid_command(self, name):
-        print(f"Sorry {name}, that's not a valid command!")
-
     @staticmethod
-    def print_invalid_input():
+    def invalid():
         print('Sorry, that is not a valid response! Give it another try.')
 
-    def print_correct_response(self):
+    @staticmethod
+    def correct():
         print("Yas queen")
 
-    def print_incorrect_response(self):
+    @staticmethod
+    def incorrect():
         print("Yikes. Not this time, bud.")
+
+    @staticmethod
+    def no_door():
+        print("Don't think you can move through walls...")
 
     @staticmethod
     def found_key(skeleton=False):
@@ -118,23 +124,55 @@ class UserInfo:
         else:
             print("You found a key! You'll need it...")
 
-    def print_win(self, name):
+    @staticmethod
+    def win(name):
         print("*-----------------------------------*")
         print("You've reached the exit and WON THE GAME!")
-        self._print_delayed_text("...")
-        self._print_delayed_text("...this time...")
-        self._print_delayed_text(" ")
+        UserInfo.delay_text("...")
+        UserInfo.delay_text("...this time...")
+        UserInfo.delay_text(" ")
 
         print(f"Okay {name}, you've done it once. "
               f"But do you really think you can do it again?")
 
     @staticmethod
-    def print_loss():
+    def lose():
         print("Ouch, sorry. Taking that big L.")
 
     @staticmethod
-    def print_restart():
+    def restart():
         print("alright, let's go around again...")
         print("*-----------------------------------*")
 
+    @staticmethod
+    def quit():
+        print("Had enough, huh?")
+
+    @staticmethod
+    def saved():
+        print(f"Game has been saved at {datetime.datetime.now()}")
+
+    @staticmethod
+    def start_game(tried_loading=False, invalid=False):
+        if not tried_loading:
+            UserInfo.delay_text("Now starting new game.....", 2)
+        elif invalid:
+            UserInfo.delay_text("Hmmm...sorry but I dont recognize your input. I'll go ahead "
+                "and start a new game ;)...", 2)
+        else:
+            UserInfo.delay_text("No saved game data found..starting new game")
+
+    @staticmethod
+    def loading():
+        print("loading game...")
+
+    @staticmethod
+    def loaded(name, keys):
+        print(
+            f"Game loaded successfully! Welcome back "
+            f"{name}. You have {keys} keys available!")
+
+    @staticmethod
+    def game_not_found():
+        print(f"No saved game file found")
 

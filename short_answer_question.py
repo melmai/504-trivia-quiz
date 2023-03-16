@@ -3,8 +3,7 @@ from true_false_question import TrueFalseQuestion
 
 class ShortAnswerQuestion(TrueFalseQuestion):
     def __init__(self, question, answer):
-        self._question = question
-        self._answer = answer
+        super().__init__(question, answer)
 
     def check_response(self, response):
         """

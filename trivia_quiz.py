@@ -2,7 +2,6 @@ import time
 from maze import Maze
 from player import Player
 import pickle
-import datetime
 import sys
 from user_info import UserInfo
 
@@ -12,39 +11,38 @@ savefile = 'save.pkl'
 class TriviaQuiz:
     def __init__(self):
         self.__game_over = False
-        self.__info = UserInfo()
+        self.__quit = False
 
         if not self.load_start(savefile):
-            # self._info.print_intro_art()
-            # self._info.print_instructions()
+            # UserInfo.intro_art()
+            # UserInfo.instructions()
             self.__player = self.__create_player()
             self.__difficulty = self._set_difficulty()
             self.__maze = Maze(self.__difficulty)
-            self.__info.print_menu()
+            UserInfo.menu()
 
         self.main_game_loop()
 
-    def save_game(self, savefile, maze, player):
-        with open(savefile, 'wb') as file:
+    @staticmethod
+    def save_game(save_file, maze, player):
+        with open(save_file, 'wb') as file:
             pickle.dump({'maze': maze, 'player': player}, file)
-            print(f"Game has been saved at {datetime.datetime.now()}")
+            UserInfo.saved()
             sys.exit()
 
-    def load_game(self, savefile):
+    def load_game(self, save_file):
         try:
-            with open(savefile, 'rb') as file:
+            with open(save_file, 'rb') as file:
                 game_data = pickle.load(file)
                 if game_data is not None:
                     self.__maze = game_data['maze']
                     player_data = game_data['player']
                     self.__player = Player(player_data.name)
                     self.__player.keys = player_data.keys
-                    print(
-                        f"Game loaded successfully! Welcome back "
-                        f"{self.__player.name} . You have {self.__player.keys} keys available!")
+                    UserInfo.loaded(self.__player.name, self.__player.keys)
                     return self.__maze
         except FileNotFoundError:
-            print(f"No saved game file found")
+            UserInfo.game_not_found()
             return False
 
     def load_start(self, savefile):
@@ -52,23 +50,18 @@ class TriviaQuiz:
             "Input 1 if you are starting a new adventure, or input 2 if you "
             "are loading....")
         if loading == '1':
-            print("Now starting new game.....")
-            time.sleep(2)
+            UserInfo.start_game()
             return None
         elif loading == '2':
             loaded_data = self.load_game(savefile)
             if loaded_data is None:
-                print("No saved game data found..starting new game")
-                time.sleep(1)
+                UserInfo.start_game(True)
                 return None
             else:
-                print("loading game...")
+                UserInfo.loading()
                 return loaded_data
         else:
-            print(
-                "Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game ;)...")
-            time.sleep(2)
+            UserInfo.start_game(False, True)
             return None
 
     def __create_player(self):
@@ -122,7 +115,7 @@ class TriviaQuiz:
             self.__player.check_inventory()
 
         elif choice == 'm':
-            self.__info.print_menu()
+            UserInfo.menu()
 
         elif choice == '1':
             self.save_game(savefile, self.__maze, self.__player)
@@ -132,14 +125,14 @@ class TriviaQuiz:
 
         elif choice == 'q':  # Auto-quit the game for development
             self.__game_over = True
+            self.__quit = True
 
         elif choice == 'g':  # enable god mode
-            print("Looks like you have a skeleton key. No door can stop you "
-                  "now.")
+            UserInfo.found_key(True)
             self.__player.dev = True
 
         else:
-            print(f"Sorry {self.__player.name}, that's not a valid command!")
+            UserInfo.invalid()
 
     def main_game_loop(self):
         """
@@ -154,26 +147,28 @@ class TriviaQuiz:
             self.__maze.draw_location(row, col)
 
             if self.__maze.get_current_room().key:
-                print("You found a key! You'll need it...")
+                UserInfo.found_key()
                 self.__player.add_key()
                 self.__maze.get_current_room().transfer_key()
 
             self.user_choice()
 
-        if self.__maze.at_exit():
+        if self.__maze.at_exit():  # win
             self.__maze.print_maze()
-            self.__info.print_win(self.__player.name)
-        else:
-            self.__info.print_loss()
+            UserInfo.win(self.__player.name)
+        elif self.__quit:  # quit
+            UserInfo.quit()
+        else:  # lose
+            UserInfo.lose()
 
         choice = input("Play again? (Y/N) ").strip().lower()
 
         while choice != 'n' and choice != 'y':
-            print('Sorry, that is not a valid response! Give it another try.')
+            UserInfo.invalid()
             choice = input("Play again? (Y/N) ").strip().lower()
 
         if choice == 'y':
-            self.__info.print_restart()
+            UserInfo.restart()
             TriviaQuiz()
 
 

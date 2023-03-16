@@ -3,17 +3,16 @@ class TrueFalseQuestion:
         self._question = question
         self._answer = answer
 
-
     @property
     def question(self):
-        return self.__question
+        return self._question
 
     @property
     def answer(self):
-        return self.__answer
+        return self._answer
 
     def __str__(self):
-        return f"{self.__question}"
+        return f"{self._question}"
 
 
     def normalize(self, response):
@@ -38,9 +37,4 @@ class TrueFalseQuestion:
         :return: Boolean or None if input is invalid
         """
         response = self.normalize(response)
-        return response if response is None else response == self.__answer
-
-    def mock(self):
-        self.__question = "5 is the binary number '10' expressed as a decimal"
-        self.__answer = False
-        self.__comment = "2"
+        return response if response is None else response == self._answer

@@ -5,7 +5,8 @@ from user_info import UserInfo
 class Door:
     def __init__(self):
         self.__is_locked = True
-        self.__question = QuestionFactory.generate_question()
+        self.__question_factory = QuestionFactory()
+        self.__question = self.__question_factory.generate_question()
         self.__answerable = True
         self.__info = UserInfo()
 
@@ -51,15 +52,15 @@ class Door:
             response = self.__get_user_response()
             is_correct = self.__question.check_response(response)
             if is_correct is None:
-                self.__info.print_invalid_input()
+                self.__info.invalid()
 
         self.__answerable = False
 
         if is_correct:
-            self.__info.print_correct_response()
+            self.__info.correct()
             self.unlock()
         else:
-            self.__info.print_incorrect_response()
+            self.__info.incorrect()
 
     def try_door(self):
         """

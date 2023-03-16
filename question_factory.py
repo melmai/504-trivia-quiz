@@ -1,33 +1,29 @@
-import csv
-
 from true_false_question import TrueFalseQuestion
 from short_answer_question import ShortAnswerQuestion
 from multiple_choice_question import MultipleChoiceQuestion
-import time
 import random
-import db
 import sqlite3
 
 
 class QuestionFactory:
     def __init__(self):
-        self.tf_stack = []
-        self.mc_stack = []
-        self.sa_stack = []
-        self.fill_stack()
+        self.__tf_stack = []
+        self.__mc_stack = []
+        self.__sa_stack = []
+        self.__fill_stack()
 
-    def fill_stack(self):
+    def __fill_stack(self):
         conn = sqlite3.connect('questions.db')
         c = conn.cursor()
         c.execute('SELECT * FROM TFquestions')
-        self.tf_stack = c.fetchall()
-        random.shuffle(self.tf_stack)
+        self.__tf_stack = c.fetchall()
+        random.shuffle(self.__tf_stack)
         c.execute('SELECT * FROM MCquestions')
-        self.mc_stack = c.fetchall()
-        random.shuffle(self.mc_stack)
+        self.__mc_stack = c.fetchall()
+        random.shuffle(self.__mc_stack)
         c.execute('SELECT * FROM SAquestions')
-        self.sa_stack = c.fetchall()
-        random.shuffle(self.sa_stack)
+        self.__sa_stack = c.fetchall()
+        random.shuffle(self.__sa_stack)
 
     def generate_question(self, question_type=None):
         """
@@ -41,20 +37,20 @@ class QuestionFactory:
             question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
             question_type = random.choice(question_types)
         if question_type == "TrueFalse":
-            if self.tf_stack:
-                question_data = self.tf_stack.pop()
+            if self.__tf_stack:
+                question_data = self.__tf_stack.pop()
                 return TrueFalseQuestion(question_data[1], question_data[3])
             else:
                 raise ValueError('error no more questions')
         elif question_type == "ShortAnswer":
-            if self.sa_stack:
-                question_data = self.sa_stack.pop()
+            if self.__sa_stack:
+                question_data = self.__sa_stack.pop()
                 return ShortAnswerQuestion(question_data[1], question_data[3])
             else:
                 raise ValueError('error no more questions')
         elif question_type == "MultipleChoice":
-            if self.mc_stack:
-                question_data = self.mc_stack.pop()
+            if self.__mc_stack:
+                question_data = self.__mc_stack.pop()
                 return MultipleChoiceQuestion(question_data[1], question_data[2], question_data[3])
             else:
                 raise ValueError('error no more questions')
