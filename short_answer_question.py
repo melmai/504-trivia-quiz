@@ -13,7 +13,10 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :return: Boolean
         """
         response = self.normalize(response)
-        return response == self._answer
+        if response == str(self.answer):
+            return True
+        else:
+            return False
 
     def normalize(self, response):
         """
@@ -22,5 +25,5 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        response = response.lower().strip
+        response = str(response.lower().strip())
         return response

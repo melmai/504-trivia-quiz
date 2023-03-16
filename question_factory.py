@@ -59,7 +59,6 @@ class QuestionFactory:
             else:
                 raise ValueError('error no more questions')
 
-            # # maybe write an innit for question factory with a list of questions inside. if you do innit you don't want static
         # # read contents of db and put it inside the list, can be 1 or 3
         # conn = sqlite3.connect('questions.db')
         # c = conn.cursor()
@@ -123,8 +122,5 @@ class QuestionFactory:
         #     raise TypeError("That is not a valid question type.")
         #
         # return TrueFalseQuestion(*data)
-
-
-
 
     # print(QuestionFactory.generate_question("TrueFalse"))
