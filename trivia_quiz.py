@@ -5,7 +5,6 @@ import pickle
 import datetime
 import sys
 from user_info import UserInfo
-
 savefile = 'save.pkl'
 
 
@@ -37,11 +36,10 @@ class TriviaQuiz:
                 if game_data is not None:
                     self._maze = game_data['maze']
                     player_data = game_data['player']
-                    self._player = Player(player_data.name)
-                    self._player._keys = Player(player_data.keys)
+                    self._player = Player(player_data.name, player_data._keys)
                     print(
                         f"Game loaded successfully! Welcome back "
-                        f"{self._player.name}")
+                        f"{self._player.name} . You have {self._player.keys} keys available!")
                     return self._maze
         except FileNotFoundError:
             print(f"No saved game file found")
@@ -67,7 +65,7 @@ class TriviaQuiz:
         else:
             print(
                 "Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game...")
+                "and start a new game ;)...")
             time.sleep(2)
             return None
 
@@ -123,9 +121,6 @@ class TriviaQuiz:
 
         elif choice == 'm':
             self._info.print_menu()
-
-        elif choice == 'v':
-            self._player.use_vp()
 
         elif choice == '1':
             self.save_game(savefile, self._maze, self._player)

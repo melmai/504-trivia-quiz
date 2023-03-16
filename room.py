@@ -232,3 +232,7 @@ class Room:
 
     def has_answerable_door(self, direction):
         return self._doors[direction] and self._doors[direction].answerable
+
+
+if __name__ == "__main__":
+    sampleroom = Room(2,2)

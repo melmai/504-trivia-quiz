@@ -1,12 +1,35 @@
+import csv
+
 from true_false_question import TrueFalseQuestion
 from short_answer_question import ShortAnswerQuestion
 from multiple_choice_question import MultipleChoiceQuestion
+import time
 import random
+import db
+import sqlite3
 
 
 class QuestionFactory:
-    @staticmethod
-    def generate_question(question_type=None):
+    def __init__(self):
+        self.tf_stack = []
+        self.mc_stack = []
+        self.sa_stack = []
+        self.fill_stack()
+
+    def fill_stack(self):
+        conn = sqlite3.connect('questions.db')
+        c = conn.cursor()
+        c.execute('SELECT * FROM TFquestions')
+        self.tf_stack = c.fetchall()
+        random.shuffle(self.tf_stack)
+        c.execute('SELECT * FROM MCquestions')
+        self.mc_stack = c.fetchall()
+        random.shuffle(self.mc_stack)
+        c.execute('SELECT * FROM SAquestions')
+        self.sa_stack = c.fetchall()
+        random.shuffle(self.sa_stack)
+
+    def generate_question(self, question_type=None):
         """
         This method determines the question type and fetches the data
         necessary to create the question object
@@ -14,30 +37,64 @@ class QuestionFactory:
         :return: Question object
         """
 
-        if not question_type:  # generate random question if not specified
+        if question_type is None:
             question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
             question_type = random.choice(question_types)
+        if question_type == "TrueFalse":
+            if self.tf_stack:
+                question_data = self.tf_stack.pop()
+                return TrueFalseQuestion(question_data[1], question_data[3])
+            else:
+                raise ValueError('error no more questions')
+        elif question_type == "ShortAnswer":
+            if self.sa_stack:
+                question_data = self.sa_stack.pop()
+                return ShortAnswerQuestion(question_data[1], question_data[3])
+            else:
+                raise ValueError('error no more questions')
+        elif question_type == "MultipleChoice":
+            if self.mc_stack:
+                question_data = self.mc_stack.pop()
+                return MultipleChoiceQuestion(question_data[1], question_data[2], question_data[3])
+            else:
+                raise ValueError('error no more questions')
 
-        question, answer, q_data = QuestionFactory.get_question_data(
-            question_type)
-        return QuestionFactory.get_question(question_type, question, answer,
-                                            q_data)
+        # # read contents of db and put it inside the list, can be 1 or 3
+        # conn = sqlite3.connect('questions.db')
+        # c = conn.cursor()
+        # if question_type is None:
+        #     question_types = ["TrueFalse", "ShortAnswer", "MultipleChoice"]
+        #     question_type = random.choice(question_types)
+        # # keep track of which questions have been asked. grab all questions from db and add to a list. shuffle list
+        # if question_type == "TrueFalse":
+        #     c.execute("SELECT DISTINCT Question, Choices, Answer FROM TFquestions")
+        # elif question_type == "ShortAnswer":
+        #     c.execute("SELECT DISTINCT Question, Choices, Answer FROM SAquestions")
+        # elif question_type == "MultipleChoice":
+        #     c.execute("SELECT DISTINCT Question, Choices, Answer FROM MCquestions")
+        #
+        # row = c.fetchall()
+        # #fetchone is the reason I keep getting the same question.
+        # if not row:
+        #     raise ValueError(f"No rows returned for question type {question_type}")
+        # question_data = tuple(row)
+        # question = QuestionFactory.get_question(question_type, *question_data) #not good oo
+        # return question
 
     @staticmethod
-    def get_question_data(question_type):
-        """
-        This method fetches the data for the provided question type
-        :param question_type: String representing one of the question types
-        :return: question data for the question type
-        """
-        correct_answer = False
-        answer_comment = "Joint Photographic Experts Group"
-        question = "The initials JPEG stand for Jagged Point Enabled Graphs"
+    # def get_question_data(question_type):
+    #     """
+    #     This method fetches the data for the provided question type
+    #     :param question_type: String representing one of the question types
+    #     :return: question data for the question type
+    #     """
+    #     correct_answer = False
+    #     answer_comment = "Joint Photographic Experts Group"
+    #     question = "The initials JPEG stand for Jagged Point Enabled Graphs"
+    #
+    #     return question, correct_answer, answer_comment
 
-        return question, correct_answer, answer_comment
-
-    @staticmethod
-    def get_question(question_type, *data):
+    def get_question(self, question_type, *data):
         """
         This method creates a Question object based on the type and data
         provided.
@@ -45,6 +102,16 @@ class QuestionFactory:
         :param data: optional data to add
         :return: Question object
         """
+
+        if question_type == "TrueFalse":
+            return TrueFalseQuestion(data[0], data[2])
+        elif question_type == "ShortAnswer":
+            return ShortAnswerQuestion(data[0], data[2])
+        elif question_type == "MultipleChoice":
+            choices = data[1].split(",")
+            return MultipleChoiceQuestion(data[0], choices, data[2])
+        else:
+            raise TypeError("That is not a valid question type.")
         # if question_type == "TrueFalse":
         #     return TrueFalseQuestion(*data)
         # elif question_type == "ShortAnswer":
@@ -53,13 +120,7 @@ class QuestionFactory:
         #     return MultipleChoiceQuestion(*data)
         # else:
         #     raise TypeError("That is not a valid question type.")
+        #
+        # return TrueFalseQuestion(*data)
 
-        return TrueFalseQuestion(*data)
-
-
-if __name__ == "__main__":
-    qf = QuestionFactory()
-    q = qf.generate_question()
-    print(q.question)
-    print(q.answer)
-    print(q.comment)
+    # print(QuestionFactory.generate_question("TrueFalse"))

@@ -2,9 +2,13 @@ from true_false_question import TrueFalseQuestion
 
 
 class MultipleChoiceQuestion(TrueFalseQuestion):
-    def __init__(self):
-        super().__init__()
-        choices: []
+    def __init__(self, question, choices, answer):
+        self._question = question
+        self._choices = choices
+        self._answer = answer
+
+    def __str__(self):
+        return f'{self._question} {self._choices}'
 
     def check_response(self, response):
         """
@@ -12,7 +16,8 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
         :param response: String
         :return: Boolean
         """
-        pass
+        response = self.normalize(response)
+        return response if response is None else response == self._answer
 
     def normalize(self, response):
         """
@@ -21,4 +26,5 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        pass
+        response = response.lower().strip
+        return response

@@ -1,8 +1,8 @@
 class TrueFalseQuestion:
-    def __init__(self, question, answer, comment):
+    def __init__(self, question, answer):
         self._question = question
         self._answer = answer
-        self._comment = comment
+
 
     @property
     def question(self):
@@ -12,9 +12,9 @@ class TrueFalseQuestion:
     def answer(self):
         return self._answer
 
-    @property
-    def comment(self):
-        return self._comment
+    def __str__(self):
+        return f"{self._question}"
+
 
     def normalize(self, response):
         """
