@@ -68,6 +68,8 @@ class Door:
         """
         if self.locked and self.answerable:  # locked, active
             self.check_answer()
+        elif not self.answerable:
+            UserInfo.retry()
 
         return self.locked, self.answerable
 
