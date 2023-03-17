@@ -14,6 +14,22 @@ class Maze:
         self.__create_maze()
         self.print_maze()
 
+    @property
+    def entrance(self):
+        return self.__entrance
+
+    @property
+    def exit(self):
+        return self.__exit
+
+    @property
+    def size(self):
+        return self.__size
+
+    @property
+    def rooms(self):
+        return self.__rooms
+
     def at_exit(self):
         """
         This method determines if the player has reached the exit
