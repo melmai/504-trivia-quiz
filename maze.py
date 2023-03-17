@@ -4,7 +4,8 @@ import pickle
 
 
 class Maze:
-    def __init__(self, size, savefile=None):
+    def __init__(self, size, savefile=None, test_mode=False):
+        self.__test_mode = test_mode
         self.__size = size
         self.__rooms = []
         self.__entrance = (0, 0)
@@ -13,6 +14,14 @@ class Maze:
 
         self.__create_maze()
         self.print_maze()
+
+    @property
+    def test_mode(self):
+        return self.__test_mode
+
+    @test_mode.setter
+    def test_mode(self, is_test_mode):
+        self.__test_mode = is_test_mode
 
     @property
     def entrance(self):
@@ -100,7 +109,12 @@ class Maze:
             current = stack[-1]
             neighbors = self.__get_neighbors(current, visited)
 
-            if neighbors:
+            if self.__test_mode and neighbors:
+                for neighbor in neighbors:
+                    stack.append(neighbor)
+                    visited.append(neighbor)
+                    self.__create_doors(current, neighbor)
+            elif neighbors:
                 neighbor = random.choice(neighbors)
                 stack.append(neighbor)
                 visited.append(neighbor)
