@@ -3,11 +3,15 @@ from user_info import UserInfo
 
 
 class Door:
-    def __init__(self):
+    def __init__(self, question=None):
         self.__is_locked = True
-        self.__question_factory = QuestionFactory()
-        self.__question = self.__question_factory.generate_question()
         self.__answerable = True
+
+        if question:
+            self.__question = question
+        else:
+            self.__question_factory = QuestionFactory()
+            self.__question = self.__question_factory.generate_question()
 
     @property
     def locked(self):
@@ -72,4 +76,20 @@ class Door:
             UserInfo.retry()
 
         return self.locked, self.answerable
+
+    @staticmethod
+    def mock(question_type):
+        """
+        This method creates a Door object for testing purposes
+        :param question_type:
+        :return: Door
+        """
+        question = QuestionFactory.mock(question_type)
+        return Door(question)
+
+
+if __name__ == "__main__":
+    print(Door.mock("TrueFalse"))
+
+
 
