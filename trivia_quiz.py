@@ -24,13 +24,19 @@ class TriviaQuiz:
         self.main_game_loop()
 
     @staticmethod
-    def save_game(save_file, maze, player):
+    def save_game(save_file, maze, player, testing = False):
+        """This method is used for saving a game by converting the python objects into a byte stream to store in
+        save_file"""
         with open(save_file, 'wb') as file:
             pickle.dump({'maze': maze, 'player': player}, file)
             UserInfo.saved()
-            sys.exit()
+            UserInfo.quit()
+
 
     def load_game(self, save_file):
+        """This method is used for loading a game by converting the byte stream stored in save_file into python
+        objects for playing the game"""
+
         try:
             with open(save_file, 'rb') as file:
                 game_data = pickle.load(file)
@@ -46,6 +52,8 @@ class TriviaQuiz:
             return False
 
     def load_start(self, savefile):
+        """This method presents the user, at the beginning of the game, to start a new game or continue from a load
+        file."""
         loading = input(
             "Input 1 if you are starting a new adventure, or input 2 if you "
             "are loading....")
