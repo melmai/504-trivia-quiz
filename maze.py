@@ -99,8 +99,7 @@ class Maze:
         self.__rooms[self.__size - 1][self.__size - 1].set_exit()
 
     @staticmethod
-    @staticmethod
-    def __create_doors(neighbor):
+    def __create_doors(current, neighbor):
         neighbor_dir = {
             "east": "west",
             "west": "east",
@@ -214,8 +213,7 @@ class Maze:
             room_list = []
 
     @staticmethod
-    @staticmethod
-    def __format_strings():
+    def __format_strings(rooms):
         """
         This method takes a list of string Room components to be printed out
         in rows and columns

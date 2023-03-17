@@ -37,3 +37,14 @@ class TrueFalseQuestion:
         """
         response = self.normalize(response)
         return response if response is None else response == self._answer
+
+    @staticmethod
+    def mock():
+        """
+        This method creates an instance of TrueFalseQuestion with known
+        values for testing purposes.
+        :return: TrueFalseQuestion
+        """
+        question = "5 is the binary number '10' expressed as a decimal."
+        answer = False
+        return TrueFalseQuestion(question, answer)

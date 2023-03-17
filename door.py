@@ -3,11 +3,15 @@ from user_info import UserInfo
 
 
 class Door:
-    def __init__(self):
+    def __init__(self, question=None):
         self.__is_locked = True
-        self.__question_factory = QuestionFactory()
-        self.__question = self.__question_factory.generate_question()
         self.__answerable = True
+
+        if question:
+            self.__question = question
+        else:
+            self.__question_factory = QuestionFactory()
+            self.__question = self.__question_factory.generate_question()
 
     @property
     def locked(self):
@@ -40,19 +44,18 @@ class Door:
         """
         return input(self.__question.question + '\n')
 
-    def check_answer(self, answer=None):
+    def check_answer(self, answer=None, is_correct=None):
         """
         This method checks the user provided response against the actual
         answer.
         """
-        is_correct = None
-
         while is_correct is None:
             response = answer or self.__get_user_response()
             is_correct = self.__question.check_response(response)
             if is_correct is None:
                 UserInfo.invalid()
 
+        # can't answer this question anymore
         self.__answerable = False
 
         if is_correct:
@@ -68,8 +71,24 @@ class Door:
         """
         if self.locked and self.answerable:  # locked, active
             self.check_answer()
-        elif not self.answerable:
+        elif not self.answerable:  # we've been here before
             UserInfo.retry()
 
         return self.locked, self.answerable
+
+    @staticmethod
+    def mock(question_type):
+        """
+        This method creates a Door object for testing purposes
+        :param question_type:
+        :return: Door
+        """
+        question = QuestionFactory.mock(question_type)
+        return Door(question)
+
+
+if __name__ == "__main__":
+    print(Door.mock("TrueFalse"))
+
+
 
