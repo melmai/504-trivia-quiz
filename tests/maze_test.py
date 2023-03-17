@@ -38,6 +38,9 @@ class MazeTest(unittest.TestCase):
         self.assertEqual(self.maze.is_valid_room(1, 1), True)
         self.assertEqual(self.maze.is_valid_room(16, 16), False)
         self.assertEqual(self.maze.is_valid_room(-1, -1), False)
+        self.assertEqual(self.maze.is_valid_room(0, 0), True)
+        self.assertEqual(self.maze.is_valid_room(2, 2), True)
+        self.assertEqual(self.maze.is_valid_room(3, 3), False)
 
     def test_get_current_room(self):
         self.assertTrue(isinstance(self.maze.get_current_room(), Room))
