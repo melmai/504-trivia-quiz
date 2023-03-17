@@ -121,3 +121,20 @@ class QuestionFactory:
         # return TrueFalseQuestion(*data)
 
     # print(QuestionFactory.generate_question("TrueFalse"))
+
+    @staticmethod
+    def mock(question_type):
+        if question_type == "ShortAnswer":
+            return ShortAnswerQuestion.mock()
+        elif question_type == "TrueFalse":
+            return TrueFalseQuestion.mock()
+        elif question_type == "MultipleChoice":
+            return MultipleChoiceQuestion.mock()
+        else:
+            raise ValueError("That's not a valid question type.")
+
+
+if __name__ == "__main__":
+    print(QuestionFactory.mock("TrueFalse"))
+    print(QuestionFactory.mock("MultipleChoice"))
+    print(QuestionFactory.mock("ShortAnswer"))
