@@ -114,15 +114,23 @@ class UserInfo:
 
     @staticmethod
     def no_door():
-        print("Don't think you can move through walls...")
+        print("Don't think I can move through walls...")
+
+    @staticmethod
+    def retry():
+        print("This place is familiar. Have I been here before?")
 
     @staticmethod
     def found_key(skeleton=False):
         if skeleton:
-            print("Looks like you have a skeleton key. No door can stop you "
+            print("Looks like I have a skeleton key. No door can stop me "
                   "now.")
         else:
-            print("You found a key! You'll need it...")
+            print("Ooh a key! I'll need it...")
+
+    @staticmethod
+    def decline_key():
+        print("Guess I'll have to find another way.")
 
     @staticmethod
     def win(name):
@@ -137,11 +145,11 @@ class UserInfo:
 
     @staticmethod
     def lose():
-        print("Ouch, sorry. Taking that big L.")
+        print("Ouch. Taking that big L.")
 
     @staticmethod
     def restart():
-        print("alright, let's go around again...")
+        print("Alright, let's go around again...")
         print("*-----------------------------------*")
 
     @staticmethod
