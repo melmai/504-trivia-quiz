@@ -42,7 +42,7 @@ class Door:
         answer from the player
         :return: String
         """
-        return input(self.__question.question + '\n')
+        return input(str(self.__question) + '\n')
 
     def check_answer(self, answer=None, is_correct=None):
         """
