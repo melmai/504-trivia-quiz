@@ -23,11 +23,10 @@ class TrueFalseQuestion:
         """
         response = response.lower().strip()
         if response == "t" or response == "true":
-            return True
+            response = "true"
         elif response == "f" or response == "false":
-            return False
-        else:  # invalid input
-            return None
+            response = "false"
+        return response
 
     def check_response(self, response):
         """
@@ -36,7 +35,10 @@ class TrueFalseQuestion:
         :return: Boolean or None if input is invalid
         """
         response = self.normalize(response)
-        return response if response is None else response == self._answer
+        if response == str(self._answer):
+            return True
+        else:
+            return False
 
     @staticmethod
     def mock():
