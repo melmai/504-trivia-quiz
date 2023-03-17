@@ -23,14 +23,36 @@ class DoorTest(unittest.TestCase):
         self.assertEqual(self.sad.answerable, True)
 
     def test_wrong_answer(self):
+        # true/false
         self.tfd.check_answer("true")  # should be false
         self.assertEqual(self.tfd.locked, True)
         self.assertEqual(self.tfd.answerable, False)
 
+        # multiple choice
+        self.mcd.check_answer("humerus")
+        self.assertEqual(self.mcd.locked, True)
+        self.assertEqual(self.mcd.answerable, False)
+
+        # short answer
+        self.sad.check_answer("straight")
+        self.assertEqual(self.sad.locked, True)
+        self.assertEqual(self.sad.answerable, False)
+
     def test_correct_answer(self):
-        self.tfd.check_answer("false")  # should be false
+        # true/false
+        self.tfd.check_answer("false")  # false
         self.assertEqual(self.tfd.locked, False)
         self.assertEqual(self.tfd.answerable, False)
+
+        # multiple choice
+        self.mcd.check_answer("femur")  # femur
+        self.assertEqual(self.mcd.locked, False)
+        self.assertEqual(self.mcd.answerable, False)
+
+        # short answer
+        self.sad.check_answer("diagonally")  # diagonally
+        self.assertEqual(self.sad.locked, False)
+        self.assertEqual(self.sad.answerable, False)
 
 
 if __name__ == '__main__':
