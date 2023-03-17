@@ -2,6 +2,7 @@ import unittest
 from room import Room
 from door import Door
 
+
 class RoomTest(unittest.TestCase):
 
     def test_room_with_key(self):

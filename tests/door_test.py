@@ -22,8 +22,5 @@ class DoorTest(unittest.TestCase):
         self.assertEqual(self.door.answerable, False)
 
 
-
-
-
 if __name__ == '__main__':
     unittest.main()

@@ -45,7 +45,9 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player.show_location(), (0, 0))
         self.assertIsNot(self.player.show_location(), (13, 22))
 
-    def test_move(self):  #noticed that when testing, sometimes works sometimes doesn't. probably bc maze randomized what is traversable
+    def test_move(self):
+        # noticed that when testing, only works sometimes
+        # probably bc maze randomized what is traversable
         self.player.move('south')
         self.assertEqual(self.player.show_location(), (1, 0))
         self.player.move('east')

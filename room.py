@@ -47,7 +47,8 @@ class Room:
         :param key_chance: chance of the room having a key object
         :return: Boolean
         """
-        if self.can_move_to() and not self.__is_entrance and not self.__is_exit:
+        if self.can_move_to() and not self.__is_entrance and not \
+                self.__is_exit:
             return key_chance >= 95
         else:
             return False
@@ -61,7 +62,8 @@ class Room:
 
     def construct_room_string(self):
         """
-        This method creates a room string that can be printed to represent the room
+        This method creates a room string that can be printed to represent
+        the room
         :param: Tuple of available doors
         :return: String
         """
@@ -117,8 +119,6 @@ class Room:
     def set_exit(self):
         """
         This method sets the boolean value of _is_exit to True
-        :param: None
-        :return: None
         """
         self.__is_exit = True
 
@@ -132,8 +132,8 @@ class Room:
 
     def can_move_to(self):
         """
-        This method gets the boolean value of _impassable and returns the opposite to show
-        if the room can be moved into by the player
+        This method gets the boolean value of _impassable and returns the
+        opposite to show if the room can be moved into by the player
         :param: None
         :return: Boolean
         """
