@@ -14,7 +14,6 @@ class TrueFalseQuestion:
     def __str__(self):
         return f"{self._question}"
 
-
     def normalize(self, response):
         """
         This method standardizes the user's response to compare against the

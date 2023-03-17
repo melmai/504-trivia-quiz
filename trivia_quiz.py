@@ -64,7 +64,8 @@ class TriviaQuiz:
             UserInfo.start_game(False, True)
             return None
 
-    def __create_player(self):
+    @staticmethod
+    def __create_player():
         """
         This method gets input from the user to create a Player object.
         :return: Player object

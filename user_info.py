@@ -3,6 +3,7 @@ import datetime
 import time
 
 
+# noinspection SpellCheckingInspection
 class UserInfo:
 
     def __init__(self):
@@ -165,8 +166,8 @@ class UserInfo:
         if not tried_loading:
             UserInfo.delay_text("Now starting new game.....", 2)
         elif invalid:
-            UserInfo.delay_text("Hmmm...sorry but I dont recognize your input. I'll go ahead "
-                "and start a new game ;)...", 2)
+            UserInfo.delay_text("Hmmm..sorry but I dont recognize your input. "
+                                "I'll go ahead and start a new game ;)...", 2)
         else:
             UserInfo.delay_text("No saved game data found..starting new game")
 

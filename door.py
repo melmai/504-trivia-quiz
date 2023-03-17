@@ -40,7 +40,7 @@ class Door:
         """
         return input(self.__question.question + '\n')
 
-    def check_answer(self):
+    def check_answer(self, answer=None):
         """
         This method checks the user provided response against the actual
         answer.
@@ -48,7 +48,7 @@ class Door:
         is_correct = None
 
         while is_correct is None:
-            response = self.__get_user_response()
+            response = answer or self.__get_user_response()
             is_correct = self.__question.check_response(response)
             if is_correct is None:
                 UserInfo.invalid()

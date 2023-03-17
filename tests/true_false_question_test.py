@@ -20,6 +20,7 @@ class TrueFalseQuestionTest(unittest.TestCase):
         self.assertEqual(self.tfq.comment,
                          "The binary number '10' represents 2 in decimal.")
 
+    # noinspection SpellCheckingInspection
     def test_normalize(self):
         response = "t"
         self.assertEqual(self.tfq.normalize(response), True)
