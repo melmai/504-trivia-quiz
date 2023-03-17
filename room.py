@@ -209,16 +209,24 @@ class Room:
             self.__active_door = door
             is_locked, is_answerable = door.try_door()
 
+            # it's not locked, ok to move player
             if not is_locked:
                 can_move = True
+            # can't answer anymore but keys are available
             elif not is_answerable and player.keys:
-                use_key = input("Care to use a key? (Y/N)\n")
-                use_key = use_key.lower().strip()
+                use_key = None
 
+                while use_key != "y" and use_key != "n":
+                    use_key = input("Care to use a key? (Y/N)\n")
+                    use_key = use_key.lower().strip()
+
+                # player wants to use a key
                 if use_key == "y":
                     player.use_key()
                     self.unlock_door()
                     can_move = True
+                else:
+                    UserInfo.decline_key()
 
             elif player.keys == 0:
                 print("Uh oh, the way is blocked and there are no keys at my "
