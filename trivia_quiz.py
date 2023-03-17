@@ -28,7 +28,7 @@ class TriviaQuiz:
         with open(save_file, 'wb') as file:
             pickle.dump({'maze': maze, 'player': player}, file)
             UserInfo.saved()
-            sys.exit()
+            UserInfo.quit()
 
     def load_game(self, save_file):
         try:
