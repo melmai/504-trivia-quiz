@@ -4,10 +4,12 @@ import unittest
 
 class dbtest(unittest.TestCase):
     def test_db_connection(self):
+        """This method tests the ability to connect to the questions database"""
         con = sqlite3.connect('questions.db')
         self.assertIsNot(con, 'not_existent.db')
 
     def test_tf_db(self):
+        """This method tests the ability to pull a true or false question and answer from the questions database"""
         con = sqlite3.connect('questions.db')
         self.assertIsNotNone(con, "couldn't connect to db")
         # self.assertEqual()
@@ -23,6 +25,7 @@ class dbtest(unittest.TestCase):
         c.close()
 
     def test_mc_db(self):
+        """This method tests the ability to pull a multiple choice question and answer from the questions database"""
         con = sqlite3.connect('questions.db')
         self.assertIsNotNone(con, "couldn't connect to db")
         # self.assertEqual()
@@ -38,6 +41,8 @@ class dbtest(unittest.TestCase):
         c.close()
 
     def test_sa_db(self):
+        """This method tests the ability to pull a short answer question and answer from the questions database"""
+
         con = sqlite3.connect('questions.db')
         self.assertIsNotNone(con, "couldn't connect to db")
         c = con.cursor()

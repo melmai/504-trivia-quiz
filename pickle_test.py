@@ -10,12 +10,15 @@ t = TriviaQuiz
 testsave = 'test_save.pickle'
 class save_test(unittest.TestCase):
     def test_save(self):
+        """This method tests the ability to pickle a maze and player """
         testsave = 'test_save.pickle'
         maze = Maze(2)
         player = Player("testman", keys=15)
         t.save_game(testsave, maze, player)
 
     def test_load(self):
+        """This method tests the ability to load a game and that the attributes are correct """
+
         testsave = 'test_save.pickle'
         with open (testsave, 'rb') as f:
             save_data = pickle.load(f)
@@ -27,23 +30,3 @@ class save_test(unittest.TestCase):
         self.assertEqual(save_data['player'].name, expected_name)
         self.assertEqual(save_data['player'].keys, expected_keys)
 
-#
-#
-#     def test_load(self):
-#         testsave = 'test_save.pickle'
-#         t.load_game(save_file=testsave)
-#
-
-
-# class TriviaQuizTest(unittest.TestCase):
-#     def setUp(self):
-#         self.t = TriviaQuiz()
-#         self.test_save_file = 'test_save.pickle'
-#
-#     def test_save_game(self):
-#         maze = Maze(2)
-#         player = Player("testman", keys=15)
-#         self.t.save_game(self.test_save_file, maze, player)
-#
-#     def test_load_game(self):
-#         self.t.load_game(self.test_save_file)
