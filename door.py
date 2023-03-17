@@ -8,7 +8,6 @@ class Door:
         self.__question_factory = QuestionFactory()
         self.__question = self.__question_factory.generate_question()
         self.__answerable = True
-        self.__info = UserInfo()
 
     @property
     def locked(self):
@@ -52,15 +51,15 @@ class Door:
             response = self.__get_user_response()
             is_correct = self.__question.check_response(response)
             if is_correct is None:
-                self.__info.invalid()
+                UserInfo.invalid()
 
         self.__answerable = False
 
         if is_correct:
-            self.__info.correct()
+            UserInfo.correct()
             self.unlock()
         else:
-            self.__info.incorrect()
+            UserInfo.incorrect()
 
     def try_door(self):
         """
