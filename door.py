@@ -6,7 +6,7 @@ class Door:
     def __init__(self):
         self.__is_locked = True
         self.__question_factory = QuestionFactory()
-        self.__question = self.__question_factory.generate_question()
+        self.__question = self.__question_factory.generate_question('TrueFalse')
         self.__answerable = True
         self.__info = UserInfo()
 
