@@ -4,6 +4,7 @@ from player import Player
 import pickle
 import sys
 from user_info import UserInfo
+from user_input import UserInput
 
 savefile = 'save.pkl'
 
@@ -45,21 +46,24 @@ class TriviaQuiz:
             UserInfo.game_not_found()
             return False
 
-    def load_start(self, savefile):
-        loading = input(
-            "Input 1 if you are starting a new adventure, or input 2 if you "
-            "are loading....")
-        if loading == '1':
+    def load_start(self, save_file):
+        loading = UserInput.load()
+
+        if loading == '1':  # new game
             UserInfo.start_game()
             return None
-        elif loading == '2':
-            loaded_data = self.load_game(savefile)
-            if loaded_data is None:
+
+        elif loading == '2':  # load game
+            loaded_data = self.load_game(save_file)
+
+            if loaded_data is None:  # oops, no load file
                 UserInfo.start_game(True)
                 return None
+
             else:
                 UserInfo.loading()
                 return loaded_data
+
         else:
             UserInfo.start_game(False, True)
             return None
@@ -70,10 +74,7 @@ class TriviaQuiz:
         This method gets input from the user to create a Player object.
         :return: Player object
         """
-        player_name = input("But first, tell me... what is your name, "
-                            "adventurer? "
-                            "").strip()
-        return Player(player_name)
+        return Player(UserInput.name())
 
     def _set_difficulty(self):
         """
