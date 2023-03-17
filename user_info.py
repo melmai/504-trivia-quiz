@@ -125,6 +125,10 @@ class UserInfo:
             print("You found a key! You'll need it...")
 
     @staticmethod
+    def decline_key():
+        print("Guess you'll have to find another way.")
+
+    @staticmethod
     def win(name):
         print("*-----------------------------------*")
         print("You've reached the exit and WON THE GAME!")
