@@ -7,7 +7,7 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
         self.__choices = choices
 
     def __str__(self):
-        return f'{self._question} {self.__choices}'
+        return f'Multiple Choice: {self._question}\nChoices: {self.__choices}'
 
     @property
     def choices(self):
@@ -29,7 +29,7 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        response = response.lower().strip
+        response = response.lower().strip()
         return response
 
     @staticmethod
@@ -45,4 +45,6 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
 
 
 if __name__ == "__main__":
-    print(MultipleChoiceQuestion.mock())
+    mcq = MultipleChoiceQuestion.mock()
+    print(mcq)
+    print(mcq.answer)
