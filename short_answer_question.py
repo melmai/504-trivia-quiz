@@ -26,3 +26,13 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         """
         response = str(response.lower().strip())
         return response
+
+    @staticmethod
+    def mock():
+        """
+        Creates an instance of the ShortAnswerQuestion with known values for testing purposes.
+        :return: ShortAnswerQuestion
+        """
+        question = "Short answer: In chess, what direction can a bishop move?"
+        answer = "diagonally"
+        return ShortAnswerQuestion(question, answer)
