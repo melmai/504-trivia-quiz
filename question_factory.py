@@ -77,7 +77,7 @@ class QuestionFactory:
         # question = QuestionFactory.get_question(question_type, *question_data) #not good oo
         # return question
 
-    @staticmethod
+    # @staticmethod
     # def get_question_data(question_type):
     #     """
     #     This method fetches the data for the provided question type
@@ -90,7 +90,8 @@ class QuestionFactory:
     #
     #     return question, correct_answer, answer_comment
 
-    def get_question(self, question_type, *data):
+    @staticmethod
+    def get_question(question_type, *data):
         """
         This method creates a Question object based on the type and data
         provided.
@@ -120,3 +121,20 @@ class QuestionFactory:
         # return TrueFalseQuestion(*data)
 
     # print(QuestionFactory.generate_question("TrueFalse"))
+
+    @staticmethod
+    def mock(question_type):
+        if question_type == "ShortAnswer":
+            return ShortAnswerQuestion.mock()
+        elif question_type == "TrueFalse":
+            return TrueFalseQuestion.mock()
+        elif question_type == "MultipleChoice":
+            return MultipleChoiceQuestion.mock()
+        else:
+            raise ValueError("That's not a valid question type.")
+
+
+if __name__ == "__main__":
+    print(QuestionFactory.mock("TrueFalse"))
+    print(QuestionFactory.mock("MultipleChoice"))
+    print(QuestionFactory.mock("ShortAnswer"))

@@ -21,19 +21,13 @@ class TrueFalseQuestion:
         :param response:
         :return:
         """
-        response = str(response.lower().strip())
+        response = response.lower().strip()
         if response == "t" or response == "true":
-            response = "true"
+            return True
         elif response == "f" or response == "false":
-            response = "false"
-        return response
-
-        # if response == "t" or response == "true":
-        #     return True
-        # elif response == "f" or response == "false":
-        #     return False
-        # else:  # invalid input
-        #     return None
+            return False
+        else:  # invalid input
+            return None
 
     def check_response(self, response):
         """
@@ -42,8 +36,15 @@ class TrueFalseQuestion:
         :return: Boolean or None if input is invalid
         """
         response = self.normalize(response)
-        if response == str(self._answer):
-            return True
-        else:
-            return False
-        # return response if response is None else response == self._answer
+        return response if response is None else response == self._answer
+
+    @staticmethod
+    def mock():
+        """
+        This method creates an instance of TrueFalseQuestion with known
+        values for testing purposes.
+        :return: TrueFalseQuestion
+        """
+        question = "5 is the binary number '10' expressed as a decimal."
+        answer = False
+        return TrueFalseQuestion(question, answer)

@@ -47,7 +47,8 @@ class Room:
         :param key_chance: chance of the room having a key object
         :return: Boolean
         """
-        if self.can_move_to() and not self.__is_entrance and not self.__is_exit:
+        if self.can_move_to() and not self.__is_entrance and not \
+                self.__is_exit:
             return key_chance >= 95
         else:
             return False
@@ -61,7 +62,8 @@ class Room:
 
     def construct_room_string(self):
         """
-        This method creates a room string that can be printed to represent the room
+        This method creates a room string that can be printed to represent
+        the room
         :param: Tuple of available doors
         :return: String
         """
@@ -117,8 +119,6 @@ class Room:
     def set_exit(self):
         """
         This method sets the boolean value of _is_exit to True
-        :param: None
-        :return: None
         """
         self.__is_exit = True
 
@@ -132,8 +132,8 @@ class Room:
 
     def can_move_to(self):
         """
-        This method gets the boolean value of _impassable and returns the opposite to show
-        if the room can be moved into by the player
+        This method gets the boolean value of _impassable and returns the
+        opposite to show if the room can be moved into by the player
         :param: None
         :return: Boolean
         """
@@ -209,16 +209,24 @@ class Room:
             self.__active_door = door
             is_locked, is_answerable = door.try_door()
 
+            # it's not locked, ok to move player
             if not is_locked:
                 can_move = True
+            # can't answer anymore but keys are available
             elif not is_answerable and player.keys:
-                use_key = input("Care to use a key? (Y/N)\n")
-                use_key = use_key.lower().strip()
+                use_key = None
 
+                while use_key != "y" and use_key != "n":
+                    use_key = input("Care to use a key? (Y/N)\n")
+                    use_key = use_key.lower().strip()
+
+                # player wants to use a key
                 if use_key == "y":
                     player.use_key()
                     self.unlock_door()
                     can_move = True
+                else:
+                    UserInfo.decline_key()
 
             elif player.keys == 0:
                 print("Uh oh, the way is blocked and there are no keys at my "
