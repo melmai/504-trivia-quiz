@@ -3,7 +3,7 @@ from user_info import UserInfo
 
 
 class Door:
-    def __init__(self, question=None):
+    def __init__(self, question = None):
         self.__is_locked = True
         self.__answerable = True
 

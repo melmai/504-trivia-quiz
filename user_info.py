@@ -160,6 +160,15 @@ class UserInfo:
     @staticmethod
     def saved():
         print(f"Game has been saved at {datetime.datetime.now()}")
+        print("""
+
+            ┈┈┈┈┈┈▕▔╲
+            ┈┈┈┈┈┈┈▏▕
+            ┈┈┈┈┈┈┈▏▕▂▂▂
+            ▂▂▂▂▂▂╱┈▕▂▂▂▏
+            ▉▉▉▉▉┈┈┈▕▂▂▂▏
+            ▉▉▉▉▉┈┈┈▕▂▂▂▏
+            ▔▔▔▔▔▔╲▂▕▂▂▂""")
 
     @staticmethod
     def start_game(tried_loading=False, invalid=False):
