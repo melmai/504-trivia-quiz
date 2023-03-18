@@ -4,7 +4,7 @@ import pickle
 
 
 class Maze:
-    def __init__(self, size, savefile=None, test_mode=False):
+    def __init__(self, size, test_mode=False):
         self.__test_mode = test_mode
         self.__size = size
         self.__rooms = []
@@ -175,13 +175,16 @@ class Maze:
         if 0 <= row < self.__size and 0 <= col < self.__size:
             return self.__rooms[row][col]
 
-    def is_traversable(self, row=None, col=None, visited_rooms=[]):
+    def is_traversable(self, row=None, col=None, visited_rooms=None):
         """
         This method determines if a given maze is traversable when starting
         at a particular row/col coordinate
         :param: row, col
         :return: boolean
         """
+        if visited_rooms is None:
+            visited_rooms = []
+
         found_exit = False
         visited = visited_rooms
 
@@ -236,7 +239,7 @@ class Maze:
         room_list = []
         for row in range(0, self.__size):
             for col in range(0, self.__size):
-                doors = self.__show_all_possible_directions(row, col)
+                # doors = self.__show_all_possible_directions(row, col)
                 room_list.append(
                     self.__rooms[row][col].construct_room_string())
             self.__format_strings(room_list)

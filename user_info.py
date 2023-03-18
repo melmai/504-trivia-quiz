@@ -134,6 +134,11 @@ class UserInfo:
         print("Guess I'll have to find another way.")
 
     @staticmethod
+    def no_key():
+        print("Uh oh, the way is blocked and there are no keys at my "
+              "disposal.")
+
+    @staticmethod
     def win(name):
         print("*-----------------------------------*")
         print("You've reached the exit and WON THE GAME!")

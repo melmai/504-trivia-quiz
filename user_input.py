@@ -68,18 +68,32 @@ class UserInput:
         return command
 
     @staticmethod
-    def replay():
+    def yes_or_no(prompt):
+        if prompt == "replay":
+            text = "Play again? (Y/N)\n"
+        elif prompt == "key":
+            text = "Care to use a key? (Y/N)\n"
+
         valid_commands = ["n", "y"]
 
         command = None
         while command not in valid_commands:
-            command = input("Play again? (Y/N) ").lower().strip()
+            command = input(text).lower().strip()
 
             if command not in valid_commands:
                 UserInfo.invalid()
 
         return command
 
+    @staticmethod
+    def answer(question):
+        """
+        This method presents the player with a question and waits
+        for an
+        answer from the player
+        :return: String
+        """
+        return input(str(question) + '\n')
 
 
 

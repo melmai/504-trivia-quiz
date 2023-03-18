@@ -175,7 +175,7 @@ class TriviaQuiz:
         else:  # lose
             UserInfo.lose()
 
-        choice = UserInput.replay()
+        choice = UserInput.yes_or_no()
 
         if choice == 'y':
             UserInfo.restart()
