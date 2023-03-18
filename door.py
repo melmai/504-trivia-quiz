@@ -1,5 +1,6 @@
 from question_factory import QuestionFactory
 from user_info import UserInfo
+from user_input import UserInput
 
 
 class Door:
@@ -36,21 +37,13 @@ class Door:
         """
         self.__is_locked = False
 
-    def __get_user_response(self):
-        """
-        This method presents the player with a question and waits for an
-        answer from the player
-        :return: String
-        """
-        return input(str(self.__question) + '\n')
-
     def check_answer(self, answer=None, is_correct=None):
         """
         This method checks the user provided response against the actual
         answer.
         """
         while is_correct is None:
-            response = answer or self.__get_user_response()
+            response = answer or UserInput.answer(self.__question)
             is_correct = self.__question.check_response(response)
             if is_correct is None:
                 UserInfo.invalid()

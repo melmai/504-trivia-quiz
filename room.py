@@ -1,5 +1,6 @@
 from door import Door
 from user_info import UserInfo
+from user_input import UserInput
 import random
 
 
@@ -212,13 +213,10 @@ class Room:
             # it's not locked, ok to move player
             if not is_locked:
                 can_move = True
+
             # can't answer anymore but keys are available
             elif not is_answerable and player.keys:
-                use_key = None
-
-                while use_key != "y" and use_key != "n":
-                    use_key = input("Care to use a key? (Y/N)\n")
-                    use_key = use_key.lower().strip()
+                use_key = UserInput.yes_or_no("key")
 
                 # player wants to use a key
                 if use_key == "y":
@@ -229,16 +227,14 @@ class Room:
                     UserInfo.decline_key()
 
             elif player.keys == 0:
-                print("Uh oh, the way is blocked and there are no keys at my "
-                      "disposal.")
+                UserInfo.no_key()
 
             self.__active_door = None
+
         else:  # no door
             UserInfo.no_door()
-        return can_move  # can't move this direction
 
-    def has_answerable_door(self, direction):
-        return self.__doors[direction] and self.__doors[direction].answerable
+        return can_move  # can't move this direction
 
 
 if __name__ == "__main__":
