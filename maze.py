@@ -239,9 +239,7 @@ class Maze:
         room_list = []
         for row in range(0, self.__size):
             for col in range(0, self.__size):
-                # doors = self.__show_all_possible_directions(row, col)
-                room_list.append(
-                    self.__rooms[row][col].construct_room_string())
+                room_list.append(str(self.__rooms[row][col]))
             self.__format_strings(room_list)
             room_list = []
 

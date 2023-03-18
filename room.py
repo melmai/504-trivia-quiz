@@ -59,9 +59,6 @@ class Room:
         self.__has_key = False
 
     def __str__(self):
-        return self.construct_room_string()
-
-    def construct_room_string(self):
         """
         This method creates a room string that can be printed to represent
         the room

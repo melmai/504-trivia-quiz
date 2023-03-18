@@ -1,3 +1,5 @@
+from user_info import UserInfo
+
 
 class Player:
     def __init__(self, name, keys=2):
@@ -35,12 +37,5 @@ class Player:
             self.__keys -= 1
 
     def check_inventory(self):
-        if not self.__keys:
-            inventory = "Sorry, no keys available!"
-        elif self.__keys == 1:
-            inventory = "Ah, still have 1 key available. Better use it wisely."
-        else:
-            inventory = f"Phew. Still have {self.__keys} keys in your pocket."
-
-        print(inventory)
+        UserInfo.inventory(self.__keys)
         return self.__keys
