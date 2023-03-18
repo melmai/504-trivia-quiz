@@ -273,3 +273,17 @@ class UserInfo:
         """
         print(f"No saved game file found")
 
+    @staticmethod
+    def inventory(keys):
+        """
+        This method prints the key count of the player
+        :param keys: int
+        """
+        if not keys:
+            inventory = "Sorry, no keys available!"
+        elif keys == 1:
+            inventory = "Ah, still have 1 key available. Better use it wisely."
+        else:
+            inventory = f"Phew. Still have {keys} keys in your pocket."
+
+        print(inventory)
