@@ -30,7 +30,8 @@ class ShortAnswerQuestion(TrueFalseQuestion):
     @staticmethod
     def mock():
         """
-        Creates an instance of the ShortAnswerQuestion with known values for testing purposes.
+        Creates an instance of the ShortAnswerQuestion with known values for
+        testing purposes.
         :return: ShortAnswerQuestion
         """
         question = "Short answer: In chess, what direction can a bishop move?"

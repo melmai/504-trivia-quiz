@@ -35,7 +35,8 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
     @staticmethod
     def mock():
         """
-        This method creates an instance of the MultipleChoiceQuestion with known values for testing purposes.
+        This method creates an instance of the MultipleChoiceQuestion with
+        known values for testing purposes.
         :return: MultipleChoiceQuestion
         """
         question = "What's the largest bone in the human body?"

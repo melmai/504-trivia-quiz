@@ -14,7 +14,7 @@ class TriviaQuiz:
 
         if not self.load_start(savefile):
             # UserInfo.intro_art()
-            # UserInfo.instructions()
+            # UserInfo.intro_text()
             self.__player = self.__create_player()
             self.__difficulty = self._set_difficulty()
             self.__maze = Maze(self.__difficulty)
