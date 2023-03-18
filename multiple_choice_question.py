@@ -20,7 +20,13 @@ class MultipleChoiceQuestion(TrueFalseQuestion):
         :return: Boolean
         """
         response = self.normalize(response)
-        return response if response is None else response == self._answer
+        # if response is None:
+        #     return response, self.answer
+        if response == self.answer:
+            return True, self.answer
+        else:
+            return False, self.answer
+        # return response if response is None else response == self._answer
 
     def normalize(self, response):
         """

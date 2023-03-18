@@ -36,9 +36,9 @@ class TrueFalseQuestion:
         """
         response = self.normalize(response)
         if response == str(self._answer):
-            return True
+            return True, self.answer
         else:
-            return False
+            return False, self.answer
 
     @staticmethod
     def mock():
