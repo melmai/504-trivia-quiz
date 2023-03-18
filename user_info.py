@@ -3,15 +3,12 @@ import datetime
 import time
 
 
-# noinspection SpellCheckingInspection
 class UserInfo:
-
-    def __init__(self):
-        pass
 
     @staticmethod
     def intro_art():
-        """This method introduces the rules and instructions for the player."""
+        """This method prints out the art that displays on new game
+        instantiation."""
         print("""
         \\                           /
          \\                         /
@@ -38,8 +35,10 @@ class UserInfo:
         """)
 
     @staticmethod
-    def instructions(self):
-
+    def intro_text():
+        """
+        This method prints flavor text for the user at the start of the game
+        """
         print("You wake up in a cold, dark room...")
 
         UserInfo.delay_text("Your head hurts. Everything is unfamiliar. "
@@ -69,8 +68,10 @@ class UserInfo:
         """, 2)
 
     @staticmethod
-    def menu(delayed=False):
-
+    def menu():
+        """
+        Prints out the available actions for the player during the game loop
+        """
         menu = textwrap.dedent("""
         Available Actions
         *-----------------------------------*
@@ -85,10 +86,7 @@ class UserInfo:
         Press [m] to see your options.
         """)
 
-        if delayed:
-            UserInfo.delay_text(menu)
-        else:
-            print(menu)
+        print(menu)
 
     @staticmethod
     def delay_text(text, delay=1):
@@ -103,26 +101,46 @@ class UserInfo:
 
     @staticmethod
     def invalid():
+        """
+        Prints feedback for user when their input is not valid
+        """
         print('Sorry, that is not a valid response! Give it another try.')
 
     @staticmethod
     def correct():
+        """
+        Prints feedback for user when their input is correct
+        """
         print("Yas queen")
 
     @staticmethod
     def incorrect():
+        """
+        Prints feedback for user when their input is not correct
+        """
         print("Yikes. Not this time, bud.")
 
     @staticmethod
     def no_door():
+        """
+        Prints feedback for user when there is no door to interact with in
+        their chosen direction
+        """
         print("Don't think I can move through walls...")
 
     @staticmethod
     def retry():
+        """
+        Prints feedback for user when they attempt a door that is unanswerable
+        """
         print("This place is familiar. Have I been here before?")
 
     @staticmethod
     def found_key(skeleton=False):
+        """
+        Prints feedback for user when they pick up a key in the maze
+        :param skeleton: boolean representing singular or persistent access
+        """
         if skeleton:
             print("Looks like I have a skeleton key. No door can stop me "
                   "now.")
@@ -131,15 +149,24 @@ class UserInfo:
 
     @staticmethod
     def decline_key():
+        """
+        Prints feedback for user when they decline to use a key
+        """
         print("Guess I'll have to find another way.")
 
     @staticmethod
     def no_key():
+        """
+        Prints feedback for user when they exhaust their key supply
+        """
         print("Uh oh, the way is blocked and there are no keys at my "
               "disposal.")
 
     @staticmethod
     def win(name):
+        """
+        Prints feedback for user when they have won the game
+        """
         print("*-----------------------------------*")
         print("You've reached the exit and WON THE GAME!")
         UserInfo.delay_text("...")
@@ -151,64 +178,98 @@ class UserInfo:
 
     @staticmethod
     def lose():
+        """
+        Prints feedback for user when they have lost the game
+        """
         print("Ouch. Taking that big L.")
 
     @staticmethod
     def restart():
+        """
+        Prints feedback for user when the user decides to restart the game
+        """
         print("Alright, let's go around again...")
         print("*-----------------------------------*")
 
     @staticmethod
     def quit():
+        """
+        Prints feedback for user when they opt to quit the game
+        """
         print("Had enough, huh?")
 
     @staticmethod
     def saved():
+        """
+        Prints feedback for user when their save is successful
+        """
         print(f"Game has been saved at {datetime.datetime.now()}")
-        print("""
+        print(textwrap.dedent(
+            """
 
-        ⣀⣠⠤⠶⠖⠒⠒⠲⠶⠤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⢀⡴⠋⠁⠀⣀⣤⠤⠴⠶⠦⠤⣄⡀⠈⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⣟⣀⡤⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠉⠳⢤⡀⠹⡆⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⢀⡤⠞⠋⠉⠉⠉⠙⠲⣤⡀⠀⣠⡾⠋⠉⠁⠀⠀⠈⠙⢦⠀⠀⠀⠀⠀
-⠀⢀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⠀⠀⠀⠀
-⠀⢸⠁⠀⠀⢠⣄⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⢰⣶⠀⠀⠀⠀⢸⡇⠀⠀⠀
-⠀⢸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠇⠀⠀⠀
-⠀⠈⢧⡀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠹⣄⠀⠀⠀⠀⠀⠀⠀⠀⣠⠏⠀⠀⠀⠀
-⠀⠀⠀⣳⢦⣀⣀⠀⣀⣠⠴⡞⠁⠀⠈⠓⠶⢤⣤⣤⡤⠶⠞⠋⣤⠀⠀⠀⠀
-⠀⠀⠀⠘⠦⣄⣉⣉⣩⡆⢸⠃⠀⢀⡶⠀⠀⢠⣄⣀⣀⣀⣤⠞⠁⠀⠀⠀⠀
-⠀⢀⣠⠤⢶⡶⠮⠍⠀⠀⢸⠀⢀⡼⠁⠀⠀⠀⠀⠉⠉⠁⠀⠐⠲⣄⡀⠀⠀
-⢠⠞⢁⡴⠚⢩⢐⡤⢄⣀⠈⠳⠞⠁⠀⣀⢤⠖⢲⠯⡭⠋⠉⠛⠲⢎⠻⣦⠀
-⡿⠀⡏⠀⠀⠈⠉⢻⣄⢼⠉⠁⡖⠒⣿⣀⡼⠓⠋⠀⠀⠀⠀⠀⠀⠈⢧⠘⡇
-⢿⠀⣇⠀⠀⠀⠀⠀⠀⠈⠳⠚⠙⠚⠁⠈⣤⠶⠛⠛⠛⠲⣤⡀⠀⠀⢸⠀⡇
-⠈⢧⡈⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠒⠲⠦⣄⠀⠈⢳⡄⢀⡾⣠⠃
-⠀⠈⠛⢦⣙⢲⣖⢲⣠⢤⣠⠴⣄⡠⢤⢀⣤⡀⣰⢶⣼⠳⣄⣠⠶⠋⣰⠋⠀
-⠀⠀⠀⠀⠙⠳⢮⣿⣓⡦⠿⣤⣼⣇⣈⣛⣀⣙⣧⣤⠽⠚⠋⣥⠴⠛⠁⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀""")
+                ⣀⣠⠤⠶⠖⠒⠒⠲⠶⠤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⢀⡴⠋⠁⠀⣀⣤⠤⠴⠶⠦⠤⣄⡀⠈⠙⢦⡀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⣟⣀⡤⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠉⠳⢤⡀⠹⡆⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠁⠀⠀⠀⠀⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣤⣤⣀⠀⠀⠀⠀⠀⠀⠀
+            ⠀⠀⢀⡤⠞⠋⠉⠉⠉⠙⠲⣤⡀⠀⣠⡾⠋⠉⠁⠀⠀⠈⠙⢦⠀⠀⠀⠀⠀
+            ⠀⢀⡞⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⡼⠃⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⠀⠀⠀⠀
+            ⠀⢸⠁⠀⠀⢠⣄⠀⠀⠀⠀⠀⠈⡇⠀⠀⠀⠀⢰⣶⠀⠀⠀⠀⢸⡇⠀⠀⠀
+            ⠀⢸⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠇⠀⠀⠀
+            ⠀⠈⢧⡀⠀⠀⠀⠀⠀⠀⠀⢀⡾⠹⣄⠀⠀⠀⠀⠀⠀⠀⠀⣠⠏⠀⠀⠀⠀
+            ⠀⠀⠀⣳⢦⣀⣀⠀⣀⣠⠴⡞⠁⠀⠈⠓⠶⢤⣤⣤⡤⠶⠞⠋⣤⠀⠀⠀⠀
+            ⠀⠀⠀⠘⠦⣄⣉⣉⣩⡆⢸⠃⠀⢀⡶⠀⠀⢠⣄⣀⣀⣀⣤⠞⠁⠀⠀⠀⠀
+            ⠀⢀⣠⠤⢶⡶⠮⠍⠀⠀⢸⠀⢀⡼⠁⠀⠀⠀⠀⠉⠉⠁⠀⠐⠲⣄⡀⠀⠀
+            ⢠⠞⢁⡴⠚⢩⢐⡤⢄⣀⠈⠳⠞⠁⠀⣀⢤⠖⢲⠯⡭⠋⠉⠛⠲⢎⠻⣦⠀
+            ⡿⠀⡏⠀⠀⠈⠉⢻⣄⢼⠉⠁⡖⠒⣿⣀⡼⠓⠋⠀⠀⠀⠀⠀⠀⠈⢧⠘⡇
+            ⢿⠀⣇⠀⠀⠀⠀⠀⠀⠈⠳⠚⠙⠚⠁⠈⣤⠶⠛⠛⠛⠲⣤⡀⠀⠀⢸⠀⡇
+            ⠈⢧⡈⢦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⠒⠲⠦⣄⠀⠈⢳⡄⢀⡾⣠⠃
+            ⠀⠈⠛⢦⣙⢲⣖⢲⣠⢤⣠⠴⣄⡠⢤⢀⣤⡀⣰⢶⣼⠳⣄⣠⠶⠋⣰⠋⠀
+            ⠀⠀⠀⠀⠙⠳⢮⣿⣓⡦⠿⣤⣼⣇⣈⣛⣀⣙⣧⣤⠽⠚⠋⣥⠴⠛⠁⠀⠀
+            ⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+            """
+        ))
 
     @staticmethod
     def start_game(tried_loading=False, invalid=False):
+        """
+        Prints feedback for user when they are starting/restarting the game
+        :param tried_loading:
+        :param invalid:
+        """
         if not tried_loading:
             UserInfo.delay_text("Now starting new game.....", 2)
+
         elif invalid:
             UserInfo.delay_text("Hmmm..sorry but I dont recognize your input. "
                                 "I'll go ahead and start a new game ;)...", 2)
+
         else:
             UserInfo.delay_text("No saved game data found..starting new game")
 
     @staticmethod
     def loading():
+        """
+        This method prints feedback during game load
+        """
         print("loading game...")
 
     @staticmethod
     def loaded(name, keys):
+        """
+        This method prints feedback when game has successfully loaded
+        :param name: player name
+        :param keys: number of keys available
+        :return:
+        """
         print(
             f"Game loaded successfully! Welcome back "
             f"{name}. You have {keys} keys available!")
 
     @staticmethod
     def game_not_found():
+        """
+        This method prints feedback when save file is unavailable
+        """
         print(f"No saved game file found")
 
