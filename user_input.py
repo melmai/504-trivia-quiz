@@ -84,6 +84,8 @@ class UserInput:
             text = "Play again? (Y/N)\n"
         elif prompt == "key":
             text = "Care to use a key? (Y/N)\n"
+        else:
+            text = "yes or no?\n"
 
         valid_commands = ["n", "y"]
 

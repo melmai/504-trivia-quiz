@@ -21,7 +21,7 @@ class TriviaQuiz:
         self.__main_game_loop()
 
     @staticmethod
-    def __save_game(save_file, maze, player):
+    def save_game(save_file, maze, player):
         """
         This method is used for saving a game by converting the python objects
         into a byte stream to store in save_file
@@ -126,7 +126,7 @@ class TriviaQuiz:
             UserInfo.menu()
 
         elif choice == '1':
-            self.__save_game(self.__save_file, self.__maze, self.__player)
+            self.save_game(self.__save_file, self.__maze, self.__player)
 
         elif choice == 'o':  # See entire maze for development
             self.__maze.print_maze()
