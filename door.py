@@ -44,7 +44,7 @@ class Door:
         """
         while is_correct is None:
             response = answer or UserInput.answer(self.__question)
-            is_correct = self.__question.check_response(response)
+            is_correct, right_answer = self.__question.check_response(response)
             if is_correct is None:
                 UserInfo.invalid()
 
@@ -55,7 +55,7 @@ class Door:
             UserInfo.correct()
             self.unlock()
         else:
-            UserInfo.incorrect()
+            UserInfo.incorrect(right_answer)
 
     def try_door(self):
         """

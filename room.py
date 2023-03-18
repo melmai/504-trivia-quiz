@@ -193,6 +193,8 @@ class Room:
 
         return can_move  # can't move this direction
 
+    def has_answerable_door(self, direction):
+        return self.__doors[direction] and self.__doors[direction].answerable
 
 if __name__ == "__main__":
     Room(2, 2)

@@ -13,7 +13,6 @@ class Maze:
         self.__location = (0, 0)
 
         self.__create_maze()
-        self.print_maze()
 
     @property
     def test_mode(self):

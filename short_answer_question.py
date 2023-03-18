@@ -13,9 +13,9 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         """
         response = self.normalize(response)
         if response == str(self.answer):
-            return True
+            return True, self.answer
         else:
-            return False
+            return False, self.answer
 
     def normalize(self, response):
         """
