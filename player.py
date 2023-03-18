@@ -37,5 +37,9 @@ class Player:
             self.__keys -= 1
 
     def check_inventory(self):
+        """
+        This method provides user feedback for the number of available keys
+        :return: number of available keys
+        """
         UserInfo.inventory(self.__keys)
         return self.__keys

@@ -15,7 +15,7 @@ class SaveTest(unittest.TestCase):
         """This method tests the ability to pickle a maze and player """
         maze = Maze(2)
         player = Player("testman", keys=15)
-        self.trivia_quiz.__save_game(self.save_file, maze, player)
+        self.trivia_quiz.save_game(self.save_file, maze, player)
 
     def test_load(self):
         """This method tests the ability to load a game and that the attributes

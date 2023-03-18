@@ -49,6 +49,5 @@ class PlayerTest(unittest.TestCase):
         self.assertEqual(self.player.check_inventory(), 1)
 
 
-
 if __name__ == "__main__":
     unittest.main()
