@@ -114,11 +114,12 @@ class UserInfo:
         print("Yas queen")
 
     @staticmethod
-    def incorrect():
+    def incorrect(answer):
         """
         Prints feedback for user when their input is not correct
         """
         print("Yikes. Not this time, bud.")
+        print(f"The correct answer was {answer}")
 
     @staticmethod
     def no_door():
