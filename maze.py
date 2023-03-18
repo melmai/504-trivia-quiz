@@ -125,8 +125,10 @@ class Maze:
         self.__initialize_rooms()
 
     def __initialize_rooms(self):
-        self.__rooms[0][0].set_entrance()
-        self.__rooms[self.__size - 1][self.__size - 1].set_exit()
+        self.__rooms[0][0].entrance = True
+        self.__rooms[0][0].key = False
+        self.__rooms[self.__size - 1][self.__size - 1].exit = True
+        self.__rooms[self.__size - 1][self.__size - 1].key = False
 
     @staticmethod
     def __create_doors(current, neighbor):

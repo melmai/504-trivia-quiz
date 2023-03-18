@@ -12,7 +12,7 @@ class Room:
         self.__col = col
         self.__is_exit = False
         self.__is_entrance = False
-        self.__has_key = self.__generate_key(random.randint(1, 100))
+        self.__has_key = self.__generate_key()
         self.__doors = {
             "north": False,
             "east": False,
@@ -33,24 +33,39 @@ class Room:
     def key(self):
         return self.__has_key
 
+    @key.setter
+    def key(self, has_key):
+        self.__has_key = has_key
+
     @property
     def active_door(self):
         return self.__active_door
 
     @property
+    def entrance(self):
+        return self.__is_entrance
+
+    @entrance.setter
+    def entrance(self, is_entrance):
+        self.__is_entrance = is_entrance
+
+    @property
     def exit(self):
         return self.__is_exit
 
-    def __generate_key(self, key_chance):
+    @exit.setter
+    def exit(self, is_exit):
+        self.__is_exit = is_exit
+
+    def __generate_key(self):
         """
         This method determines if the current room contains a key based
         on the likelihood of generating a key object.
-        :param key_chance: chance of the room having a key object
         :return: Boolean
         """
-        if self.can_move_to() and not self.__is_entrance and not \
-                self.__is_exit:
-            return key_chance >= 95
+        key_chance = random.randint(1, 100)
+        if not self.entrance and not self.exit:
+            return key_chance >= 90
         else:
             return False
 
@@ -97,34 +112,6 @@ class Room:
             room_str += "* * *\n"
 
         return room_str
-
-    def set_entrance(self):
-        """
-        This method sets the boolean value of _is_entrance to True
-        """
-        self.__is_entrance = True
-
-    def get_is_exit(self):
-        """
-        This method returns the boolean value of the _is_exit attribute
-        :return: Boolean
-        """
-        return self.__is_exit
-
-    def set_exit(self):
-        """
-        This method sets the boolean value of _is_exit to True
-        """
-        self.__is_exit = True
-
-    def can_move_to(self):
-        """
-        This method gets the boolean value of _impassable and returns the
-        opposite to show if the room can be moved into by the player
-        :param: None
-        :return: Boolean
-        """
-        return not self.__impassable
 
     def get_door(self, direction):
         """
