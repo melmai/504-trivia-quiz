@@ -2,8 +2,8 @@ from true_false_question import TrueFalseQuestion
 
 
 class ShortAnswerQuestion(TrueFalseQuestion):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, question, answer):
+        super().__init__(question, answer)
 
     def check_response(self, response):
         """
@@ -11,7 +11,11 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: String
         :return: Boolean
         """
-        pass
+        response = self.normalize(response)
+        if response == str(self.answer):
+            return True, self.answer
+        else:
+            return False, self.answer
 
     def normalize(self, response):
         """
@@ -20,4 +24,16 @@ class ShortAnswerQuestion(TrueFalseQuestion):
         :param response: Original response from the user
         :return: Reformatted string
         """
-        pass
+        response = str(response.lower().strip())
+        return response
+
+    @staticmethod
+    def mock():
+        """
+        Creates an instance of the ShortAnswerQuestion with known values for
+        testing purposes.
+        :return: ShortAnswerQuestion
+        """
+        question = "Short answer: In chess, what direction can a bishop move?"
+        answer = "diagonally"
+        return ShortAnswerQuestion(question, answer)
