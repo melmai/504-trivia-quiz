@@ -100,13 +100,8 @@ class TriviaQuiz:
         :return: Int
         """
         number = UserInput.difficulty(self.__player.name)
-
-        if number == 1:
-            return 4
-        elif number == 2:
-            return 5
-        elif number == '3':
-            return 6
+        number += 3
+        return number
 
     def user_choice(self):
         """
