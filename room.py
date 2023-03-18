@@ -101,15 +101,12 @@ class Room:
     def set_entrance(self):
         """
         This method sets the boolean value of _is_entrance to True
-        :param: None
-        :return: None
         """
         self.__is_entrance = True
 
     def get_is_exit(self):
         """
         This method returns the boolean value of the _is_exit attribute
-        :param: None
         :return: Boolean
         """
         return self.__is_exit
@@ -120,14 +117,6 @@ class Room:
         """
         self.__is_exit = True
 
-    def set_impassable(self, is_impassable):
-        """
-        This method sets the boolean value of _impassable
-        :param: is_impassable
-        :return: None
-        """
-        self.__impassable = is_impassable
-
     def can_move_to(self):
         """
         This method gets the boolean value of _impassable and returns the
@@ -136,22 +125,6 @@ class Room:
         :return: Boolean
         """
         return not self.__impassable
-
-    def set_visited(self, visited):
-        """
-        This method sets the boolean value of _visited
-        :param: visited
-        :return: None
-        """
-        self.__visited = visited
-
-    def can_enter(self):
-        """
-        This method returns a boolean that signifies if the room can be entered
-        :param: None
-        :return: Boolean
-        """
-        return not self.__impassable and not self.__visited
 
     def get_door(self, direction):
         """
