@@ -94,6 +94,7 @@ class Maze:
         self.__location = (row, col)
 
     def __create_maze(self):
+        """Creates a randomly generated maze"""
         for row in range(self.__size):
             self.__rooms.append([])
             for col in range(self.__size):
@@ -124,6 +125,7 @@ class Maze:
         self.__initialize_rooms()
 
     def __initialize_rooms(self):
+        """Sets the entrance/exit rooms and removes keys, if they exist"""
         self.__rooms[0][0].entrance = True
         self.__rooms[0][0].key = False
         self.__rooms[self.__size - 1][self.__size - 1].exit = True
@@ -131,6 +133,11 @@ class Maze:
 
     @staticmethod
     def __create_doors(current, neighbor):
+        """
+        Creates a door and sets the door object between adjacent rooms
+        :param current: a room
+        :param neighbor: an adjacent room that shares the door instance
+        """
         neighbor_dir = {
             "east": "west",
             "west": "east",
@@ -151,6 +158,12 @@ class Maze:
         neighbor.set_door(neighbor_dir[current_dir], door)
 
     def __get_neighbors(self, current, visited):
+        """
+        Gets the specified room's unvisited adjacent rooms
+        :param current: the room to use as a basis to find its neighbors
+        :param visited: a list of rooms that have already been visited
+        :return: list of room objects
+        """
         row = current.row
         col = current.col
         end = self.__size - 1
@@ -173,8 +186,22 @@ class Maze:
         return current_neighbors
 
     def __get_room(self, row, col):
+        """
+        Returns a room within the maze
+        :param row: row value of the room
+        :param col: col value of the room
+        :return: Room
+        """
         if 0 <= row < self.__size and 0 <= col < self.__size:
             return self.__rooms[row][col]
+
+    def get_current_room(self):
+        """
+        This method returns the current location of the Player
+        :return: Room
+        """
+        x, y = self.__location
+        return self.__rooms[x][y]
 
     def is_traversable(self, row=None, col=None, visited_rooms=None):
         """
@@ -271,14 +298,6 @@ class Maze:
         :return:
         """
         print(self.__rooms[row][col])
-
-    def get_current_room(self):
-        """
-        This method returns the current location of the Player
-        :return: Room
-        """
-        x, y = self.__location
-        return self.__rooms[x][y]
 
 
 if __name__ == "__main__":
