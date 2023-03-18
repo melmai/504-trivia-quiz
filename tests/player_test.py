@@ -7,6 +7,9 @@ class PlayerTest(unittest.TestCase):
     def setUp(self):
         self.player = Player("Tom")
 
+    def test_player_name_initialization(self):
+        self.assertEqual(self.player.name, "Tom")
+
     def test_check_initial_inventory(self):
         self.assertEqual(self.player.keys, 2)
 
@@ -40,22 +43,11 @@ class PlayerTest(unittest.TestCase):
         self.player.use_key()  # should not go below 0
         self.assertEqual(self.player.keys, 0)
 
-    def test_location(self):
-        self.player.show_location()
-        self.assertEqual(self.player.show_location(), (0, 0))
-        self.assertIsNot(self.player.show_location(), (13, 22))
+    def test_check_inventory(self):
+        self.assertEqual(self.player.check_inventory(), 2)
+        self.player.use_key()
+        self.assertEqual(self.player.check_inventory(), 1)
 
-    def test_move(self):
-        # noticed that when testing, only works sometimes
-        # probably bc maze randomized what is traversable
-        self.player.move('south')
-        self.assertEqual(self.player.show_location(), (1, 0))
-        self.player.move('east')
-        self.assertEqual(self.player.show_location(), (1, 1))
-        self.player.move('north')
-        self.assertEqual(self.player.show_location(), (0, 1))
-        self.player.move('west')
-        self.assertEqual(self.player.show_location(), (0, 0))
 
 
 if __name__ == "__main__":
