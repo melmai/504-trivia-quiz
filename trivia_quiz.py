@@ -11,18 +11,17 @@ class TriviaQuiz:
         self.__quit = False
         self.__save_file = 'save.pkl'
 
-        if not self.load_start(self.__save_file):
+        if not self.__load_start(self.__save_file):
             # UserInfo.intro_art()
             # UserInfo.intro_text()
             self.__player = self.__create_player()
-            self.__difficulty = self._set_difficulty()
-            self.__maze = Maze(self.__difficulty)
+            self.__maze = Maze(self.__set_difficulty())
             UserInfo.menu()
 
-        self.main_game_loop()
+        self.__main_game_loop()
 
     @staticmethod
-    def save_game(save_file, maze, player):
+    def __save_game(save_file, maze, player):
         """
         This method is used for saving a game by converting the python objects
         into a byte stream to store in save_file
@@ -36,7 +35,7 @@ class TriviaQuiz:
             UserInfo.saved()
             UserInfo.quit()
 
-    def load_game(self, save_file):
+    def __load_game(self, save_file):
         """
         This method is used for loading a game by converting the byte stream
         stored in save_file into python objects for playing the game
@@ -58,7 +57,7 @@ class TriviaQuiz:
             UserInfo.game_not_found()
             return False
 
-    def load_start(self, save_file):
+    def __load_start(self, save_file):
         """
         This method presents the user, at the beginning of the game, to start a
         new game or continue from a load file.
@@ -71,7 +70,7 @@ class TriviaQuiz:
             return None
 
         elif loading == '2':  # load game
-            loaded_data = self.load_game(save_file)
+            loaded_data = self.__load_game(save_file)
 
             if loaded_data is None:  # oops, no load file
                 UserInfo.start_game(True)
@@ -93,7 +92,7 @@ class TriviaQuiz:
         """
         return Player(UserInput.name())
 
-    def _set_difficulty(self):
+    def __set_difficulty(self):
         """
         This method gets input from the user to set the difficulty level (1-5)
         of the game.
@@ -103,7 +102,7 @@ class TriviaQuiz:
         number += 3
         return number
 
-    def user_choice(self):
+    def __user_choice(self):
         """
         Returns the player's next move
         :return: string
@@ -127,7 +126,7 @@ class TriviaQuiz:
             UserInfo.menu()
 
         elif choice == '1':
-            self.save_game(self.__save_file, self.__maze, self.__player)
+            self.__save_game(self.__save_file, self.__maze, self.__player)
 
         elif choice == 'o':  # See entire maze for development
             self.__maze.print_maze()
@@ -140,7 +139,7 @@ class TriviaQuiz:
             UserInfo.found_key(True)
             self.__player.dev = True
 
-    def main_game_loop(self):
+    def __main_game_loop(self):
         """
         This method contains the routing and logic for the Trivia Quiz main
         game loop. It will loop until the player
@@ -157,7 +156,7 @@ class TriviaQuiz:
                 self.__player.add_key()
                 self.__maze.get_current_room().transfer_key()
 
-            self.user_choice()
+            self.__user_choice()
 
         if self.__maze.at_exit():  # win
             self.__maze.print_maze()
