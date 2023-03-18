@@ -2,7 +2,7 @@ import sqlite3
 import unittest
 
 
-class dbtest(unittest.TestCase):
+class DBTest(unittest.TestCase):
     def test_db_connection(self):
         """This method tests the ability to connect to the questions
         database"""

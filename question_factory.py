@@ -51,11 +51,11 @@ class QuestionFactory:
         elif question_type == "MultipleChoice":
             if self.__mc_stack:
                 question_data = self.__mc_stack.pop()
-                return MultipleChoiceQuestion(question_data[1], question_data[2], question_data[3])
+                return MultipleChoiceQuestion(question_data[1],
+                                              question_data[2],
+                                              question_data[3])
             else:
                 raise ValueError('error no more questions')
-
-
 
     @staticmethod
     def mock(question_type):

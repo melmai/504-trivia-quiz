@@ -15,11 +15,11 @@ class MazeTest(unittest.TestCase):
         self.assertEqual(len(self.maze.rooms), 3)
 
     def test_entrance_exit_placement(self):
-        self.assertEqual(self.maze.entrance, (0,0))
-        self.assertEqual(self.maze.exit, (2,2))
+        self.assertEqual(self.maze.entrance, (0, 0))
+        self.assertEqual(self.maze.exit, (2, 2))
 
     def test_get_location(self):
-        self.assertEqual(self.maze.get_location(), (0,0))
+        self.assertEqual(self.maze.get_location(), (0, 0))
 
     def test_move(self):
         self.maze.process_move('d', self.player)
@@ -47,6 +47,7 @@ class MazeTest(unittest.TestCase):
 
     def test_is_traversable(self):
         self.assertTrue(self.maze.is_traversable(0, 0))
+
 
 if __name__ == '__main__':
     unittest.main()
