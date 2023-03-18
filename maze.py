@@ -271,24 +271,6 @@ class Maze:
         """
         print(self.__rooms[row][col])
 
-    def __show_all_possible_directions(self, x, y):
-        """
-        This method returns the possible directions of movement for the player
-        :param x:
-        :param y:
-        :return: Tuple
-        """
-
-        can_move_north = (0 <= x - 1 < self.__size) and self.__rooms[x - 1][
-            y] is not None and self.__rooms[x - 1][y].can_move_to()
-        can_move_south = (0 <= x + 1 < self.__size) and self.__rooms[x + 1][
-            y] is not None and self.__rooms[x + 1][y].can_move_to()
-        can_move_west = (0 <= y - 1 < self.__size) and self.__rooms[x][
-            y - 1] is not None and self.__rooms[x][y - 1].can_move_to()
-        can_move_east = (0 <= y + 1 < self.__size) and self.__rooms[x][
-            y + 1] is not None and self.__rooms[x][y + 1].can_move_to()
-        return can_move_north, can_move_south, can_move_west, can_move_east
-
     def get_current_room(self):
         """
         This method returns the current location of the Player
