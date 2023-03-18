@@ -1,8 +1,6 @@
-import time
 from maze import Maze
 from player import Player
 import pickle
-import sys
 from user_info import UserInfo
 from user_input import UserInput
 
@@ -25,18 +23,27 @@ class TriviaQuiz:
         self.main_game_loop()
 
     @staticmethod
-    def save_game(save_file, maze, player, testing = False):
-        """This method is used for saving a game by converting the python objects into a byte stream to store in
-        save_file"""
+    def save_game(save_file, maze, player):
+        """
+        This method is used for saving a game by converting the python objects
+        into a byte stream to store in save_file
+        :param save_file: file to store game data
+        :param maze: the current maze instance
+        :param player: the current player instance
+        :return: None
+        """
         with open(save_file, 'wb') as file:
             pickle.dump({'maze': maze, 'player': player}, file)
             UserInfo.saved()
             UserInfo.quit()
 
-
     def load_game(self, save_file):
-        """This method is used for loading a game by converting the byte stream stored in save_file into python
-        objects for playing the game"""
+        """
+        This method is used for loading a game by converting the byte stream
+        stored in save_file into python objects for playing the game
+        :param save_file: the file to load
+        :return: None
+        """
 
         try:
             with open(save_file, 'rb') as file:
@@ -52,9 +59,12 @@ class TriviaQuiz:
             UserInfo.game_not_found()
             return False
 
-    def load_start(self, savefile):
-        """This method presents the user, at the beginning of the game, to start a new game or continue from a load
-        file."""
+    def load_start(self, save_file):
+        """
+        This method presents the user, at the beginning of the game, to start a
+        new game or continue from a load file.
+        :param save_file: the file with game data stored
+        """
         loading = UserInput.load()
 
         if loading == '1':  # new game
@@ -90,26 +100,21 @@ class TriviaQuiz:
         of the game.
         :return: Int
         """
-        while True:
-            number = input(
-                f"Welcome {self.__player.name}. Please enter a difficulty "
-                f"level (1-3) ").strip()
-            if int(number.isdigit()) and 1 <= int(number) <= 3:
-                if number == '1':
-                    return 4
-                elif number == '2':
-                    return 5
-                elif number == '3':
-                    return 6
-            else:
-                print("That's not a number between 1-3! Try again!")
+        number = UserInput.difficulty(self.__player.name)
+
+        if number == 1:
+            return 4
+        elif number == 2:
+            return 5
+        elif number == '3':
+            return 6
 
     def user_choice(self):
         """
         Returns the player's next move
         :return: string
         """
-        choice = input("Please enter your next action: ").lower().strip()
+        choice = UserInput.command()
 
         move_commands = ["w", "a", "s", "d"]
         if choice in move_commands:
@@ -141,9 +146,6 @@ class TriviaQuiz:
             UserInfo.found_key(True)
             self.__player.dev = True
 
-        else:
-            UserInfo.invalid()
-
     def main_game_loop(self):
         """
         This method contains the routing and logic for the Trivia Quiz main
@@ -166,16 +168,14 @@ class TriviaQuiz:
         if self.__maze.at_exit():  # win
             self.__maze.print_maze()
             UserInfo.win(self.__player.name)
+
         elif self.__quit:  # quit
             UserInfo.quit()
+
         else:  # lose
             UserInfo.lose()
 
-        choice = input("Play again? (Y/N) ").strip().lower()
-
-        while choice != 'n' and choice != 'y':
-            UserInfo.invalid()
-            choice = input("Play again? (Y/N) ").strip().lower()
+        choice = UserInput.replay()
 
         if choice == 'y':
             UserInfo.restart()
