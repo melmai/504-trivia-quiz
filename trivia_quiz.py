@@ -12,8 +12,8 @@ class TriviaQuiz:
         self.__save_file = 'save.pkl'
 
         if not self.__load_start(self.__save_file):
-            # UserInfo.intro_art()
-            # UserInfo.intro_text()
+            UserInfo.intro_art()
+            UserInfo.intro_text()
             self.__player = self.__create_player()
             self.__maze = Maze(self.__set_difficulty())
             UserInfo.menu()
