@@ -4,15 +4,14 @@ import pickle
 from user_info import UserInfo
 from user_input import UserInput
 
-savefile = 'save.pkl'
-
 
 class TriviaQuiz:
     def __init__(self):
         self.__game_over = False
         self.__quit = False
+        self.__save_file = 'save.pkl'
 
-        if not self.load_start(savefile):
+        if not self.load_start(self.__save_file):
             # UserInfo.intro_art()
             # UserInfo.intro_text()
             self.__player = self.__create_player()
@@ -133,7 +132,7 @@ class TriviaQuiz:
             UserInfo.menu()
 
         elif choice == '1':
-            self.save_game(savefile, self.__maze, self.__player)
+            self.save_game(self.__save_file, self.__maze, self.__player)
 
         elif choice == 'o':  # See entire maze for development
             self.__maze.print_maze()
